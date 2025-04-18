@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 
-
 class User
 {
 private:
@@ -11,17 +10,13 @@ private:
     std::string lastname;
     std::string email;
     std::string password;
+
 public:
-    User();
-    ~User();
+    User(int id, std::string username, std::string firstname, std::string lastname, std::string email, std::string password)
+        : id(id), username(username), firstname(firstname), lastname(lastname), email(email), password(password) {}
+    ~User() {}
+
+    int getId() const { return id; }
 
     void to_json(); // TODO
 };
-
-User::User()
-{
-}
-
-User::~User()
-{
-}
