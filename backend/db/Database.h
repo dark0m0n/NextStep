@@ -5,11 +5,10 @@
 
 class Database
 {
-private:
     pqxx::connection conn;
 
 public:
-    Database(const std::string &connInfo) : conn(connInfo)
+    explicit Database(const std::string &connInfo) : conn(connInfo)
     {
         if (!conn.is_open())
         {
@@ -18,7 +17,7 @@ public:
 
         pqxx::work txn(conn);
         txn.exec(R"(
-            CREATE TABLE IF NOT EXIST users (
+            CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
                 username TEXT NOT NULL UNIQUE,
                 firstname TEXT NOT NULL,
@@ -27,7 +26,7 @@ public:
                 password TEXT NOT NULL
             );
 
-            CREATE TABLE IF NOT EXIST startups (
+            CREATE TABLE IF NOT EXISTS startups (
                 id SERIAL PRIMARY KEY,
                 userID INTEGER REFERENCES users(id),
                 title TEXT NOT NULL,
@@ -35,7 +34,7 @@ public:
                 imagePath TEXT
             );
 
-            CREATE TABLE IF NOT EXIST reviews (
+            CREATE TABLE IF NOT EXISTS reviews (
                 id SERIAL PRIMARY KEY,
                 userID INTEGER REFERENCES users(id),
                 startupID INTEGER REFERENCES reviews(id),
@@ -50,17 +49,16 @@ public:
     {
         std::vector<User> users;
         pqxx::work txn(conn);
-        pqxx::result res = txn.exec("SELECT * FROM users");
 
-        for (const auto &row : res)
+        for (const pqxx::result res = txn.exec("SELECT * FROM users"); const auto &row : res)
         {
-            users.push_back(User{
+            users.emplace_back(
                 row["id"].as<int>(),
                 row["username"].as<std::string>(),
                 row["firstname"].as<std::string>(),
                 row["lastname"].as<std::string>(),
                 row["email"].as<std::string>(),
-                row["password"].as<std::string>()});
+                row["password"].as<std::string>());
         }
 
         return users;
@@ -69,7 +67,7 @@ public:
     std::optional<User> getUserById(const int id)
     {
         pqxx::work txn(conn);
-        pqxx::result res = txn.exec_params(
+        const pqxx::result res = txn.exec_params(
             "SELECT * FROM users WHERE id = $1;",
             id);
 
