@@ -26,6 +26,22 @@ public:
                 email TEXT NOT NULL UNIQUE,
                 password TEXT NOT NULL
             );
+
+            CREATE TABLE IF NOT EXIST startups (
+                id SERIAL PRIMARY KEY,
+                userID INTEGER REFERENCES users(id),
+                title TEXT NOT NULL,
+                description TEXT NOT NULL,
+                imagePath TEXT
+            );
+
+            CREATE TABLE IF NOT EXIST reviews (
+                id SERIAL PRIMARY KEY,
+                userID INTEGER REFERENCES users(id),
+                startupID INTEGER REFERENCES reviews(id),
+                text TEXT NOT NULL,
+                rating INTEGER NOT NULL
+            );
         )");
         txn.commit();
     }
