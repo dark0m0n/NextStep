@@ -6,7 +6,8 @@
 int main()
 {
     crow::SimpleApp app;
-    Database db(std::getenv("DB_CONN_STRING"));
+    const char* env = std::getenv("DB_CONN_STRING");
+    Database db(env);
     Routes routes(app, db);
 
     app.port(8080).multithreaded().run();
