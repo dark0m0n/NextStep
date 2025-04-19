@@ -1,16 +1,16 @@
 #pragma once
 #include <exception>
 #include <string>
+#include <utility>
 
-class DbConnectionError : public std::exception
+class DbConnectionError final : public std::exception
 {
-private:
     std::string msg;
 
 public:
-    explicit DbConnectionError(const std::string &msg)
-        : msg(msg) {}
-    const char *what() const noexcept override
+    explicit DbConnectionError(std::string msg)
+        : msg(std::move(msg)) {}
+    [[nodiscard]] const char *what() const noexcept override
     {
         return msg.c_str();
     }
