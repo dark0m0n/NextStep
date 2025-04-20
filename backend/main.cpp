@@ -3,10 +3,9 @@
 #include "routes/Routes.h"
 #include <cstdlib>
 
-int main()
-{
+int main() {
     crow::SimpleApp app;
-    const char* env = std::getenv("DB_CONN_STRING");
+    const char *env = std::getenv("DB_CONN_STRING");
     Database db(env);
     Routes routes(app, db);
 
