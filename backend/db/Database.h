@@ -6,10 +6,11 @@
 #include "../models/Review.h"
 
 class Database {
-    pqxx::connection conn;
+    std::string connInfo;
 
 public:
-    explicit Database(const std::string &connInfo) : conn(connInfo) {
+    explicit Database(const std::string &connInfo) : connInfo(connInfo) {
+        pqxx::connection conn(connInfo);
         if (!conn.is_open()) {
             throw DbConnectionError("Failed to connect to the database.");
         }
@@ -45,8 +46,9 @@ public:
     }
 
     std::vector<User> getAllUsers() {
-        std::vector<User> users;
+        pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
+        std::vector<User> users;
 
         for (const pqxx::result res = txn.exec("SELECT * FROM users"); const auto &row: res) {
             users.emplace_back(
@@ -62,6 +64,7 @@ public:
     }
 
     std::optional<User> getUserById(const int id) {
+        pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
         const pqxx::result res = txn.exec_params(
             "SELECT * FROM users WHERE id = $1;",
@@ -84,6 +87,7 @@ public:
     }
 
     void insertUser(const User &user) {
+        pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
         txn.exec_params(
             "INSERT INTO users (username, firstname, lastname, email, password)"
@@ -93,8 +97,9 @@ public:
     }
 
     std::vector<Startup> getAllStartups() {
-        std::vector<Startup> startups;
+        pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
+        std::vector<Startup> startups;
 
         for (const pqxx::result res = txn.exec_params("SELECT * FROM startups"); const auto &row: res) {
             startups.emplace_back(
@@ -109,14 +114,13 @@ public:
     }
 
     std::optional<Startup> getStartupById(const int id) {
+        pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
         const pqxx::result res = txn.exec_params(
             "SELECT * FROM startups WHERE id = $1;",
             id);
 
-        if (res.empty()) {
-            return std::nullopt;
-        }
+        if (res.empty()) return std::nullopt;
 
         const auto &row = res[0];
         Startup startup(
@@ -130,6 +134,7 @@ public:
     }
 
     void insertStartup(const Startup &startup) {
+        pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
         txn.exec_params(
             "INSERT INTO startups (userID, title, description, imagePath)"
@@ -139,6 +144,7 @@ public:
     }
 
     std::vector<Review> getAllReviews() {
+        pqxx::connection conn(connInfo);
         std::vector<Review> reviews;
         pqxx::work txn(conn);
 
@@ -155,6 +161,7 @@ public:
     }
 
     std::optional<Review> getReviewById(const int id) {
+        pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
         const pqxx::result res = txn.exec_params(
             "SELECT * FROM reviews WHERE id = $1;",
@@ -176,6 +183,7 @@ public:
     }
 
     void insertReview(const Review &review) {
+        pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
         txn.exec_params(
             "INSERT INTO reviews (userID, startupID, text, rating)"
