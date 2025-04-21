@@ -45,7 +45,7 @@ public:
         txn.commit();
     }
 
-    std::vector<User> getAllUsers() {
+    [[nodiscard]] std::vector<User> getAllUsers() const {
         pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
         std::vector<User> users;
@@ -63,7 +63,7 @@ public:
         return users;
     }
 
-    std::optional<User> getUserById(const int id) {
+    [[nodiscard]] std::optional<User> getUserById(const int id) const {
         pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
         const pqxx::result res = txn.exec_params(
@@ -86,7 +86,7 @@ public:
         return user;
     }
 
-    void insertUser(const User &user) {
+    void insertUser(const User &user) const {
         pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
         txn.exec_params(
@@ -96,7 +96,7 @@ public:
         txn.commit();
     }
 
-    std::vector<Startup> getAllStartups() {
+    [[nodiscard]] std::vector<Startup> getAllStartups() const {
         pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
         std::vector<Startup> startups;
@@ -113,7 +113,7 @@ public:
         return startups;
     }
 
-    std::optional<Startup> getStartupById(const int id) {
+    [[nodiscard]] std::optional<Startup> getStartupById(const int id) const {
         pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
         const pqxx::result res = txn.exec_params(
@@ -133,7 +133,7 @@ public:
         return startup;
     }
 
-    void insertStartup(const Startup &startup) {
+    void insertStartup(const Startup &startup) const {
         pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
         txn.exec_params(
@@ -143,7 +143,7 @@ public:
         txn.commit();
     }
 
-    std::vector<Review> getAllReviews() {
+    [[nodiscard]] std::vector<Review> getAllReviews() const {
         pqxx::connection conn(connInfo);
         std::vector<Review> reviews;
         pqxx::work txn(conn);
@@ -160,7 +160,7 @@ public:
         return reviews;
     }
 
-    std::optional<Review> getReviewById(const int id) {
+    [[nodiscard]] std::optional<Review> getReviewById(const int id) const {
         pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
         const pqxx::result res = txn.exec_params(
@@ -182,7 +182,7 @@ public:
         return review;
     }
 
-    void insertReview(const Review &review) {
+    void insertReview(const Review &review) const {
         pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
         txn.exec_params(
