@@ -246,13 +246,20 @@ hr {
   .footer-icons {
     flex-wrap: wrap;
   }
+  .footer-icons img {
+    width: 24px;
+    height: 24px;
+  }
 
   .footer-links {
     flex-direction: column;
     gap: 10px;
+    margin-top: 5px;
   }
 
-  .plusmin{
-    width: 100%;
+  .footer{
+    padding: 10px;
   }
+
+  
 }
