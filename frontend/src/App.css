@@ -251,4 +251,8 @@ hr {
     flex-direction: column;
     gap: 10px;
   }
+
+  .plusmin{
+    width: 100%;
+  }
 }

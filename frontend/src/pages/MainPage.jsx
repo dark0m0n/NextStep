@@ -95,7 +95,7 @@ export default function NextStepPage() {
       <section className="mission">
         <h2>Місія та цінності</h2>
         <div className="values">
-          <img src="public/images/plusmin.png" alt="Цінності" />
+          <img src="public/images/plusmin.png" alt="Цінності"  className="plusmin"/>
         </div>
 
         <div className="mission-text">
