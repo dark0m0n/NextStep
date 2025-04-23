@@ -1,0 +1,135 @@
+/* ===============================
+   Обгортка сторінки
+================================ */
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* ===============================
+     Контейнер авторизації
+  ================================ */
+  .auth-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* ===============================
+     Заголовок
+  ================================ */
+  .auth-header h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  /* ===============================
+     Перемикач форм (логін / реєстрація)
+  ================================ */
+  .auth-toggle {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .auth-toggle button {
+    background-color: rgba(10, 158, 162);
+    margin: 0 5px;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    flex: 1;
+  }
+  
+  .auth-toggle button.active {
+    background-color: #0a9ea2;
+  }
+  
+  /* ===============================
+     Форма авторизації (логін або реєстрація)
+  ================================ */
+  .auth-form {
+    display: none;
+  }
+  
+  .auth-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .auth-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #14B8A6;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .auth-form button:hover {
+    background-color: #0a9ea2;
+  }
+  
+  /* ===============================
+     Додаткове оформлення форми (рамка, відступи)
+  ================================ */
+  .formlog {
+    border: 5px solid rgba(10, 158, 162);
+    padding: 60px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* ===============================
+     Адаптація під мобільні пристрої
+  ================================ */
+  @media (max-width: 768px) {
+    .auth-container {
+      padding: 20px;
+      border-radius: 0;
+      box-shadow: none;
+    }
+  
+    .auth-header h1 {
+      font-size: 20px;
+    }
+  
+    .auth-toggle {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .auth-toggle button {
+      margin: 0;
+      font-size: 14px;
+    }
+  
+    .auth-form input,
+    .auth-form button {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .formlog {
+      padding: 30px 20px;
+    }
+  }
+  

@@ -1,0 +1,125 @@
+/* ===============================
+   Секція пошуку працівників
+================================ */
+.searchemp-section {
+    margin: 20px 80px;
+  }
+  
+  /* ===============================
+     Інформаційний блок секції
+  ================================ */
+  .info-searchemp h2 {
+    display: inline-block;
+    font-size: 48px;
+    margin: 0;
+  }
+  
+  .info-searchemp p {
+    font-size: 20px;
+    color: #14B8A6;
+    margin: 0 0 10px;
+  }
+  
+  /* ===============================
+     Процес пошуку (текстові блоки)
+  ================================ */
+  .process-searchemp {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .process-searchemp p {
+    margin: 30px;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  
+  /* ===============================
+     Контейнер блоків (зовнішній)
+  ================================ */
+  .blockss {
+    justify-content: space-between;
+  }
+  
+  /* ===============================
+     Контейнер блоків (внутрішній)
+  ================================ */
+  .blocks {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  /* ===============================
+     Окремий блок з даними
+  ================================ */
+  .block {
+    max-width: 23%;
+    flex: 1 1 23%;
+    box-sizing: border-box;
+  }
+  
+  .block .title {
+    font-size: 15px;
+    margin: 0 0 7px;
+    max-width: 100%;
+  }
+  
+  .block .mark {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0 0 7px;
+  }
+  
+  .block .price {
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 10px;
+    margin: 0;
+  }
+  
+  .block img {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* ===============================
+     Адаптація під мобільні пристрої
+  ================================ */
+  @media (max-width: 768px) {
+    .searchemp-section {
+      margin: 20px 20px;
+    }
+  
+    .info-searchemp h2 {
+      font-size: 32px;
+    }
+  
+    .info-searchemp p {
+      font-size: 16px;
+    }
+  
+    .process-searchemp {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  
+    .process-searchemp p {
+      margin: 10px 0;
+      white-space: normal;
+    }
+  
+    .blocks {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .block {
+      max-width: 100%;
+      flex: 1 1 100%;
+    }
+  }
+  

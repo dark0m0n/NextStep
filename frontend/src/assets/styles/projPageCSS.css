@@ -1,0 +1,199 @@
+/* ===============================
+   Заголовки та текст проекту
+================================ */
+.info-proj h2 {
+    display: inline-block;
+    font-size: 36px;
+    margin: 0 0 30px 0;
+    text-align: justify;
+    max-width: 838px;
+  }
+  
+  .info-proj p {
+    font-size: 24px;
+    color: #14B8A6;
+    margin: 0 0 10px;
+  }
+  
+  /* ===============================
+     Секція проекту
+  ================================ */
+  .project-section {
+    margin: 20px 80px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  /* ===============================
+     Основна інформація про проект
+  ================================ */
+  .mainInformation-proj {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 1000px;
+    width: 100%;
+  }
+  
+  .mainInformation-proj .imagesProj img {
+    width: 838px;
+    height: 505px;
+  }
+  
+  .mainInformation-proj .descrip {
+    max-width: 838px;
+    text-align: justify;
+  }
+  
+  /* ===============================
+     Контакти (бокова панель)
+  ================================ */
+  .contacts-proj {
+    position: sticky;
+    top: 100px;
+    z-index: 999;
+    border: 3px solid #14B8A6;
+    padding: 20px;
+    max-width: 350px;
+  }
+  
+  .contacts-proj h3,
+  .contacts-proj p {
+    font-size: 20px;
+    margin: 5px 0;
+  }
+  
+  /* ===============================
+     Відгуки
+  ================================ */
+  .fbs-proj {
+    max-width: 600px;
+  }
+  
+  .fbs-proj hr {
+    max-width: 100%;
+    height: 1px;
+  }
+  
+  .fbs-proj .fb {
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #14B8A6;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .fbs-proj .fb .peopInfo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .fbs-proj .fb img {
+    width: 64px;
+    height: 64px;
+    margin-right: 10px;
+  }
+  
+  .fbs-proj .fb .name {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  /* ===============================
+     Теги
+  ================================ */
+  .tags-proj {
+    margin-top: 0;
+    margin-left: 0;
+    font-size: 18px;
+    display: inline-block;
+  }
+  
+  .tags-proj ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 15px;
+  }
+  
+  .tags-proj li {
+    display: inline-flex;
+  }
+  
+  .tags-proj a {
+    color: #14B8A6;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .tags-proj a:hover {
+    text-decoration: underline;
+  }
+  
+  /* ===============================
+     Адаптація під мобільні пристрої
+  ================================ */
+  @media (max-width: 768px) {
+    .project-section {
+      margin: 20px;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .mainInformation-proj {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .mainInformation-proj .imagesProj img {
+      width: 100%;
+      height: auto;
+    }
+  
+    .mainInformation-proj .descrip {
+      max-width: 100%;
+    }
+  
+    .info-proj h2 {
+      font-size: 28px;
+      text-align: left;
+    }
+  
+    .info-proj p {
+      font-size: 18px;
+    }
+  
+    .contacts-proj {
+      position: relative;
+      top: auto;
+      width: 100%;
+      max-width: 100%;
+      margin-top: 20px;
+    }
+  
+    .fbs-proj {
+      max-width: 100%;
+    }
+  
+    .fbs-proj .fb {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .fbs-proj .fb .peopInfo {
+      flex-direction: row;
+    }
+  
+    .tags-proj ul {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  
+    .tags-proj {
+      font-size: 16px;
+    }
+  }
+  

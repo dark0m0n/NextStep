@@ -1,0 +1,250 @@
+/* ===============================
+   Заголовок профілю
+================================ */
+.info h2 {
+    display: inline-block;
+    font-size: 36px;
+    margin: 0 0 30px 0;
+    text-align: justify;
+    max-width: 838px;
+  }
+  
+  /* ===============================
+     Основна обгортка створення профілю
+  ================================ */
+  .create-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  /* ===============================
+     Контейнер форми
+  ================================ */
+  .container {
+    width: 100%;
+    max-width: 800px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* ===============================
+     Заголовок форми
+  ================================ */
+  .create-title {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  /* ===============================
+     Група поля форми
+  ================================ */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  /* ===============================
+     Підписи до інпутів
+  ================================ */
+  .label-create-prof {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 600; /* "semibold" замінено на дійсне значення */
+  }
+  
+  /* ===============================
+     Текстові поля вводу
+  ================================ */
+  .input-info-create {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: white;
+    color: #333;
+  }
+  
+  /* ===============================
+     Текстова область
+  ================================ */
+  .text {
+    resize: vertical;
+    height: 150px;
+  }
+  
+  /* ===============================
+     Кнопка "Зберегти"
+  ================================ */
+  #formbtnS {
+    padding: 10px 20px;
+    background-color: #8E0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  /* ===============================
+     Кнопка "Очистити"
+  ================================ */
+  #formbtnCl {
+    padding: 10px 20px;
+    background-color: #173046;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  /* ===============================
+     Блок з тегами
+  ================================ */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .tag {
+    padding: 10px 12px;
+    background-color: #14B8A6;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .tag:hover {
+    background-color: #173046;
+  }
+  
+  /* ===============================
+     Превʼю логотипу
+  ================================ */
+  #logo-preview {
+    max-width: 150px;
+    height: auto;
+    margin-top: 10px;
+    display: block;
+  }
+  
+  /* ===============================
+     Кастомна чекбокс-галочка
+  ================================ */
+  .check-create {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: white;
+    cursor: pointer;
+    position: relative;
+    margin-top: 10px;
+  }
+  
+  .check-create:checked {
+    background-color: #14B8A6;
+  }
+  
+  .check-create:checked + label {
+    color: #14B8A6;
+  }
+  
+  /* ===============================
+     Кастомне завантаження файлу
+  ================================ */
+  .custom-file-upload input[type="file"] {
+    display: none;
+  }
+  
+  .upload-label {
+    display: inline-block;
+    padding: 8px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    background-color: #14B8A6;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  
+  .upload-label:hover {
+    background-color: #173046;
+  }
+  
+  /* ===============================
+     Кнопка "Додати навички"
+  ================================ */
+  .skill-button-create {
+    padding: 10px 12px;
+    background-color: #14B8A6;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 8px;
+  }
+  
+  /* ===============================
+     Адаптація під мобільні пристрої
+  ================================ */
+  @media (max-width: 768px) {
+    .info h2 {
+      font-size: 28px;
+      text-align: left;
+    }
+  
+    .container {
+      padding: 20px;
+    }
+  
+    .label-create-prof {
+      font-size: 16px;
+    }
+  
+    .input-info-create,
+    .text {
+      font-size: 15px;
+    }
+  
+    .tag,
+    .skill-button-create {
+      font-size: 14px;
+      padding: 8px 10px;
+    }
+  
+    #formbtnS,
+    #formbtnCl {
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+  
+    .upload-label {
+      font-size: 14px;
+      padding: 6px;
+    }
+  
+    .tags {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  

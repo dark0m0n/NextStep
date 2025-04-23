@@ -1,0 +1,129 @@
+/* ===============================
+   Секція пошуку проектів
+================================ */
+.searchproj-section {
+    margin: 20px 80px;
+}
+
+/* ===============================
+   Інформація про проект
+================================ */
+.info-searchproj h2 {
+    display: inline-block;
+    font-size: 48px;
+    margin: 0;
+}
+
+.info-searchproj p {
+    font-size: 20px;
+    color: #14B8A6;
+    margin: 0 0 10px;
+}
+
+/* ===============================
+   Процес пошуку проектів
+================================ */
+.process-searchproj {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.process-searchproj p {
+    margin: 30px;
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+/* ===============================
+   Блоки проектів
+================================ */
+.blockss-searchproj {
+    justify-content: space-between;
+}
+
+.blocks-searchproj {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* ===============================
+   Окремий блок проекту
+================================ */
+.block-searchproj {
+    max-width: 23%;
+    flex: 1 1 23%;
+    box-sizing: border-box;
+}
+
+.block-searchproj .title {
+    font-size: 15px;
+    margin: 0 0 7px;
+    max-width: 300px;
+}
+
+.block-searchproj .mark {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0 0 7px;
+}
+
+.block-searchproj .price {
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 10px;
+    margin: 0;
+}
+
+.block-searchproj img {
+    width: 100%;
+    height: auto;
+}
+
+/* ===============================
+   Адаптація під мобільні пристрої
+================================ */
+@media (max-width: 768px) {
+    .searchproj-section {
+        margin: 20px 20px; /* Зменшення відступів для мобільних */
+    }
+
+    .info-searchproj h2 {
+        font-size: 36px; /* Зменшення шрифта заголовку */
+    }
+
+    .info-searchproj p {
+        font-size: 16px; /* Зменшення шрифта тексту */
+    }
+
+    .process-searchproj {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .process-searchproj p {
+        margin: 10px 0;
+    }
+
+    .blocks-searchproj {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .block-searchproj {
+        max-width: 100%;
+        flex: 1 1 100%; /* Для мобільних блоки займають 100% */
+    }
+
+    .block-searchproj .title {
+        font-size: 14px; /* Зменшення шрифта */
+    }
+
+    .block-searchproj .mark,
+    .block-searchproj .price {
+        font-size: 14px; /* Зменшення шрифта */
+    }
+}

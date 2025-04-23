@@ -1,0 +1,203 @@
+/* ===============================
+   Контейнер профілю
+================================ */
+.profile-container {
+    margin: 40px auto; /* Центрування та вертикальні відступи */
+    max-width: 70%;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* ===============================
+     Хедер профілю
+  ================================ */
+  .profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border: 3px solid rgba(10, 158, 162);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: left;
+  }
+  
+  .profile-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .profile-info h1 {
+    font-size: 32px;
+    margin: 0;
+  }
+  
+  .profile-info h3 {
+    font-size: 18px;
+    color: #777;
+    margin-top: 5px;
+  }
+  
+  /* ===============================
+     Основний контент
+  ================================ */
+  .profile-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  /* ===============================
+     Секції профілю
+  ================================ */
+  .section {
+    width: 32%;
+    margin: 5px 0 20px 0;
+    padding: 20px;
+    border: 3px solid rgba(10, 158, 162);
+    box-sizing: border-box;
+  }
+  
+  .section h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  
+  .section ul {
+    list-style-type: none;
+    padding: 0;
+    margin-left: 10px;
+    text-align: left;
+  }
+  
+  /* ===============================
+     Досвід
+  ================================ */
+  .expir {
+    width: 100%;
+    padding: 20px;
+    border: 3px solid rgba(10, 158, 162);
+    margin-bottom: 20px;
+  }
+  
+  .expir h2 {
+    font-size: 28px;
+    margin-bottom: 24px;
+    text-align: left;
+  }
+  
+  .expir p {
+    text-align: left;
+  }
+  
+  /* ===============================
+     Спеціальності
+  ================================ */
+  .spc {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .specs {
+    width: 30%;
+    border: 3px solid rgba(10, 158, 162);
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+  }
+  
+  .spec, .exp {
+    font-size: 16px;
+    margin-left: 20px;
+    margin-bottom: 15px;
+  }
+  
+  /* ===============================
+     Сильні сторони
+  ================================ */
+  .strong-profile {
+    font-weight: 600;
+    font-size: 20px;
+  }
+  
+  .strong {
+    margin-bottom: 20px;
+  }
+  
+  /* ===============================
+     Додаткова інформація
+  ================================ */
+  .other {
+    width: 100%;
+    padding: 20px;
+    border: 3px solid rgba(10, 158, 162);
+    margin-bottom: 20px;
+  }
+  
+  .other h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    text-align: left;
+  }
+  
+  .otherInfo {
+    margin-left: 10px;
+    text-align: left;
+  }
+  
+  /* ===============================
+     Адаптація під мобільні пристрої
+  ================================ */
+  @media (max-width: 768px) {
+    .profile-container {
+      max-width: 90%;
+      padding: 15px;
+    }
+  
+    .profile-header {
+      flex-direction: column;
+      text-align: center;
+      padding: 15px;
+    }
+  
+    .profile-photo {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  
+    .profile-info h1 {
+      font-size: 26px;
+    }
+  
+    .profile-info h3 {
+      font-size: 16px;
+    }
+  
+    .profile-content {
+      flex-direction: column;
+    }
+  
+    .section {
+      width: 100%;
+      padding: 15px;
+    }
+  
+    .specs {
+      width: 100%;
+    }
+  
+    .spc {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .expir, .other {
+      padding: 15px;
+    }
+  }
+  

@@ -1,42 +1,254 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* ===============================
+   Загальні стилі та скидання
+================================ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
+:root {
+  background-color: #f5f7fa;
+}
+
+/* ===============================
+   Базова структура сторінки
+================================ */
+html, body, #root {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f7fa;
+  color: #2b2b2b;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===============================
+   Логотип
+================================ */
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  width: 97px;
+  height: 42px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* ===============================
+   Хедер та навігація
+================================ */
+header {
+  background-color: rgba(10, 158, 162);
+  color: white;
+  padding: 20px 40px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  position: sticky;
+  top: 0;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Кнопки навігації */
+nav button {
+  background: none;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 18px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+/* ===============================
+   Меню при адаптації
+================================ */
+#smenu {
+  position: absolute;
+  top: 100%;
+  background-color: rgba(10, 158, 162, 0.9);
+  width: 100%;
+  left: 0;
+  padding: 10px 0;
+  text-align: right;
+}
+
+#smenu a {
+  margin-right: 50px;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+#smenu #one {
+  font-weight: 400;
+}
+
+/* ===============================
+   Пошук
+================================ */
+#search-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+#search-input {
+  padding: 8px;
+  font-size: 16px;
+  background-color: transparent;
+  color: #fff;
+  width: 300px;
+  border: none;
+  border-bottom: 2px solid #fff;
+}
+
+#search-input::placeholder {
+  color: #fff;
+  font-size: 14px;
+}
+
+#search-submit {
+  padding: 8px 16px;
+  background-color: rgba(10, 158, 162);
+  color: white;
+  border: none;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#search-submit:hover {
+  background-color: #173046;
+}
+
+/* ===============================
+   Універсальні кнопки
+================================ */
+button {
+  background-color: rgba(10, 158, 162);
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  font-size: 32px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+button:hover {
+  background-color: #173046;
+}
+
+/* ===============================
+   Футер
+================================ */
+.footer {
+  background-color: rgba(10, 158, 162);
+  padding: 30px 20px;
+  text-align: center;
+  color: #173046;
+  font-weight: 600;
+  margin-top: auto;
+}
+
+.footer a {
+  color: #173046;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.footer-content p {
+  margin: 5px 0;
+}
+
+.footer-icons {
+  margin: 15px 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer-icons img {
+  width: 32px;
+  height: 32px;
+}
+
+.footer-links {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+/* ===============================
+   Горизонтальна лінія
+================================ */
+hr {
+  width: 77%;
+  border: none;
+  height: 2px;
+  background-color: #14B8A6;
+  margin: 20px auto;
+}
+
+/* ===============================
+   Адаптація під мобільні пристрої
+================================ */
+@media (max-width: 768px) {
+  header {
+    padding: 15px 20px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  nav button {
+    font-size: 16px;
   }
-}
 
-.card {
-  padding: 2em;
-}
+  #search-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    width: 100%;
+  }
 
-.read-the-docs {
-  color: #888;
+  #search-input {
+    width: 100%;
+  }
+
+  #smenu a {
+    display: block;
+    margin: 10px 0;
+    margin-right: 0;
+    text-align: left;
+    padding-left: 20px;
+  }
+
+  button {
+    font-size: 24px;
+    padding: 12px 16px;
+  }
+
+  .footer-icons {
+    flex-wrap: wrap;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 10px;
+  }
 }

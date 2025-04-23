@@ -1,0 +1,366 @@
+/* ===============================
+   HERO СЕКЦІЯ
+================================ */
+.hero {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    color: #fff;
+  }
+  
+  /* ===============================
+     Накладення поверх hero
+  ================================ */
+  .overlay {
+    background: rgba(0, 0, 0, 0.4) url('../../../public/images/overlay.png') no-repeat center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1;
+    position: relative;
+  }
+  
+  .overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .overlay > * {
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* ===============================
+     Контент всередині hero
+  ================================ */
+  .hero-content {
+    max-width: 750px;
+    margin-bottom: 150px;
+    text-align: center;
+  }
+  
+  .hero-content h1 {
+    font-size: 78px;
+    margin-bottom: 10px;
+  }
+  
+  .hero-content p {
+    font-size: 40px;
+    margin-bottom: 30px;
+  }
+  
+  /* ===============================
+     Основна кнопка
+  ================================ */
+  .submit-button-main {
+    background-color: #14B8A6;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* ===============================
+     Лого у hero
+  ================================ */
+  .hero-logo {
+    height: 150px;
+  }
+  
+  /* ===============================
+     Місія
+  ================================ */
+  .mission {
+    padding: 40px 20px;
+    background-color: white;
+    text-align: center;
+  }
+  
+  .mission h2 {
+    border-bottom: 3px solid #14B8A6;
+    display: inline-block;
+    margin-bottom: 50px;
+    font-size: 48px;
+  }
+  
+  /* ===============================
+     Текст місії
+  ================================ */
+  .mission-text {
+    background-color: #eafcfb;
+    border-left: 4px solid #14B8A6;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    font-size: 32px;
+    text-align: justify;
+  }
+  
+  .mission-text p {
+    margin-left: 40px;
+  }
+  
+  /* ===============================
+     Досягнення
+  ================================ */
+  .achieves {
+    padding: 40px 20px;
+    background-color: white;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .achieves .line {
+    border-bottom: 3px solid #14B8A6;
+    font-size: 42px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  
+  .achieves p {
+    font-size: 36px;
+    margin: 0;
+  }
+  
+  .all-ach {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    padding-left: 20px;
+  }
+  
+  /* ===============================
+     Цінності
+  ================================ */
+  .values {
+    max-width: 800px;
+    margin: 0 auto 30px;
+  }
+  
+  .value {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 18px;
+  }
+  
+  /* ===============================
+     Кейси та спонсори
+  ================================ */
+  .case,
+  .spons {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    text-align: left;
+  }
+  
+  .case .cases p {
+    max-width: 300px;
+    font-size: 36px;
+    margin-left: 30px;
+  }
+  
+  /* ===============================
+     Форма
+  ================================ */
+  .form-container {
+    width: 100%;
+    max-width: 400px;
+    background-color: #1E3F5C;
+    padding: 20px;
+    font-size: 14px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .label-main {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .field-main {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #2b2b2b;
+  }
+  
+  /* ===============================
+     Поле для телефону
+  ================================ */
+  .phone-field {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+  
+  .phone-field select {
+    width: 30%;
+  }
+  
+  .phone-field input {
+    width: 70%;
+  }
+  
+  /* ===============================
+     Чекбокс
+  ================================ */
+  .checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .check-main {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  .checkmark {
+    height: 15px;
+    width: 26px;
+    background-color: #fff;
+    border: none;
+    display: inline-block;
+    position: relative;
+    margin-right: 4px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .check-main:checked + .checkmark::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid #09a6e4;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+  
+  /* ===============================
+     Центрування контенту
+  ================================ */
+  .center-wrapper {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #173046;
+    flex-direction: column;
+    padding: 40px;
+    box-sizing: border-box;
+  }
+  
+  .center-wrapper h2 {
+    padding-top: 0;
+    margin: 0 0 20px;
+    font-size: 48px;
+    color: #fff;
+    text-align: center;
+  }
+  
+  .center-wrapper p {
+    font-size: 20px;
+    color: #fff;
+    text-align: center;
+    max-width: 600px;
+  }
+  
+  /* ===============================
+     Мобільна адаптація
+  ================================ */
+  @media (max-width: 768px) {
+    .hero-content h1 {
+      font-size: 42px;
+    }
+  
+    .hero-content p {
+      font-size: 24px;
+    }
+  
+    .mission h2 {
+      font-size: 32px;
+    }
+  
+    .mission-text {
+      font-size: 18px;
+      text-align: left;
+    }
+  
+    .mission-text p {
+      margin-left: 0;
+    }
+  
+    .achieves .line {
+      font-size: 28px;
+    }
+  
+    .achieves p {
+      font-size: 22px;
+    }
+  
+    .case .cases p {
+      font-size: 24px;
+      margin-left: 0;
+    }
+  
+    .center-wrapper h2 {
+      font-size: 32px;
+    }
+  
+    .center-wrapper p {
+      font-size: 16px;
+    }
+  
+    .all-ach {
+      gap: 20px;
+      padding-left: 0;
+    }
+  
+    .value {
+      flex-direction: column;
+      text-align: left;
+    }
+  
+    .phone-field {
+      flex-direction: column;
+    }
+  
+    .phone-field select,
+    .phone-field input {
+      width: 100%;
+    }
+  }
+  

@@ -1,0 +1,190 @@
+/* ===============================
+   Заголовок секції
+================================ */
+.info h2 {
+    display: inline-block;
+    font-size: 36px;
+    margin: 0;
+    text-align: justify;
+    max-width: 838px;
+    margin-bottom: 30px;
+  }
+  
+  /* ===============================
+     Контейнер форми створення
+  ================================ */
+  .container {
+    width: 100%;
+    max-width: 800px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: auto;
+  }
+  
+  /* Заголовок форми */
+  .create-title {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  /* Секція створення проекту */
+  .create-project {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  /* ===============================
+     Формові елементи
+  ================================ */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  /* Назва поля */
+  .label-create-proj {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  /* Інпут */
+  .input-info-create-proj {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: white;
+    color: #333;
+  }
+  
+  /* Текстова область */
+  .text {
+    resize: vertical;
+    height: 150px;
+  }
+  
+  /* ===============================
+     Кнопки форми
+  ================================ */
+  #formbtnS,
+  #formbtnCl {
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  #formbtnS {
+    background-color: #8E0000;
+  }
+  
+  #formbtnCl {
+    background-color: #173046;
+  }
+  
+  /* ===============================
+     Теги
+  ================================ */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .tag {
+    padding: 8px 12px;
+    background-color: #14B8A6;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .tag:hover {
+    background-color: #173046;
+  }
+  
+  /* ===============================
+     Прев'ю логотипу
+  ================================ */
+  #logo-preview {
+    max-width: 150px;
+    height: auto;
+    margin-top: 10px;
+    display: block;
+  }
+  
+  /* ===============================
+     Завантаження файлу
+  ================================ */
+  .custom-file-upload input[type="file"] {
+    display: none;
+  }
+  
+  .upload-label {
+    display: inline-block;
+    padding: 8px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    background-color: #14B8A6;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  
+  .upload-label:hover {
+    background-color: #173046;
+  }
+  
+  /* ===============================
+     Адаптація під мобільні пристрої
+  ================================ */
+  @media (max-width: 768px) {
+    .info h2 {
+      font-size: 28px;
+      max-width: 100%;
+      text-align: left;
+    }
+  
+    .container {
+      padding: 20px;
+      box-shadow: none;
+    }
+  
+    .input-info-create-proj,
+    .text {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .upload-label {
+      font-size: 14px;
+      padding: 6px;
+    }
+  
+    .tag {
+      font-size: 14px;
+      padding: 6px 10px;
+    }
+  
+    #formbtnS,
+    #formbtnCl {
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+  }
+  
