@@ -5,5 +5,22 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(oop main.cpp)
 
-target_include_directories(oop PRIVATE /usr/include)
-target_link_libraries(oop PRIVATE pqxx pq)
+target_include_directories(oop PRIVATE
+    ${CMAKE_SOURCE_DIR}/db
+    ${CMAKE_SOURCE_DIR}/routes
+    ${CMAKE_SOURCE_DIR}/errors
+    ${CMAKE_SOURCE_DIR}/models
+    ${CMAKE_SOURCE_DIR}/utils
+    ${CMAKE_SOURCE_DIR}/controllers
+)
+
+if (WIN32)
+    message(STATUS "Configuring for Windows")
+
+elseif (UNIX)
+    message(STATUS "Configuring for Linux")
+    target_include_directories(oop PRIVATE /usr/include)
+    find_package(Threads REQUIRED)
+    target_link_libraries(oop PRIVATE pqxx pq Threads::Threads)
+endif ()
+
