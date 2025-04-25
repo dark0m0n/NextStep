@@ -1,11 +1,10 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect  } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../assets/styles/logCSS.css";
 import "../App.css";
 
 const Button = ({ children, ...props }) => (
   <button
-    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
     {...props}
   >
     {children}
@@ -14,7 +13,6 @@ const Button = ({ children, ...props }) => (
 
 const Input = (props) => (
   <input
-    className="px-3 py-2 border rounded w-full"
     {...props}
   />
 );
@@ -22,12 +20,48 @@ const Input = (props) => (
 export default function LoginPage() {
   const [isSmenuVisible, setSmenuVisible] = useState(false);
   const [isSearchVisible, setSearchVisible] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const toggleVisibility = () => setSmenuVisible((prev) => !prev);
   const toggleSearchField = () => setSearchVisible((prev) => !prev);
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+      });
+
+      if (response.ok) {
+        // При успішній авторизації перенаправляємо на сторінку профілю
+        navigate("/profile");
+      } else {
+        // Якщо авторизація не вдалася, показуємо повідомлення про помилку
+        setError("Неправильний логін або пароль");
+      }
+    } catch (err) {
+      console.error("Помилка при авторизації:", err);
+      setError("Сталася помилка. Спробуйте ще раз пізніше.");
+    }
+  };
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(""), 5000); // 5 секунд
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
   return (
-    <>
     <div className="page-wrapper">
       <header>
         <div className="nav-container">
@@ -63,29 +97,47 @@ export default function LoginPage() {
 
       <section className="auth-container">
         <div className="formlog">
-            <div className="auth-header">
-                <h1>Увійти або Реєстрація</h1>
-            </div>
-          <div className="auth-toggle">
-            <Link to="/profile">
-              <Button id="login-btn">Увійти</Button>
-            </Link>
-            <Link to="/createprof">
-              <Button id="register-btn">Реєстрація</Button>
-            </Link>
+          <div className="auth-header">
+            <h1>Увійти</h1>
           </div>
+          <form onSubmit={handleLogin} className="auth-toggle">
+            <div className="auth-log-form">
+              <label htmlFor="username" className="log-label">Логін</label>
+              <Input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+            <div className="auth-log-form">
+              <label htmlFor="password" className="log-label">Пароль</label>
+              <Input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            {error && <p className="login-error">{error}</p>}
+            <Button type="submit">Увійти</Button>
+          </form>
+          <p className="register-text">
+            Не маєте акаунту? <Link to="/createprof" className="register-link">Зареєструйтеся</Link>
+          </p>
         </div>
       </section>
 
       <footer className="footer">
         <div className="footer-content">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <p>
-                <a href="mailto:support@next.step">
-                  support@next.step
-                </a>
-              </p>
-              <p>м. Львів, вул. Степана Бандери 12, Україна</p>
+            <p>
+              <a href="mailto:support@next.step">
+                support@next.step
+              </a>
+            </p>
+            <p>м. Львів, вул. Степана Бандери 12, Україна</p>
 
             <div className="footer-icons">
               <a href=""><img src="/images/insta.png" alt="Instagram"/></a>
@@ -102,9 +154,7 @@ export default function LoginPage() {
               </a>
             </div>
           </div>
-        </div>
       </footer>
-      </div>
-      </>
+    </div>
   );
 }
