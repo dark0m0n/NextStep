@@ -1,6 +1,6 @@
 // CreateStartupPage.jsx
 import React, { useState } from "react";
-import "../assets/styles/CreateProjCSS.css";
+import "../assets/styles/createProjCSS.css";
 import "../App.css";
 
 /* ------------------------------- Головна функція ------------------------------- */
