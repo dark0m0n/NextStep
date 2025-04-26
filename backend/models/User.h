@@ -4,25 +4,15 @@
 
 class User {
     int id;
-    std::string username;
-    std::string firstname;
-    std::string lastname;
-    std::string email;
-    std::string password;
-    char phoneNumber[20];
-    std::string imagePath;
-    std::string country;
-    std::string language;
-    std::string specialties;
-    std::string skills;
-    std::string additionalInfo;
+    std::string username, firstname, lastname, email, password, phoneNumber, imagePath, country, language, specialties,
+            skills, additionalInfo;
 
 public:
     User(const int id, std::string username, std::string firstname, std::string lastname, std::string email,
-         std::string password, const char phoneNumber[20], std::string imagePath, std::string country,
+         std::string password, std::string phoneNumber, std::string imagePath, std::string country,
          std::string language, std::string specialties, std::string skills, std::string additionalInfo)
         : id(id), username(std::move(username)), firstname(std::move(firstname)), lastname(std::move(lastname)),
-          email(std::move(email)), password(std::move(password)), phoneNumber{*phoneNumber},
+          email(std::move(email)), password(std::move(password)), phoneNumber(std::move(phoneNumber)),
           imagePath(std::move(imagePath)), country(std::move(country)), language(std::move(language)),
           specialties(std::move(specialties)),
           skills(std::move(skills)), additionalInfo(std::move(additionalInfo)) {
