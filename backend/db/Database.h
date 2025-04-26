@@ -23,7 +23,14 @@ public:
                 firstname TEXT NOT NULL,
                 lastname TEXT NOT NULL,
                 email TEXT NOT NULL UNIQUE,
-                password TEXT NOT NULL
+                password TEXT NOT NULL,
+                phoneNumber VARCHAR(20) UNIQUE,
+                imagePath TEXT,
+                country TEXT,
+                languages TEXT,
+                specialties TEXT,
+                skills TEXT,
+                additionalInfo TEXT
             );
 
             CREATE TABLE IF NOT EXISTS startups (
@@ -57,7 +64,14 @@ public:
                 row["firstname"].as<std::string>(),
                 row["lastname"].as<std::string>(),
                 row["email"].as<std::string>(),
-                row["password"].as<std::string>());
+                row["password"].as<std::string>(),
+                row["phoneNumber"].as<char *>(),
+                row["imagePath"].as<std::string>(),
+                row["country"].as<std::string>(),
+                row["languages"].as<std::string>(),
+                row["specialties"].as<std::string>(),
+                row["skills"].as<std::string>(),
+                row["additionalInfo"].as<std::string>());
         }
 
         return users;
@@ -81,7 +95,14 @@ public:
             row["firstname"].as<std::string>(),
             row["lastname"].as<std::string>(),
             row["email"].as<std::string>(),
-            row["password"].as<std::string>());
+            row["password"].as<std::string>(),
+            row["phoneNumber"].as<char *>(),
+            row["imagePath"].as<std::string>(),
+            row["country"].as<std::string>(),
+            row["languages"].as<std::string>(),
+            row["specialties"].as<std::string>(),
+            row["skills"].as<std::string>(),
+            row["additionalInfo"].as<std::string>());
 
         return user;
     }
@@ -90,9 +111,21 @@ public:
         pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
         txn.exec_params(
-            "INSERT INTO users (username, firstname, lastname, email, password)"
-            "VALUES ($1, $2, $3, $4, $5);",
-            user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail(), user.getPassword());
+            "INSERT INTO users (username, firstname, lastname, email, password, phoneNumber, imagePath, country,"
+            "languages, specialties, skills, additionalInfo)"
+            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);",
+            user.getUsername(),
+            user.getFirstname(),
+            user.getLastname(),
+            user.getEmail(),
+            user.getPassword(),
+            user.getPhoneNumber(),
+            user.getImagePath(),
+            user.getCountry(),
+            user.getLanguage(),
+            user.getSpecialties(),
+            user.getSkills(),
+            user.getAdditionalInfo());
         txn.commit();
     }
 
