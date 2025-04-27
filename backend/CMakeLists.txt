@@ -12,6 +12,7 @@ target_include_directories(oop PRIVATE
     ${CMAKE_SOURCE_DIR}/models
     ${CMAKE_SOURCE_DIR}/utils
     ${CMAKE_SOURCE_DIR}/controllers
+    ${CMAKE_SOURCE_DIR}/serializers
 )
 
 if (WIN32)
