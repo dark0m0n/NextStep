@@ -39,4 +39,22 @@ public:
         }
         return nullptr;
     }
+
+    static User deserializeUser(const json &j) {
+        return User{
+            0,
+            j.at("username").get<std::string>(),
+            j.at("firstname").get<std::string>(),
+            j.at("lastname").get<std::string>(),
+            j.at("email").get<std::string>(),
+            j.at("password").get<std::string>(),
+            j.at("phoneNumber").get<std::string>(),
+            j.at("imagePath").get<std::string>(),
+            j.at("country").get<std::string>(),
+            j.at("language").get<std::string>(),
+            j.at("specialties").get<std::string>(),
+            j.at("skills").get<std::string>(),
+            j.at("additionalInfo").get<std::string>()
+        };
+    }
 };

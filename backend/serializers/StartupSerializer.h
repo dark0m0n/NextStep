@@ -32,4 +32,14 @@ public:
         }
         return nullptr;
     }
+
+    static Startup deserializeStartup(const json &j) {
+        return Startup{
+            0,
+            j.at("userID").get<int>(),
+            j.at("title").get<std::string>(),
+            j.at("description").get<std::string>(),
+            j.at("imagePath").get<std::string>()
+        };
+    }
 };

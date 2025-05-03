@@ -32,4 +32,14 @@ public:
         }
         return nullptr;
     }
+
+    static Review deserializeReview(const json &j) {
+        return Review{
+            j.at("id").get<int>(),
+            j.at("userID").get<int>(),
+            j.at("startupID").get<int>(),
+            j.at("text").get<std::string>(),
+            j.at("rating").get<int>()
+        };
+    }
 };

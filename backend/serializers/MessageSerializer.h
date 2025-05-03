@@ -31,4 +31,13 @@ public:
         }
         return nullptr;
     }
+
+    static Message deserializeMessage(const json &j) {
+        return Message{
+            j.at("id").get<int>(),
+            j.at("chatID").get<int>(),
+            j.at("senderID").get<int>(),
+            j.at("text").get<std::string>()
+        };
+    }
 };

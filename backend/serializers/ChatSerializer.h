@@ -30,4 +30,12 @@ public:
         }
         return nullptr;
     }
+
+    static Chat deserializeChat(const json &j) {
+        return Chat{
+            j.at("id").get<int>(),
+            j.at("isGroup").get<bool>(),
+            j.at("title").get<std::string>()
+        };
+    }
 };

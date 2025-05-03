@@ -30,4 +30,12 @@ public:
         }
         return nullptr;
     }
+
+    static ChatMember deserializeChatMember(const json &j) {
+        return ChatMember{
+            j.at("id").get<int>(),
+            j.at("chatID").get<int>(),
+            j.at("userID").get<int>()
+        };
+    }
 };
