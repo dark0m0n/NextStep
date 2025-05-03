@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import "./App.css"
 import MainPage from './pages/MainPage'; 
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
@@ -7,6 +8,7 @@ import CreateProject from'./pages/CreateProject';
 import ProjectPage from './pages/ProjectPage';
 import SearchEmp from './pages/SearchEmp';
 import SearchProject from './pages/SearchProject';
+import ChatPage from './pages/Chat';
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
         <Route path="/project" element={<ProjectPage/>}/>
         <Route path="/searchemp" element={<SearchEmp/>}/>
         <Route path="/searchproj" element={<SearchProject/>}/>
+        <Route path="/chat" element={<ChatPage/>}/>
         {/* Додайте інші маршрути тут */}
       </Routes>
     </Router>

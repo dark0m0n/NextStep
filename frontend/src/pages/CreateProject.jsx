@@ -1,13 +1,11 @@
-// CreateStartupPage.jsx
 import React, { useState } from "react";
 import "../assets/styles/createProjCSS.css";
-import "../App.css";
+import MyHeader from "../components/Header.jsx";
+import MyFooter from "../components/Footer.jsx";
 
 /* ------------------------------- Головна функція ------------------------------- */
 const CreateStartupPage = () => {
   const [logoSrc, setLogoSrc] = useState("");
-  const [showSearch, setShowSearch] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
   const [visibleExperience, setVisibleExperience] = useState({});
 
   /* ------------------------ Завантаження логотипу ------------------------ */
@@ -35,74 +33,9 @@ const CreateStartupPage = () => {
     setVisibleExperience({});
   };
 
-  /* ---------------------- Перемикання поля пошуку ---------------------- */
-  const toggleSearchField = () => {
-    setShowSearch((prev) => !prev);
-  };
-
-  /* ---------------------------- Обробка пошуку ---------------------------- */
-  const submitSearch = () => {
-    const input = document.getElementById("search-input").value;
-    if (input) {
-      console.log("Пошук за запитом:", input);
-    } else {
-      alert("Будь ласка, введіть запит для пошуку.");
-    }
-  };
-
-  /* ------------------------ Перемикання меню стартапів ------------------------ */
-  const toggleVisibility = () => {
-    setShowMenu((prev) => !prev);
-  };
-
   return (
     <>
-      <noscript>У Вас вимкнений або відсутній JavaScript для браузера!</noscript>
-      <header>
-        <div className="nav-container">
-          <a href="/">
-            <img className="logo" src="images/logo3_w.png" alt="Logo" />
-          </a>
-          <div
-            id="search-container"
-            style={{ display: showSearch ? "flex" : "none" }}
-          >
-            <input
-              type="text"
-              id="search-input"
-              placeholder="Введіть запит для пошуку..."
-            />
-            <button id="search-submit" onClick={submitSearch}>
-              Знайти
-            </button>
-          </div>
-          <nav>
-            <button className="button" onClick={toggleSearchField}>
-              Пошук
-            </button>
-            <button className="button" onClick={toggleVisibility}>
-              Стартапи
-            </button>
-            <button className="button">Чати</button>
-            <a href="/log">
-              <button className="button">Профіль</button>
-            </a>
-          </nav>
-        </div>
-
-        <div id="smenu" style={{ display: showMenu ? "block" : "none" }}>
-          <a href="/searchproj" className="smenu" id="one">
-            Знайти стартап
-          </a>
-          <a href="/searchemp" className="smenu" id="one">
-            Знайти персонал
-          </a>
-          <a href="/createproj" className="smenu" id="two">
-            Створити стартап
-          </a>
-        </div>
-      </header>
-
+      <MyHeader/>
       <section className="create-project">
         <div className="info">
           <h2 className="create-title">Створи свій Стартап</h2>
@@ -235,25 +168,7 @@ const CreateStartupPage = () => {
         </div>
       </section>
 
-      <footer className="footer">
-        <div className="footer-content">
-          <p>
-            <a href="mailto:support@next.step">support@next.step</a>
-          </p>
-          <p>м. Львів, вул. Степана Бандери 12, Україна</p>
-
-          <div className="footer-icons">
-          <a href=""><img src="/images/insta.png" alt="Instagram"/></a>
-              <a href=""><img src="/images/fb.png" alt="Facebook"/></a>
-              <a href=""><img src="/images/yt.png" alt="YouTube"/></a>
-          </div>
-
-          <div className="footer-links">
-            <a href="#">Умови та положення</a>
-            <a href="#">Політика конфіденційності</a>
-          </div>
-        </div>
-      </footer>
+      <MyFooter/>
     </>
   );
 };

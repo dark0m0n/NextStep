@@ -1,33 +1,10 @@
-import { useState, useRef } from "react";
+import {useRef } from "react";
 import "../assets/styles/profilePageCSS.css";
-import "../App.css";
+import MyHeader from "../components/Header.jsx";
+import MyFooter from "../components/Footer.jsx";
 
 export default function ProfilePage() {
-  const [showSmenu, setShowSmenu] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
-  const searchInputRef = useRef(null);
   const profilePhotoRef = useRef(null);
-
-  // ---------------- Функція перемикання відображення smenu ----------------
-  const toggleVisibility = () => {
-    setShowSmenu((prev) => !prev);
-  };
-
-  // ---------------- Функція перемикання поля пошуку ----------------
-  const toggleSearchField = () => {
-    setShowSearch((prev) => !prev);
-  };
-
-  // ---------------- Функція надсилання пошуку ----------------
-  const submitSearch = () => {
-    const searchQuery = searchInputRef.current.value;
-    if (searchQuery) {
-      console.log("Пошук за запитом: " + searchQuery);
-      // window.location.href = `searchProj.html?query=${searchQuery}`;
-    } else {
-      alert("Будь ласка, введіть запит для пошуку.");
-    }
-  };
 
   // ---------------- Функція попереднього перегляду фото профілю ----------------
   const previewProfilePhoto = (event) => {
@@ -43,55 +20,7 @@ export default function ProfilePage() {
 
   return (
     <>
-      <noscript>У Вас вимкнений або відсутній JavaScript для браузера!</noscript>
-
-      <header>
-        <div className="nav-container">
-          <a href="/">
-            <img className="logo" src="images/logo3_w.png" alt="Лого" />
-          </a>
-
-          <div
-            id="search-container"
-            style={{ display: showSearch ? "flex" : "none" }}
-          >
-            <input
-              type="text"
-              id="search-input"
-              ref={searchInputRef}
-              placeholder="Введіть запит для пошуку..."
-            />
-            <button id="search-submit" onClick={submitSearch}>
-              Знайти
-            </button>
-          </div>
-
-          <nav>
-            <button className="button" onClick={toggleSearchField}>
-              Пошук
-            </button>
-            <button className="button" onClick={toggleVisibility}>
-              Стартапи
-            </button>
-            <button className="button">Чати</button>
-            <a href="/log">
-              <button>Профіль</button>
-            </a>
-          </nav>
-        </div>
-
-        <div id="smenu" style={{ display: showSmenu ? "block" : "none" }}>
-          <a href="/searchproj" className="smenu" id="one">
-            Знайти стартап
-          </a>
-          <a href="/searchemp" className="smenu" id="one">
-            Знайти персонал
-          </a>
-          <a href="/createproj" className="smenu" id="two">
-            Створити стартап
-          </a>
-        </div>
-      </header>
+      <MyHeader />
 
       <div className="profile-container">
         <div className="profile-header">
@@ -173,25 +102,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <footer className="footer">
-        <div className="footer-content">
-          <p>
-            <a href="mailto:support@next.step">support@next.step</a>
-          </p>
-          <p>м. Львів, вул. Степана Бандери 12, Україна</p>
-
-          <div className="footer-icons">
-          <a href=""><img src="/images/insta.png" alt="Instagram"/></a>
-              <a href=""><img src="/images/fb.png" alt="Facebook"/></a>
-              <a href=""><img src="/images/yt.png" alt="YouTube"/></a>
-          </div>
-
-          <div className="footer-links">
-            <a href="#">Умови та положення</a>
-            <a href="#">Політика конфіденційності</a>
-          </div>
-        </div>
-      </footer>
+      <MyFooter />
     </>
   );
 }

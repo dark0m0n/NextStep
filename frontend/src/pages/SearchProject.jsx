@@ -1,88 +1,12 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "../assets/styles/searchprojCSS.css"; // Імпорт стилів для компонента
-import "../App.css"; // Імпорт загальних стилів
+import MyHeader from "../components/Header.jsx";
+import MyFooter from "../components/Footer.jsx";
 
 export default function SearchPage() {
-  const [showSearch, setShowSearch] = useState(false);
-  const [showSmenu, setShowSmenu] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate();
-
-  // --- Перемикає видимість меню стартапів ---
-  const toggleVisibility = () => {
-    setShowSmenu((prev) => !prev);
-  };
-
-  // --- Перемикає видимість поля пошуку ---
-  const toggleSearchField = () => {
-    setShowSearch((prev) => !prev);
-  };
-
-  // --- Обробляє пошук ---
-  const submitSearch = () => {
-    if (searchQuery.trim()) {
-      console.log("Пошук за запитом: " + searchQuery);
-      // navigate(`/searchProj?query=${searchQuery}`);
-    } else {
-      alert("Будь ласка, введіть запит для пошуку.");
-    }
-  };
 
   return (
     <>
-      <noscript>У Вас вимкнений або відсутній JavaScript для браузера!</noscript>
-      <header>
-        <div className="nav-container">
-          <a href="/">
-            <img className="logo" src="images/logo3_w.png" alt="Logo" />
-          </a>
-
-          {showSearch && (
-            <div id="search-container" style={{ display: "flex" }}>
-              <input
-                type="text"
-                id="search-input"
-                placeholder="Введіть запит для пошуку..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <button id="search-submit" onClick={submitSearch}>
-                Знайти
-              </button>
-            </div>
-          )}
-
-          <nav>
-            <button className="button" onClick={toggleSearchField}>
-              Пошук
-            </button>
-            <button className="button" onClick={toggleVisibility}>
-              Стартапи
-            </button>
-            <button className="button" href="#">
-              Чати
-            </button>
-            <a href="/log">
-              <button className="button">Профіль</button>
-            </a>
-          </nav>
-        </div>
-
-        {showSmenu && (
-          <div id="smenu">
-            <a href="/searchproj" className="smenu" id="one">
-              Знайти стартап
-            </a>
-            <a href="/searchemp" className="smenu" id="one">
-              Знайти персонал
-            </a>
-            <a href="/createproj" className="smenu" id="two">
-              Створити стартап
-            </a>
-          </div>
-        )}
-      </header>
+      <MyHeader/>
 
       <section className="searchproj-section">
         <div className="info-searchproj">
@@ -116,25 +40,7 @@ export default function SearchPage() {
         </div>
       </section>
 
-      <footer className="footer">
-        <div className="footer-content">
-          <p>
-            <a href="mailto:support@next.step">support@next.step</a>
-          </p>
-          <p>м. Львів, вул. Степана Бандери 12, Україна</p>
-
-          <div className="footer-icons">
-          <a href=""><img src="public/images/insta.png" alt="Instagram"  /></a>
-          <a href=""> <img src="public/images/fb.png" alt="Facebook" /></a>
-          <a href=""> <img src="public/images/yt.png" alt="YouTube" /></a>
-          </div>
-
-          <div className="footer-links">
-            <a href="#">Умови та положення</a>
-            <a href="#">Політика конфіденційності</a>
-          </div>
-        </div>
-      </footer>
+      <MyFooter/>
     </>
   );
 }

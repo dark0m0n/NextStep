@@ -1,83 +1,12 @@
-import { useState } from "react";
 import '../assets/styles/index.css';
-import '../App.css';
+import MyHeader from "../components/Header.jsx";
+import MyFooter from "../components/Footer.jsx";
 
 export default function NextStepPage() {
-  const [showSearch, setShowSearch] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  // Функція: Показати/сховати блок пошуку
-  const toggleSearchField = () => {
-    setShowSearch((prev) => !prev);
-  };
-
-  // Функція: Показати/сховати випадаюче меню
-  const toggleVisibility = () => {
-    setShowMenu((prev) => !prev);
-  };
-
-  // Функція: Обробка запиту пошуку
-  const submitSearch = () => {
-    if (searchQuery.trim()) {
-      console.log("Пошук за запитом:", searchQuery);
-      // window.location.href = `searchProj.html?query=${searchQuery}`;
-    } else {
-      alert("Будь ласка, введіть запит для пошуку.");
-    }
-  };
 
   return (
     <>
-      <noscript>У Вас вимкнений або відсутній JavaScript для браузера!</noscript>
-
-      <header>
-        <div className="nav-container">
-          <a href="/">
-            <img className="logo" src="public/images/logo3_w.png" alt="NextStep Logo" />
-          </a>
-
-          {showSearch && (
-            <div id="search-container" style={{ display: "flex" }}>
-              <input
-                type="text"
-                id="search-input"
-                placeholder="Введіть запит для пошуку..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <button id="search-submit" onClick={submitSearch}>
-                Знайти
-              </button>
-            </div>
-          )}
-
-          <nav>
-            <button id="search-btn" onClick={toggleSearchField}>
-              Пошук
-            </button>
-            <button onClick={toggleVisibility}>Стартапи</button>
-            <button>Чати</button>
-            <a href="/log">
-              <button>Профіль</button>
-            </a>
-          </nav>
-        </div>
-
-        {showMenu && (
-          <div id="smenu">
-            <a href="/searchproj" className="smenu" id="one">
-              Знайти стартап
-            </a>
-            <a href="/searchemp" className="smenu" id="one">
-              Знайти персонал
-            </a>
-            <a href="/createproj" className="smenu" id="two">
-              Створити стартап
-            </a>
-          </div>
-        )}
-      </header>
+      <MyHeader />
 
       <section className="hero">
         <div className="overlay">
@@ -153,15 +82,15 @@ export default function NextStepPage() {
         <div className="case">
           <div className="cases">
             <img src="public/images/usa.png" alt="Кейс 1" />
-            <p>Компанія Піздьож228: Продаж піздежа закордон</p>
+            <p>Компанія Hello228: Продаж вітань закордон</p>
           </div>
           <div className="cases">
             <img src="public/images/usa.png" alt="Кейс 2" />
-            <p>АТ Піздьож1488: Продаж піздежа в Україні</p>
+            <p>АТ Hello1488: Продаж вітань в Україні</p>
           </div>
           <div className="cases">
             <img src="public/images/usa.png" alt="Кейс 3" />
-            <p>ТОВ НАЙОБКА: Найобують і доставляють будь куди</p>
+            <p>ТОВ Hello: Вітають і доставляють будь куди</p>
           </div>
         </div>
 
@@ -217,25 +146,7 @@ export default function NextStepPage() {
         </form>
       </div>
 
-      <footer className="footer">
-        <div className="footer-content">
-          <p>
-            <a href="mailto:support@next.step">support@next.step</a>
-          </p>
-          <p>м. Львів, вул. Степана Бандери 12, Україна</p>
-
-          <div className="footer-icons">
-          <a href=""><img src="public/images/insta.png" alt="Instagram"  /></a>
-          <a href=""> <img src="public/images/fb.png" alt="Facebook" /></a>
-          <a href=""> <img src="public/images/yt.png" alt="YouTube" /></a>
-          </div>
-
-          <div className="footer-links">
-            <a href="#">Умови та положення</a>
-            <a href="#">Політика конфіденційності</a>
-          </div>
-        </div>
-      </footer>
+      <MyFooter />
     </>
   );
 }

@@ -1,82 +1,8 @@
-import React, { useState } from "react";
-import "../assets/styles/searchempCSS.css"; // Імпорт стилів для компонента
-import "../App.css"; // Імпорт загальних стилів
+import "../assets/styles/searchempCSS.css";
+import MyHeader from "../components/Header.jsx";
+import MyFooter from "../components/Footer.jsx";
 
-// ------------------------ Компонент Header ------------------------
-const Header = () => {
-  const [isSmenuVisible, setSmenuVisible] = useState(false);
-  const [isSearchVisible, setSearchVisible] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
-  // Перемикач видимості меню стартапів
-  const toggleVisibility = () => {
-    setSmenuVisible((prev) => !prev);
-  };
-
-  // Перемикач поля пошуку
-  const toggleSearchField = () => {
-    setSearchVisible((prev) => !prev);
-  };
-
-  // Обробка пошуку
-  const submitSearch = () => {
-    if (searchQuery.trim()) {
-      console.log("Пошук за запитом: " + searchQuery);
-      // window.location.href = `searchProj.html?query=${searchQuery}`;
-    } else {
-      alert("Будь ласка, введіть запит для пошуку.");
-    }
-  };
-
-  return (
-    <header>
-      <div className="nav-container">
-        <a href="/">
-          <img className="logo" src="images/logo3_w.png" alt="NextStep Logo" />
-        </a>
-        {isSearchVisible && (
-          <div id="search-container" style={{ display: "flex" }}>
-            <input
-              type="text"
-              id="search-input"
-              placeholder="Введіть запит для пошуку..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <button id="search-submit" onClick={submitSearch}>
-              Знайти
-            </button>
-          </div>
-        )}
-        <nav>
-          <button className="button" onClick={toggleSearchField}>
-            Пошук
-          </button>
-          <button className="button" onClick={toggleVisibility}>
-            Стартапи
-          </button>
-          <button className="button">Чати</button>
-          <a href="/log">
-            <button className="button">Профіль</button>
-          </a>
-        </nav>
-      </div>
-      {isSmenuVisible && (
-        <div id="smenu">
-          <a href="/searchproj" className="smenu" id="one">
-            Знайти стартап
-          </a>
-          <a href="/searchemp" className="smenu" id="one">
-            Знайти персонал
-          </a>
-          <a href="/createproj" className="smenu" id="two">
-            Створити стартап
-          </a>
-        </div>
-      )}
-    </header>
-  );
-};
 
 // ------------------------ Компонент Block ------------------------
 const Block = ({ imgSrc, title, mark, price }) => (
@@ -133,37 +59,13 @@ const MainSection = () => {
   );
 };
 
-// ------------------------ Компонент Footer ------------------------
-const Footer = () => (
-  <footer className="footer">
-    <div className="footer-content">
-      <p>
-        <a href="mailto:support@next.step">support@next.step</a>
-      </p>
-      <p>м. Львів, вул. Степана Бандери 12, Україна</p>
-      <div className="footer-icons">
-      <a href=""><img src="public/images/insta.png" alt="Instagram"  /></a>
-          <a href=""> <img src="public/images/fb.png" alt="Facebook" /></a>
-          <a href=""> <img src="public/images/yt.png" alt="YouTube" /></a>
-      </div>
-      <div className="footer-links">
-        <a href="#">Умови та положення</a>
-        <a href="#">Політика конфіденційності</a>
-      </div>
-    </div>
-  </footer>
-);
-
 // ------------------------ Головний компонент ------------------------
 const SearchEmpPage = () => {
   return (
     <>
-      <noscript>
-        У Вас вимкнений або відсутній JavaScript для браузера!
-      </noscript>
-      <Header />
+      <MyHeader />
       <MainSection />
-      <Footer />
+      <MyFooter />
     </>
   );
 };

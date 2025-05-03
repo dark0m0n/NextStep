@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import '../assets/styles/createProfileCSS.css'; 
-import '../App.css';
+import MyHeader from "../components/Header.jsx";
+import MyFooter from "../components/Footer.jsx";
+
 
 export default function CreateProfile() {
   const [logoPreview, setLogoPreview] = useState(null);
-  const [searchVisible, setSearchVisible] = useState(false);
-  const [smenuVisible, setSmenuVisible] = useState(false);
   const [selectedSpecializations, setSelectedSpecializations] = useState([]);
   const [skills, setSkills] = useState(['']);
-
-  const toggleVisibility = () => setSmenuVisible(prev => !prev);
-  const toggleSearchField = () => setSearchVisible(prev => !prev);
 
   const previewLogo = (event) => {
     const file = event.target.files[0];
@@ -29,15 +26,6 @@ export default function CreateProfile() {
 
   const clearSelection = () => setSelectedSpecializations([]);
 
-  const submitSearch = () => {
-    const query = document.getElementById('search-input').value;
-    if (query) {
-      console.log('Пошук за запитом:', query);
-    } else {
-      alert('Будь ласка, введіть запит для пошуку.');
-    }
-  };
-
   const addSkill = () => setSkills([...skills, '']);
 
   const deleteSkill = (index) => {
@@ -48,43 +36,75 @@ export default function CreateProfile() {
 
   const clearSkills = () => setSkills(['']);
 
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+  const password = form.password.value;
+  const confirmPassword = form.confirmPassword.value;
+
+  if (password.length <8) {
+    alert('Пароль має містити щонайменше 8 символів.');
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    alert('Паролі не збігаються!');
+    return;
+  }
+
+  const formData = new FormData();
+  const photoFile = form['photo-upload'].files[0];
+
+  formData.append('firstname', form.firstname.value);
+  formData.append('lastname', form.lastname.value);
+  formData.append('email', form.Email.value);
+  formData.append('phoneNumber', form.phone.value);
+  formData.append('country', form.country.value);
+  formData.append('language', Array.from(document.querySelectorAll('input[name="lang[]"]:checked')).map(el => el.value).join(','));
+  formData.append('specialties', selectedSpecializations.join(','));
+  formData.append('skills', skills.join(','));
+  formData.append('additionalInfo', form.description.value);
+  formData.append('username', form.userName.value);
+  formData.append('password', password);
+
+  if (photoFile) {
+    formData.append('photo', photoFile); // name = 'photo'
+  }
+
+  try {
+    const response = await fetch('http://localhost:8000/api/users', {
+      method: 'POST',
+      body: formData, // без headers, бо FormData сам їх генерує
+    });
+
+    if (response.ok) {
+      alert('Профіль успішно створено!');
+    } else {
+      alert('Помилка при створенні профілю!');
+    }
+  } catch (error) {
+    console.error('Помилка запиту:', error);
+    alert('Не вдалося підключитись до сервера.');
+  }
+};
+  
   return (
     <>
-      <noscript>У Вас вимкнений або відсутній JavaScript для браузера!</noscript>
-      <header>
-        <div className="nav-container">
-          <a href="/"><img className="logo" src="images/logo3_w.png" alt="Logo" /></a>
-          {searchVisible && (
-            <div id="search-container">
-              <input type="text" id="search-input" placeholder="Введіть запит для пошуку..." />
-              <button id="search-submit" onClick={submitSearch}>Знайти</button>
-            </div>
-          )}
-          <nav>
-            <button className="button" onClick={toggleSearchField}>Пошук</button>
-            <button className="button" onClick={toggleVisibility}>Стартапи</button>
-            <button className="button">Чати</button>
-            <a href="/log"><button className="button">Профіль</button></a>
-          </nav>
-        </div>
-        {smenuVisible && (
-          <div id="smenu">
-            <a href="/searchproj" className="smenu" id="one">Знайти стартап</a>
-            <a href="/searchemp" className="smenu" id="one">Знайти персонал</a>
-            <a href="/createproj" className="smenu" id="two">Створити стартап</a>
-          </div>
-        )}
-      </header>
-
+      <MyHeader/>
       <section className='create-profile'>
         <div className="info">
           <h2 className='create-title'>Створити профіль</h2>
         </div>
         <div className="container">
-          <form action="#" method="POST">
+          <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="name" className='label-create-prof'>ПІБ *</label>
-              <input type="text" id="name" name="name" required className='input-info-create' />
+              <label htmlFor="name" className='label-create-prof'>Прізвище</label>
+              <input type="text" id="lastname" name="lastname" required className='input-info-create' />
+            </div>
+            <div className="form-group">
+              <label htmlFor="name" className='label-create-prof'>Ім'я</label>
+              <input type="text" id="firstname" name="firstname" required className='input-info-create' />
             </div>
 
             <div className="form-group">
@@ -204,26 +224,38 @@ export default function CreateProfile() {
               <label htmlFor="description">Додаткова інформація</label>
               <textarea id="description" name="description" required className='input-info-create text'></textarea>
             </div>
+            <div className="form-group">
+                <label htmlFor="password" className='label-create-prof'>Ім'я користувача *</label>
+  <input
+    type="twxt"
+    id="userName"
+    name="userName"
+    required
+    className='input-info-create'
+  />
+  <label htmlFor="password" className='label-create-prof'>Пароль *</label>
+  <input
+    type="password"
+    id="password"
+    name="password"
+    required
+    className='input-info-create'
+  />
+
+  <label htmlFor="confirmPassword" className='label-create-prof'>Підтвердіть пароль *</label>
+  <input
+    type="password"
+    id="confirmPassword"
+    name="confirmPassword"
+    required
+    className='input-info-create'
+  />
+</div>
             <button type="submit" id="formbtnS">Зберегти</button>
           </form>
         </div>
       </section>
-
-      <footer className="footer">
-        <div className="footer-content">
-          <p><a href="mailto:support@next.step">support@next.step</a></p>
-          <p>м. Львів, вул. Степана Бандери 12, Україна</p>
-          <div className="footer-icons">
-          <a href=""><img src="/images/insta.png" alt="Instagram"/></a>
-              <a href=""><img src="/images/fb.png" alt="Facebook"/></a>
-              <a href=""><img src="/images/yt.png" alt="YouTube"/></a>
-          </div>
-          <div className="footer-links">
-            <a href="#">Умови та положення</a>
-            <a href="#">Політика конфіденційності</a>
-          </div>
-        </div>
-      </footer>
+          <MyFooter/>
     </>
   );
 }
