@@ -19,7 +19,7 @@ public:
 
         CROW_ROUTE(app, "/api/user").methods(crow::HTTPMethod::Post)
         ([&controller](const crow::request &req) {
-            return controller.createUser(const_cast<crow::request &>(req));
+            return controller.createUser(req);
         });
     }
 };
