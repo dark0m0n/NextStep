@@ -134,7 +134,7 @@ public:
         txn.exec_params(
             "INSERT INTO users (username, firstname, lastname, email, password, phoneNumber, imagePath, country,"
             "languages, specialties, skills, additionalInfo)"
-            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);",
+            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);",
             user.getUsername(),
             user.getFirstname(),
             user.getLastname(),
