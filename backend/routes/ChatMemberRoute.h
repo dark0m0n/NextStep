@@ -18,8 +18,8 @@ public:
         });
 
         CROW_ROUTE(app, "/api/chat/member").methods(crow::HTTPMethod::Post)
-        ([&controller](const crow::request &req) {
-            return controller.createChatMember(const_cast<crow::request &>(req));
+        ([&controller](crow::request req) {
+            return controller.createChatMember(req);
         });
     }
 };

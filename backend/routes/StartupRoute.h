@@ -18,8 +18,8 @@ public:
         });
 
         CROW_ROUTE(app, "/api/startup").methods(crow::HTTPMethod::Post)
-        ([&controller](const crow::request &req) {
-            return controller.createStartup(const_cast<crow::request &>(req));
+        ([&controller](crow::request req) {
+            return controller.createStartup(req);
         });
     }
 };

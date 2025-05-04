@@ -18,8 +18,8 @@ public:
         });
 
         CROW_ROUTE(app, "/api/message").methods(crow::HTTPMethod::Post)
-        ([&controller](const crow::request &req) {
-            return controller.createMessage(const_cast<crow::request &>(req));
+        ([&controller](crow::request req) {
+            return controller.createMessage(req);
         });
     }
 };

@@ -18,8 +18,8 @@ public:
         });
 
         CROW_ROUTE(app, "/api/review").methods(crow::HTTPMethod::Post)
-        ([&controller](const crow::request &req) {
-            return controller.createReview(const_cast<crow::request &>(req));
+        ([&controller](crow::request req) {
+            return controller.createReview(req);
         });
     }
 };
