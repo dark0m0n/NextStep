@@ -1,8 +1,10 @@
 #pragma once
 #include "../db/Database.h"
 #include "../serializers/UserSerializer.h"
+#include "../utils/FormData.h"
 #include "crow.h"
 #include "nlohmann/json.hpp"
+#include <string>
 
 using json = nlohmann::json;
 
@@ -26,16 +28,38 @@ public:
         return crow::response{200, UserSerializer::serializeOptionalUser(user).dump()};
     }
 
-    crow::response createUser(crow::request &req) const {
-        json j;
-        try {
-            j = json::parse(req.body);
-        } catch (const std::exception &e) {
-            return crow::response{400, R"({"error": "Invalid JSON"})"};
+    [[nodiscard]] crow::response createUser(const crow::request &req) const {
+        std::string contentType = req.get_header_value("Content-Type");
+
+        if (contentType.find("multipart/form-data") != std::string::npos) {
+            const size_t boundaryPos = contentType.find("boundary=");
+            if (boundaryPos == std::string::npos) {
+                return crow::response{400, "No boundary in Content-Type"};
+            }
+            const std::string boundary = contentType.substr(boundaryPos + 9);
+
+            auto form = FormData::parse(req.body, boundary);
+
+            const User user{
+                0,
+                form["username"],
+                form["firstname"],
+                form["lastname"],
+                form["email"],
+                form["password"],
+                form["phoneNumber"],
+                form["imagePath"],
+                form["country"],
+                form["language"],
+                form["specialities"],
+                form["skills"],
+                form["additionalInfo"]
+            };
+
+            db.insertUser(user);
+            return crow::response{201};
         }
 
-        const User user = UserSerializer::deserializeUser(j);
-        db.insertUser(user);
-        return crow::response{201};
+        return crow::response{400, "Unsupported content type"};
     }
 };
