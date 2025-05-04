@@ -73,7 +73,7 @@ export default function CreateProfile() {
   }
 
   try {
-    const response = await fetch('http://localhost:8000/api/users', {
+    const response = await fetch('http://localhost:8000/api/user', {
       method: 'POST',
       body: formData, // без headers, бо FormData сам їх генерує
     });
