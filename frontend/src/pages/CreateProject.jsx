@@ -44,7 +44,7 @@ const CreateStartupPage = () => {
           <form action="#" method="POST">
             <div className="form-group">
               <label htmlFor="startup-name" className="label-create-proj">Назва стартапу *</label>
-              <input type="text" id="startup-name" name="startup-name" required className="input-info-create" />
+              <input type="text" id="startup-name" name="startup-name" required className="input-info-create" placeholder="Введіть назву стартапу" />
             </div>
 
             <div className="form-group">
@@ -79,12 +79,12 @@ const CreateStartupPage = () => {
 
             <div className="form-group">
               <label htmlFor="contact-info" className="label-create-proj">Контактна інформація *</label>
-              <input type="text" id="contact-info" name="contact-info" required className="input-info-create-proj" />
+              <input type="text" id="contact-info" name="contact-info" required className="input-info-create-proj" placeholder="Введіть дані для зворотнього зв'язку"/>
             </div>
 
             <div className="form-group">
               <label htmlFor="description" className="label-create-proj">Опис *</label>
-              <textarea id="description" name="description" required className="input-info-create-proj text" ></textarea>
+              <textarea id="description" name="description" required className="input-info-create-proj text" placeholder="Опишіть ваш стартап"></textarea>
             </div>
 
             <div className="form-group">
@@ -99,12 +99,12 @@ const CreateStartupPage = () => {
 
             <div className="form-group">
               <label htmlFor="investment" className="label-create-proj">Необхідні інвестиції</label>
-              <input type="text" id="investment" name="investment" required className="input-info-create-proj" />
+              <input type="text" id="investment" name="investment" required className="input-info-create-proj" placeholder="Вкажіть 0, якщо інвестиції не потрібно"/>
             </div>
 
             <div className="form-group">
               <label htmlFor="team-members" className="label-create-proj">Необхідні члени команди</label>
-              <label htmlFor="specializations" className="label-create-proj">Вкажіть спеціальності:</label>
+              <label htmlFor="specializations" className="label-create-proj">Вкажіть необхідні спеціальності:</label>
               <div className="tags">
                 {[
                   { id: "analize", label: "Аналіз даних" },
@@ -152,6 +152,7 @@ const CreateStartupPage = () => {
                       id={`experience-${spec.id}-input`}
                       name={`experience-${spec.id}`}
                       className="input-info-create-proj" 
+                      placeholder="Введіть необхідний досвід роботи"
                     />
                   </div>
                 )
