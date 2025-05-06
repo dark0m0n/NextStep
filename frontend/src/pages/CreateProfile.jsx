@@ -5,28 +5,31 @@ import MyFooter from "../components/Footer.jsx";
 
 
 export default function CreateProfile() {
-  const [logoPreview, setLogoPreview] = useState(null);
-  const [selectedSpecializations, setSelectedSpecializations] = useState([]);
-  const [skills, setSkills] = useState(['']);
+    const [logoPreview, setLogoPreview] = useState(null);
+    const [selectedSpecializations, setSelectedSpecializations] = useState([]);
+    const [skills, setSkills] = useState(['']); 
 
-  const previewLogo = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e) => setLogoPreview(e.target.result);
-    reader.readAsDataURL(file);
+    const previewLogo = (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => setLogoPreview(e.target.result);
+        reader.readAsDataURL(file);
   };
 
-  const toggleExperienceField = (specialization) => {
-    setSelectedSpecializations((prev) =>
-      prev.includes(specialization)
-        ? prev.filter((item) => item !== specialization)
-        : [...prev, specialization]
+    const toggleExperienceField = (specialization) => {
+        setSelectedSpecializations((prev) =>
+        prev.includes(specialization)
+            ? prev.filter((item) => item !== specialization)
+            : [...prev, specialization]
     );
   };
-
   const clearSelection = () => setSelectedSpecializations([]);
 
-  const addSkill = () => setSkills([...skills, '']);
+    const addSkill = () => {
+        if (!skills.includes('')) {
+            setSkills([...skills, '']);
+        }
+    }
 
   const deleteSkill = (index) => {
     const updatedSkills = [...skills];
@@ -43,16 +46,25 @@ export default function CreateProfile() {
   const password = form.password.value;
   const confirmPassword = form.confirmPassword.value;
 
-  if (password.length <8) {
-    alert('Пароль має містити щонайменше 8 символів.');
-    return;
-  }
+     if (password.length < 8) {
+         form.password.style.borderColor = 'red';
+         wrongPshort.style.display = 'block';
+         return;
+     } else {
+         form.password.style.borderColor = '#ccc';
+         wrongPshort.style.display = 'none';
+         
+     }
 
   if (password !== confirmPassword) {
-    alert('Паролі не збігаються!');
-    return;
+      form.confirmPassword.style.borderColor = 'red';
+      wrongPneq.style.display = 'block';
+      return;
+  } else {
+      form.confirmPassword.style.borderColor = '#ccc';
+      wrongPneq.style.display = 'none';
+      
   }
-
   const formData = new FormData();
   const photoFile = form['photo-upload'].files[0];
 
@@ -79,13 +91,13 @@ export default function CreateProfile() {
     });
 
     if (response.ok) {
-      alert('Профіль успішно створено!');
+        console.log('Профіль створено успішно.');
     } else {
-      alert('Помилка при створенні профілю!');
+        console.log('Помилка при створенні профілю.');
     }
   } catch (error) {
     console.error('Помилка запиту:', error);
-    alert('Не вдалося підключитись до сервера.');
+      console.log('Не вдалося підлючитися до серверу.');
   }
 };
   
@@ -97,70 +109,96 @@ export default function CreateProfile() {
           <h2 className='create-title'>Створити профіль</h2>
         </div>
         <div className="container">
-          <form onSubmit={handleSubmit}>
+                  <form onSubmit={handleSubmit}>
+                      <div className="form-group">
+                          <label htmlFor="password" className='label'>Ім'я користувача *</label>
+                          <input
+                              type="twxt"
+                              id="userName"
+                              name="userName"
+                              required
+                              className='input-info-create'
+                              placeholder="Введіть ім'я користувача"
+                          />
+                          <label htmlFor="password" className='label'>Пароль *</label>
+                          <p id="wrongPshort">Пароль повинен бути більше 8-ми символів</p>
+                          <input
+                              type="password"
+                              id="password"
+                              name="password"
+                              required
+                              className='input-info-create'
+                              placeholder="Введіть пароль"
+                          />
+
+                          <label htmlFor="confirmPassword" className='label'>Підтвердіть пароль *</label>
+                          <p id="wrongPneq">Паролі повинні бути однаковими</p>
+                          <input
+                              type="password"
+                              id="confirmPassword"
+                              name="confirmPassword"
+                              required
+                              className='input-info-create'
+                              placeholder="Підтвердіть пароль"
+                          />
+                          <label htmlFor="Email" className='label'>Email *</label>
+                          <input type="text" id="Email" name="Email" required className='input-info-create' placeholder="Введіть ел. пошту" />
+                          <label htmlFor="country" className='label'>Країна *</label>
+                          <select id="country" name="country" required className='input-info-create'>
+                              <option value="">- Вибрати -</option>
+                              <option value="ua">Україна</option>
+                              <option value="uk">Велика Британія</option>
+                              <option value="other">Інше</option>
+                          </select>
+                      </div>
+                      <div className="form-group">
+                          <label className="label">Фото</label>
+
+                          {logoPreview && (
+                              <img
+                                  id="logo-preview"
+                                  src={logoPreview}
+                                  alt="Logo Preview"
+                                  style={{
+                                      display: 'block',
+                                      maxWidth: '100px',
+                                      marginTop: '10px',
+                                      borderRadius: '5px',
+                                      border: '1px solid #ccc',
+                                  }}
+                              />
+                          )}
+
+                          <div className="custom-file-upload">
+                              <label htmlFor="photo-upload" className="upload-label">Завантажити фото</label>
+                              <input
+                                  type="file"
+                                  id="photo-upload"
+                                  name="photo-upload"
+                                  accept="image/*"
+                                  onChange={previewLogo}
+                                  style={{ display: 'none' }}
+                              />
+                          </div>
+                      </div>
+
             <div className="form-group">
-              <label htmlFor="name" className='label-create-prof'>Прізвище</label>
-              <input type="text" id="lastname" name="lastname" required className='input-info-create' />
+              <label htmlFor="name" className='label'>Прізвище</label>
+              <input type="text" id="lastname" name="lastname" className='input-info-create' placeholder="Введіть прізвище"/>
+              <label htmlFor="name" className='label'>Ім'я</label>
+              <input type="text" id="firstname" name="firstname" className='input-info-create' placeholder="Введіть ім'я"/>
+              <label htmlFor="phone" className='label'>Телефон</label>
+              <input type="text" id="phone" name="phone" className='input-info-create' pattern="[0-9]{10}" placeholder="Введіть номер телефону"/>
             </div>
+                    <div className="form-group">
+                          <label className='label'>Володіння мовами</label>
+                          <div><label htmlFor="ua" className='label-create-prof'>Українська</label><input type="checkbox" id="ua " name="lang[]" value="ua" className='input-info-create check-create' /></div>
+                          <div><label htmlFor="uk" className='label-create-prof'>Англійська</label><input type="checkbox" id="uk" name="lang[]" value="uk" className='input-info-create check-create' /></div>
+                          <div><label htmlFor="ch" className='label-create-prof'>Китайська</label><input type="checkbox" id="ch" name="lang[]" value="ch" className='input-info-create check-create' /></div>
+                          <div><label htmlFor="gr" className='label-create-prof'>Німецька</label><input type="checkbox" id="gr" name="lang[]" value="gr" className='input-info-create check-create' /></div>
+                    </div>
             <div className="form-group">
-              <label htmlFor="name" className='label-create-prof'>Ім'я</label>
-              <input type="text" id="firstname" name="firstname" required className='input-info-create' />
-            </div>
-
-            <div className="form-group">
-  <label className="label-create-prof">Фото</label>
-
-  {logoPreview && (
-    <img
-      id="logo-preview"
-      src={logoPreview}
-      alt="Logo Preview"
-      style={{
-        display: 'block',
-        maxWidth: '100px',
-        marginTop: '10px',
-        borderRadius: '5px',
-        border: '1px solid #ccc',
-      }}
-    />
-  )}
-
-  <div className="custom-file-upload">
-    <label htmlFor="photo-upload" className="upload-label">Завантажити фото</label>
-    <input
-      type="file"
-      id="photo-upload"
-      name="photo-upload"
-      accept="image/*"
-      onChange={previewLogo}
-      style={{ display: 'none' }}
-    />
-  </div>
-</div>
-            <div className="form-group">
-              <label htmlFor="Email" className='label-create-prof'>Email *</label>
-              <input type="text" id="Email" name="Email" required className='input-info-create' />
-              <label htmlFor="phone" className='label-create-prof'>Телефон</label>
-              <input type="text" id="phone" name="phone" className='input-info-create'/>
-              <label htmlFor="country" className='label-create-prof'>Країна *</label>
-              <select id="country" name="country" required className='input-info-create'>
-                <option value="">- Вибрати -</option>
-                <option value="ua">Україна</option>
-                <option value="uk">Велика Британія</option>
-                <option value="other">Інше</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label className='label-create-prof'>Володіння мовами *</label>
-              <div><input type="checkbox" id="ua " name="lang[]" value="ua" className='input-info-create check-create'/><label htmlFor="ua" className='label-create-prof'>Українська</label></div>
-              <div><input type="checkbox" id="uk" name="lang[]" value="uk" className='input-info-create check-create'/><label htmlFor="uk" className='label-create-prof'>Англійська</label></div>
-              <div><input type="checkbox" id="ch" name="lang[]" value="ch" className='input-info-create check-create'/><label htmlFor="ch" className='label-create-prof'>Китайська</label></div>
-              <div><input type="checkbox" id="gr" name="lang[]" value="gr" className='input-info-create check-create'/><label htmlFor="gr" className='label-create-prof'>Німецька</label></div>
-            </div>
-
-            <div className="form-group">
-              <label className='label-create-prof'>Вкажіть спеціальності:</label>
+              <label className='label'>Вкажіть спеціальності:</label>
               <div className="tags">
                 {['analize', 'marketing', 'web-prog', 'finance', 'designer', 'developer'].map(spec => (
                   <button
@@ -184,16 +222,16 @@ export default function CreateProfile() {
             {['analize', 'marketing', 'web-prog', 'finance', 'designer', 'developer'].map(spec => (
               selectedSpecializations.includes(spec) && (
                 <div className="form-group" id={`experience_${spec}`} key={spec}>
-                  <label htmlFor={`experience-${spec}-input`} className='label-create-prof'>Досвід роботи "{spec === 'analize' ? 'Аналіз даних' : spec === 'marketing' ? 'Маркетолог' : spec === 'web-prog' ? 'Веб-розробник' : spec === 'finance' ? 'Фінансист' : spec === 'designer' ? 'Дизайнер' : 'Розробник ПЗ'}":</label>
-                  <input type="text" id={`experience-${spec}-input`} name={`experience-${spec}`} className='input-info-create'/>
+                  <label htmlFor={`experience-${spec}-input`} className='label'>Досвід роботи "{spec === 'analize' ? 'Аналіз даних' : spec === 'marketing' ? 'Маркетолог' : spec === 'web-prog' ? 'Веб-розробник' : spec === 'finance' ? 'Фінансист' : spec === 'designer' ? 'Дизайнер' : 'Розробник ПЗ'}":</label>
+                  <input type="text" id={`experience-${spec}-input`} name={`experience-${spec}`} className='input-info-create' placeholder="Введіть інформацію про потрібний досвід роботи"/>
                 </div>
               )
             ))}
 
             <button type="button" id="formbtnCl" onClick={clearSelection}>Очистити вибір</button>
-
+            <br></br>
             <div id="skills-container">
-              <label htmlFor="skills" className='label-create-prof'>Скіли:</label>
+              <label htmlFor="skills" className='label'>Скіли:</label>
               <div className="skills">
                 {skills.map((skill, index) => (
                   <div key={index}>
@@ -207,9 +245,9 @@ export default function CreateProfile() {
                         updated[index] = e.target.value;
                         setSkills(updated);
                       }}
-                      className='input-info-create'
+                      className='input4skills'
                     />
-                    {skills.length > 1 && <button type="button" onClick={() => deleteSkill(index)} className='skill-button-create'>Видалити</button>}
+                    {skills.length > 1 && <button type="button" onClick={() => deleteSkill(index)} className='skill-button-del'>Видалити</button>}
                   </div>
                 ))}
               </div>
@@ -221,36 +259,9 @@ export default function CreateProfile() {
 
             <br />
             <div className="form-group">
-              <label htmlFor="description">Додаткова інформація</label>
-              <textarea id="description" name="description" required className='input-info-create text'></textarea>
+              <label htmlFor="description" className="label">Додаткова інформація</label>
+              <textarea id="description" name="description" className='input-info-create text' placeholder="Введіть додаткову інформацію"></textarea>
             </div>
-            <div className="form-group">
-                <label htmlFor="password" className='label-create-prof'>Ім'я користувача *</label>
-  <input
-    type="twxt"
-    id="userName"
-    name="userName"
-    required
-    className='input-info-create'
-  />
-  <label htmlFor="password" className='label-create-prof'>Пароль *</label>
-  <input
-    type="password"
-    id="password"
-    name="password"
-    required
-    className='input-info-create'
-  />
-
-  <label htmlFor="confirmPassword" className='label-create-prof'>Підтвердіть пароль *</label>
-  <input
-    type="password"
-    id="confirmPassword"
-    name="confirmPassword"
-    required
-    className='input-info-create'
-  />
-</div>
             <button type="submit" id="formbtnS">Зберегти</button>
           </form>
         </div>
