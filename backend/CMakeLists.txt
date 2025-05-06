@@ -22,6 +22,6 @@ elseif (UNIX)
     message(STATUS "Configuring for Linux")
     target_include_directories(oop PRIVATE /usr/include)
     find_package(Threads REQUIRED)
-    target_link_libraries(oop PRIVATE pqxx pq Threads::Threads)
+    target_link_libraries(oop PRIVATE pqxx pq Threads::Threads argon2)
 endif ()
 
