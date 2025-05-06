@@ -44,16 +44,25 @@
   ================================ */
   .form-group {
     margin-bottom: 20px;
+
   }
-  
+    .form-group div {
+        display: flex;
+        align-items: center;
+    }
   /* ===============================
      Підписи до інпутів
   ================================ */
+.label {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+}
   .label-create-prof {
     display: block;
     font-size: 18px;
     margin-bottom: 10px;
-    font-weight: 600; /* "semibold" замінено на дійсне значення */
+    font-weight: 600;
   }
   
   /* ===============================
@@ -63,12 +72,23 @@
     width: 100%;
     padding: 10px;
     margin-top: 8px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
     background-color: white;
     color: #333;
   }
+.input4skills {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: white;
+    color: #333;
+}
   
   /* ===============================
      Текстова область
@@ -77,11 +97,22 @@
     resize: vertical;
     height: 150px;
   }
-  
-  /* ===============================
+
+/* ===============================
+     Стилі помилок паролю
+  ================================ */
+#wrongPshort {
+    display: none;
+    color: red;
+}
+#wrongPneq {
+    display: none;
+    color: red;
+}
+/* ===============================
      Кнопка "Зберегти"
   ================================ */
-  #formbtnS {
+#formbtnS {
     padding: 10px 20px;
     background-color: #8E0000;
     color: white;
@@ -91,7 +122,7 @@
     font-size: 16px;
     display: block;
     margin: 0 auto;
-  }
+}
   
   /* ===============================
      Кнопка "Очистити"
@@ -144,7 +175,7 @@
   /* ===============================
      Кастомна чекбокс-галочка
   ================================ */
-  .check-create {
+.check-create {
     appearance: none;
     -webkit-appearance: none;
     width: 20px;
@@ -154,8 +185,9 @@
     background-color: white;
     cursor: pointer;
     position: relative;
-    margin-top: 10px;
-  }
+    margin-left: 10px;
+    margin-bottom: 15px;
+}
   
   .check-create:checked {
     background-color: #14B8A6;
@@ -189,7 +221,7 @@
   .upload-label:hover {
     background-color: #173046;
   }
-  
+
   /* ===============================
      Кнопка "Додати навички"
   ================================ */
@@ -201,7 +233,21 @@
     cursor: pointer;
     font-size: 16px;
     margin-top: 8px;
+    margin-bottom: 16px;
+
   }
+
+.skill-button-del {
+    padding: 10px 12px;
+    background-color: #14B8A6;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    background-color: #8E0000;
+}
   
   /* ===============================
      Адаптація під мобільні пристрої
