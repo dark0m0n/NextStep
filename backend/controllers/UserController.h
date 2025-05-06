@@ -2,6 +2,7 @@
 #include "../db/Database.h"
 #include "../serializers/UserSerializer.h"
 #include "../utils/FormData.h"
+#include "../utils/Hash.h"
 #include "crow.h"
 #include "nlohmann/json.hpp"
 #include <string>
@@ -39,6 +40,8 @@ public:
             const std::string boundary = contentType.substr(boundaryPos + 9);
 
             auto form = FormData::parse(req.body, boundary);
+
+            form["password"] = Hash::hash(form["password"].c_str());
 
             const User user{
                 0,
