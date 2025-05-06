@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
 
 const MyHeader = () => {
   const [searchVisible, setSearchVisible] = useState(false);

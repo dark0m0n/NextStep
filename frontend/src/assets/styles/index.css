@@ -93,7 +93,7 @@
     border-bottom: 3px solid #14B8A6;
     display: inline-block;
     margin-bottom: 50px;
-    font-size: 48px;
+    font-size: 40px;
   }
   
   /* ===============================
@@ -103,9 +103,9 @@
     background-color: #eafcfb;
     border-left: 4px solid #14B8A6;
     padding: 20px;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto 30px;
-    font-size: 32px;
+    font-size: 24px;
     text-align: justify;
   }
   
@@ -120,20 +120,20 @@
     padding: 40px 20px;
     background-color: white;
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
     margin: 0 auto;
     text-align: center;
   }
   
   .achieves .line {
     border-bottom: 3px solid #14B8A6;
-    font-size: 42px;
+    font-size: 36px;
     display: inline-block;
     margin-bottom: 20px;
   }
   
   .achieves p {
-    font-size: 36px;
+    font-size: 28px;
     margin: 0;
   }
   
@@ -175,7 +175,7 @@
   
   .case .cases p {
     max-width: 300px;
-    font-size: 36px;
+    font-size: 32px;
     margin-left: 30px;
   }
   

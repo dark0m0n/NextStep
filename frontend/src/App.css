@@ -102,6 +102,7 @@ nav button {
   background-color: transparent;
   color: #fff;
   width: 300px;
+  border-radius: 16px;
   border: none;
   border-bottom: 2px solid #fff;
 }
