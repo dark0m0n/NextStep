@@ -37,7 +37,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <div className="profile-content">
+        <div className="profile-exp">
           <div className="expir">
             <h2>Досвід роботи</h2>
             <div className="spc">
@@ -56,22 +56,25 @@ export default function ProfilePage() {
 
         <div className="profile-content">
           <div className="section">
-            <h2>Контактна інформація</h2>
+                      <p className="strong">
+                          <strong className="strong-profile">Контактна інформація</strong>
+                      </p>
             <ul>
               <li>
-                <strong className="strong-profile">Тел.:</strong> +380 63 000 00 00
+                
+              <strong className="strong-descr">Тел.:</strong> +380 63 000 00 00
               </li>
               <li>
-                <strong className="strong-profile">Email:</strong> nextstep@gmail.com
+                <strong className="strong-descr">Email:</strong> nextstep@gmail.com
               </li>
               <li>
-                <strong className="strong-profile">Країна:</strong> Україна
+                <strong className="strong-descr">Країна:</strong> Україна
               </li>
             </ul>
           </div>
 
           <div className="section">
-            <h2>Навички</h2>
+            <strong className="strong-profile">Навички</strong>
             <ul>
               <li>Project Management</li>
               <li>Public Relations</li>
@@ -83,7 +86,7 @@ export default function ProfilePage() {
           </div>
 
           <div className="section">
-            <h2>Володіння мовами</h2>
+            <strong className="strong-profile">Володіння мовами</strong>
             <ul>
               <li>English (Fluent)</li>
               <li>French (Fluent)</li>
@@ -93,10 +96,20 @@ export default function ProfilePage() {
           </div>
 
           <div className="other">
-            <h2>Додаткова інформація</h2>
+            <strong className="strong-profile">Додаткова інформація</strong>
             <p className="otherInfo">
               Lorem Ipsum - це текст-"риба", що використовується в друкарстві та
-              дизайні... (скорочено для прикладу)
+                          дизайні... 
+                          Lorem Ipsum - це текст-"риба", що використовується в друкарстві та
+                          дизайні... 
+                          Lorem Ipsum - це текст-"риба", що використовується в друкарстві та
+                          дизайні... 
+                          Lorem Ipsum - це текст-"риба", що використовується в друкарстві та
+                          дизайні... 
+                          Lorem Ipsum - це текст-"риба", що використовується в друкарстві та
+                          дизайні... 
+                          Lorem Ipsum - це текст-"риба", що використовується в друкарстві та
+                          дизайні... 
             </p>
           </div>
         </div>
