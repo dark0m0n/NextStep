@@ -9,19 +9,19 @@
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
-  
+
   /* ===============================
      Хедер профілю
   ================================ */
-  .profile-header {
+.profile-header {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    border: 3px solid rgba(10, 158, 162);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
     text-align: left;
-  }
+    border-left: 2px solid rgba(10, 158, 162);
+    border-radius: 10px;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
+}
   
   .profile-photo {
     width: 100px;
@@ -44,22 +44,33 @@
   /* ===============================
      Основний контент
   ================================ */
-  .profile-content {
+.profile-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-  }
+}
+
+.profile-exp {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-left: 2px solid rgba(10, 158, 162);
+    border-radius: 10px;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+}
   
   /* ===============================
      Секції профілю
   ================================ */
-  .section {
+.section {
     width: 32%;
     margin: 5px 0 20px 0;
     padding: 20px;
-    border: 3px solid rgba(10, 158, 162);
-    box-sizing: border-box;
-  }
+    border-left: 2px solid rgba(10, 158, 162);
+    border-radius: 10px;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
+}
   
   .section h2 {
     font-size: 20px;
@@ -71,7 +82,9 @@
     list-style-type: none;
     padding: 0;
     margin-left: 10px;
+    margin-top: 10px;
     text-align: left;
+
   }
   
   /* ===============================
@@ -80,12 +93,11 @@
   .expir {
     width: 100%;
     padding: 20px;
-    border: 3px solid rgba(10, 158, 162);
     margin-bottom: 20px;
   }
   
   .expir h2 {
-    font-size: 28px;
+    font-size: 20px;
     margin-bottom: 24px;
     text-align: left;
   }
@@ -102,51 +114,56 @@
     flex-wrap: wrap;
     justify-content: space-between;
   }
-  
-  .specs {
+
+.specs {
     width: 30%;
-    border: 3px solid rgba(10, 158, 162);
     padding: 10px;
     box-sizing: border-box;
     margin-bottom: 20px;
-  }
-  
-  .spec, .exp {
+    border-radius: 10px;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.spec, .exp {
     font-size: 16px;
     margin-left: 20px;
     margin-bottom: 15px;
-  }
+}
   
   /* ===============================
-     Сильні сторони
+     <Strong>
   ================================ */
-  .strong-profile {
+.strong-profile {
     font-weight: 600;
     font-size: 20px;
+    margin-bottom: 10px;
+}
+  .strong-descr {
+    font-weight: 600;
+    font-size: 16px;
   }
   
   .strong {
     margin-bottom: 20px;
   }
+
   
   /* ===============================
      Додаткова інформація
   ================================ */
-  .other {
+.other {
     width: 100%;
     padding: 20px;
-    border: 3px solid rgba(10, 158, 162);
     margin-bottom: 20px;
-  }
+    border-left: 2px solid rgba(10, 158, 162);
+    border-radius: 10px;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
+}
   
-  .other h2 {
-    font-size: 24px;
-    margin-bottom: 16px;
-    text-align: left;
-  }
   
   .otherInfo {
     margin-left: 10px;
+    margin-top: 10px;
     text-align: left;
   }
   
@@ -158,11 +175,14 @@
       max-width: 90%;
       padding: 15px;
     }
-  
+
     .profile-header {
-      flex-direction: column;
-      text-align: center;
-      padding: 15px;
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+        border-left: 2px solid rgba(10, 158, 162);
+        border-radius: 10px;
+        box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
     }
   
     .profile-photo {
@@ -177,18 +197,30 @@
     .profile-info h3 {
       font-size: 16px;
     }
-  
+
     .profile-content {
-      flex-direction: column;
+        flex-direction: column;
+
+    }
+
+    .profile-exp {
+        flex-direction: column;
+        border-left: 2px solid rgba(10, 158, 162);
+        border-radius: 10px;
+        box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
     }
   
     .section {
       width: 100%;
       padding: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
-  
+
     .specs {
-      width: 100%;
+        width: 100%;
+        border-left: 2px solid rgba(10, 158, 162);
+        border-radius: 10px;
+        box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
     }
   
     .spc {
