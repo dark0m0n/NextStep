@@ -1,35 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useRef} from 'react';
 import '../assets/styles/createProfileCSS.css'; 
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
 
 
 export default function CreateProfile() {
-    const [logoPreview, setLogoPreview] = useState(null);
-    const [selectedSpecializations, setSelectedSpecializations] = useState([]);
-    const [skills, setSkills] = useState(['']); 
+  const [logoPreview, setLogoPreview] = useState(null);
+  const [selectedSpecializations, setSelectedSpecializations] = useState([]);
+  const [skills, setSkills] = useState(['']);
+  const passwordRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
 
-    const previewLogo = (event) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => setLogoPreview(e.target.result);
-        reader.readAsDataURL(file);
+  const previewLogo = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => setLogoPreview(e.target.result);
+    reader.readAsDataURL(file);
   };
 
-    const toggleExperienceField = (specialization) => {
-        setSelectedSpecializations((prev) =>
-        prev.includes(specialization)
-            ? prev.filter((item) => item !== specialization)
-            : [...prev, specialization]
+  const toggleExperienceField = (specialization) => {
+    setSelectedSpecializations((prev) =>
+      prev.includes(specialization)
+      ? prev.filter((item) => item !== specialization)
+      : [...prev, specialization]
     );
   };
   const clearSelection = () => setSelectedSpecializations([]);
 
-    const addSkill = () => {
-        if (!skills.includes('')) {
-            setSkills([...skills, '']);
-        }
+  const addSkill = () => {
+    if (!skills.includes('')) {
+      setSkills([...skills, '']);
     }
+  }
 
   const deleteSkill = (index) => {
     const updatedSkills = [...skills];
@@ -39,67 +41,73 @@ export default function CreateProfile() {
 
   const clearSkills = () => setSkills(['']);
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const form = e.target;
-  const password = form.password.value;
-  const confirmPassword = form.confirmPassword.value;
+    const form = e.target;
+
+    document.getElementById('wrongPshort').style.display = 'none';
+    document.getElementById('wrongPneq').style.display = 'none';
+    form.password.style.borderColor = '#ccc';
+    form.confirmPassword.style.borderColor = '#ccc';
+    
+    const password = form.password.value;
+    const confirmPassword = form.confirmPassword.value;
 
      if (password.length < 8) {
-         form.password.style.borderColor = 'red';
-         wrongPshort.style.display = 'block';
-         return;
+        form.password.style.borderColor = 'red';
+       document.getElementById('wrongPshort').style.display = 'block';
+       passwordRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
      } else {
-         form.password.style.borderColor = '#ccc';
-         wrongPshort.style.display = 'none';
-         
+        form.password.style.borderColor = '#ccc';
+        document.getElementById('wrongPshort').style.display = 'none';  
      }
 
-  if (password !== confirmPassword) {
+    if (password !== confirmPassword) {
       form.confirmPassword.style.borderColor = 'red';
-      wrongPneq.style.display = 'block';
+      document.getElementById('wrongPneq').style.display = 'block';
+      confirmPasswordRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
-  } else {
-      form.confirmPassword.style.borderColor = '#ccc';
-      wrongPneq.style.display = 'none';
-      
-  }
-  const formData = new FormData();
-  const photoFile = form['photo-upload'].files[0];
-
-  formData.append('firstname', form.firstname.value);
-  formData.append('lastname', form.lastname.value);
-  formData.append('email', form.Email.value);
-  formData.append('phoneNumber', form.phone.value);
-  formData.append('country', form.country.value);
-  formData.append('language', Array.from(document.querySelectorAll('input[name="lang[]"]:checked')).map(el => el.value).join(','));
-  formData.append('specialties', selectedSpecializations.join(','));
-  formData.append('skills', skills.join(','));
-  formData.append('additionalInfo', form.description.value);
-  formData.append('username', form.userName.value);
-  formData.append('password', password);
-
-  if (photoFile) {
-    formData.append('photo', photoFile); // name = 'photo'
-  }
-
-  try {
-    const response = await fetch('http://localhost:8000/api/user', {
-      method: 'POST',
-      body: formData, // без headers, бо FormData сам їх генерує
-    });
-
-    if (response.ok) {
-        console.log('Профіль створено успішно.');
     } else {
-        console.log('Помилка при створенні профілю.');
+      form.confirmPassword.style.borderColor = '#ccc';
+      document.getElementById('wrongPneq').style.display = 'none'; 
     }
-  } catch (error) {
-    console.error('Помилка запиту:', error);
+    const formData = new FormData();
+    const photoFile = form['photo-upload'].files[0];
+
+    formData.append('firstname', form.firstname.value);
+    formData.append('lastname', form.lastname.value);
+    formData.append('email', form.Email.value);
+    formData.append('phoneNumber', form.phone.value);
+    formData.append('country', form.country.value);
+    formData.append('language', Array.from(document.querySelectorAll('input[name="lang[]"]:checked')).map(el => el.value).join(','));
+    formData.append('specialties', selectedSpecializations.join(','));
+    formData.append('skills', skills.join(','));
+    formData.append('additionalInfo', form.description.value);
+    formData.append('username', form.userName.value);
+    formData.append('password', password);
+
+    if (photoFile) {
+      formData.append('photo', photoFile); // name = 'photo'
+    }
+
+    try {
+      const response = await fetch('http://localhost:8000/api/user', {
+        method: 'POST',
+        body: formData, // без headers, бо FormData сам їх генерує
+      });
+
+      if (response.ok) {
+        console.log('Профіль створено успішно.');
+      } else {
+        console.log('Помилка при створенні профілю.');
+      }
+    } catch (error) {
+      console.error('Помилка запиту:', error);
       console.log('Не вдалося підлючитися до серверу.');
-  }
-};
+    }
+  };
   
   return (
     <>
@@ -109,79 +117,84 @@ export default function CreateProfile() {
           <h2 className='create-title'>Створити профіль</h2>
         </div>
         <div className="container">
-                  <form onSubmit={handleSubmit}>
-                      <div className="form-group">
-                          <label htmlFor="password" className='label'>Ім'я користувача *</label>
-                          <input
-                              type="twxt"
-                              id="userName"
-                              name="userName"
-                              required
-                              className='input-info-create'
-                              placeholder="Введіть ім'я користувача"
-                          />
-                          <label htmlFor="password" className='label'>Пароль *</label>
-                          <p id="wrongPshort">Пароль повинен бути більше 8-ми символів</p>
-                          <input
-                              type="password"
-                              id="password"
-                              name="password"
-                              required
-                              className='input-info-create'
-                              placeholder="Введіть пароль"
-                          />
-
-                          <label htmlFor="confirmPassword" className='label'>Підтвердіть пароль *</label>
-                          <p id="wrongPneq">Паролі повинні бути однаковими</p>
-                          <input
-                              type="password"
-                              id="confirmPassword"
-                              name="confirmPassword"
-                              required
-                              className='input-info-create'
-                              placeholder="Підтвердіть пароль"
-                          />
-                          <label htmlFor="Email" className='label'>Email *</label>
-                          <input type="text" id="Email" name="Email" required className='input-info-create' placeholder="Введіть ел. пошту" />
-                          <label htmlFor="country" className='label'>Країна *</label>
-                          <select id="country" name="country" required className='input-info-create'>
-                              <option value="">- Вибрати -</option>
-                              <option value="ua">Україна</option>
-                              <option value="uk">Велика Британія</option>
-                              <option value="other">Інше</option>
-                          </select>
-                      </div>
-                      <div className="form-group">
-                          <label className="label">Фото</label>
-
-                          {logoPreview && (
-                              <img
-                                  id="logo-preview"
-                                  src={logoPreview}
-                                  alt="Logo Preview"
-                                  style={{
-                                      display: 'block',
-                                      maxWidth: '100px',
-                                      marginTop: '10px',
-                                      borderRadius: '5px',
-                                      border: '1px solid #ccc',
-                                  }}
-                              />
-                          )}
-
-                          <div className="custom-file-upload">
-                              <label htmlFor="photo-upload" className="upload-label">Завантажити фото</label>
-                              <input
-                                  type="file"
-                                  id="photo-upload"
-                                  name="photo-upload"
-                                  accept="image/*"
-                                  onChange={previewLogo}
-                                  style={{ display: 'none' }}
-                              />
-                          </div>
-                      </div>
-
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="password" className='label'>Ім'я користувача *</label>
+              <input
+                type="twxt"
+                id="userName"
+                name="userName"
+                required
+                className='input-info-create'
+                placeholder="Введіть ім'я користувача"
+              />
+              <label htmlFor="password" className='label'>Пароль *</label>
+              <p id="wrongPshort">Пароль повинен бути більше 8-ми символів</p>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                className='input-info-create'
+                placeholder="Введіть пароль"
+                ref={passwordRef}
+              />
+              <label htmlFor="confirmPassword" className='label'>Підтвердіть пароль *</label>
+              <p id="wrongPneq">Паролі повинні бути однаковими</p>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                required
+                className='input-info-create'
+                placeholder="Підтвердіть пароль"
+                ref={confirmPasswordRef}
+              />
+              <label htmlFor="Email" className='label'>Email *</label>
+              <input
+                type="text"
+                id="Email"
+                name="Email"
+                required
+                className='input-info-create'
+                placeholder="Введіть ел. пошту"
+              />
+              <label htmlFor="country" className='label'>Країна *</label>
+              <select id="country" name="country" required className='input-info-create'>
+                <option value="">- Вибрати -</option>
+                <option value="ua">Україна</option>
+                <option value="uk">Велика Британія</option>
+                <option value="other">Інше</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="label">Фото</label>
+              {logoPreview && (
+                <img
+                  id="logo-preview"
+                  src={logoPreview}
+                  alt="Logo Preview"
+                  style={{
+                    display: 'block',
+                    maxWidth: '100px',
+                    marginTop: '10px',
+                    borderRadius: '5px',
+                    border: '1px solid #ccc',
+                  }}
+                />
+              )}
+              <div className="custom-file-upload">
+                <label htmlFor="photo-upload" className="upload-label">Завантажити фото</label>
+                <input
+                  type="file"
+                  id="photo-upload"
+                  name="photo-upload"
+                  accept="image/*"
+                  onChange={previewLogo}
+                  style={{ display: 'none' }}
+                />
+              </div>
+            </div>
             <div className="form-group">
               <label htmlFor="name" className='label'>Прізвище</label>
               <input type="text" id="lastname" name="lastname" className='input-info-create' placeholder="Введіть прізвище"/>
@@ -190,13 +203,13 @@ export default function CreateProfile() {
               <label htmlFor="phone" className='label'>Телефон</label>
               <input type="text" id="phone" name="phone" className='input-info-create' pattern="[0-9]{10}" placeholder="Введіть номер телефону"/>
             </div>
-                    <div className="form-group">
-                          <label className='label'>Володіння мовами</label>
-                          <div><label htmlFor="ua" className='label-create-prof'>Українська</label><input type="checkbox" id="ua " name="lang[]" value="ua" className='input-info-create check-create' /></div>
-                          <div><label htmlFor="uk" className='label-create-prof'>Англійська</label><input type="checkbox" id="uk" name="lang[]" value="uk" className='input-info-create check-create' /></div>
-                          <div><label htmlFor="ch" className='label-create-prof'>Китайська</label><input type="checkbox" id="ch" name="lang[]" value="ch" className='input-info-create check-create' /></div>
-                          <div><label htmlFor="gr" className='label-create-prof'>Німецька</label><input type="checkbox" id="gr" name="lang[]" value="gr" className='input-info-create check-create' /></div>
-                    </div>
+            <div className="form-group">
+              <label className='label'>Володіння мовами</label>
+              <div><label htmlFor="ua" className='label-create-prof'>Українська</label><input type="checkbox" id="ua " name="lang[]" value="ua" className='input-info-create check-create' /></div>
+              <div><label htmlFor="uk" className='label-create-prof'>Англійська</label><input type="checkbox" id="uk" name="lang[]" value="uk" className='input-info-create check-create' /></div>
+              <div><label htmlFor="ch" className='label-create-prof'>Китайська</label><input type="checkbox" id="ch" name="lang[]" value="ch" className='input-info-create check-create' /></div>
+              <div><label htmlFor="gr" className='label-create-prof'>Німецька</label><input type="checkbox" id="gr" name="lang[]" value="gr" className='input-info-create check-create' /></div>
+            </div>
             <div className="form-group">
               <label className='label'>Вкажіть спеціальності:</label>
               <div className="tags">
@@ -218,7 +231,6 @@ export default function CreateProfile() {
                 ))}
               </div>
             </div>
-
             {['analize', 'marketing', 'web-prog', 'finance', 'designer', 'developer'].map(spec => (
               selectedSpecializations.includes(spec) && (
                 <div className="form-group" id={`experience_${spec}`} key={spec}>
@@ -227,7 +239,6 @@ export default function CreateProfile() {
                 </div>
               )
             ))}
-
             <button type="button" id="formbtnCl" onClick={clearSelection}>Очистити вибір</button>
             <br></br>
             <div id="skills-container">
