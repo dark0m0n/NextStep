@@ -1,6 +1,7 @@
 #pragma once
 #include "../db/Database.h"
 #include "../serializers/StartupSerializer.h"
+#include "../utils/FormData.h"
 #include "crow.h"
 #include "nlohmann/json.hpp"
 
@@ -26,16 +27,30 @@ public:
         return crow::response{200, StartupSerializer::serializeOptionalStartup(startup).dump()};
     }
 
-    crow::response createStartup(crow::request &req) const {
-        json j;
-        try {
-            j = json::parse(req.body);
-        } catch (const std::exception &e) {
-            return crow::response{400, R"({"error": "Invalid JSON"})"};
+    [[nodiscard]] crow::response createStartup(const crow::request &req) const {
+        std::string contentType = req.get_header_value("Content-Type");
+
+        if (contentType.find("multipart/form-data") != std::string::npos) {
+            const size_t boundaryPos = contentType.find("boundary=");
+            if (boundaryPos == std::string::npos) {
+                return crow::response{400, "No boundary in Content-Type"};
+            }
+            const std::string boundary = contentType.substr(boundaryPos + 9);
+
+            auto form = FormData::parse(req.body, boundary);
+
+            const Startup startup{
+                0,
+                std::stoi(form["userID"]),
+                form["title"],
+                form["description"],
+                form["imagePath"]
+            };
+
+            db.insertStartup(startup);
+            return crow::response{201};
         }
 
-        const Startup startup = StartupSerializer::deserializeStartup(j);
-        db.insertStartup(startup);
-        return crow::response{201};
+        return crow::response{400, "Unsupported content type"};
     }
 };

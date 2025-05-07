@@ -25,16 +25,28 @@ public:
         return crow::response{200, ChatMemberSerializer::serializeOptionalChatMember(member)};
     }
 
-    crow::response createChatMember(crow::request &req) const {
-        json j;
-        try {
-            j = json::parse(req.body);
-        } catch (const std::exception &e) {
-            return crow::response{400, R"({"error": "Invalid JSON"})"};
+    [[nodiscard]] crow::response createChatMember(const crow::request &req) const {
+        std::string contentType = req.get_header_value("Content-Type");
+
+        if (contentType.find("multipart/form-data") != std::string::npos) {
+            const size_t boundaryPos = contentType.find("boundary=");
+            if (boundaryPos == std::string::npos) {
+                return crow::response{400, "No boundary in Content-Type"};
+            }
+            const std::string boundary = contentType.substr(boundaryPos + 9);
+
+            auto form = FormData::parse(req.body, boundary);
+
+            const ChatMember member{
+                0,
+                std::stoi(form["chatID"]),
+                std::stoi(form["userID"])
+            };
+
+            db.insertChatMember(member);
+            return crow::response{201};
         }
 
-        const ChatMember member = ChatMemberSerializer::deserializeChatMember(j);
-        db.insertChatMember(member);
-        return crow::response{201};
+        return crow::response{400, "Unsupported content type"};
     }
 };
