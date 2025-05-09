@@ -128,6 +128,34 @@ public:
         return user;
     }
 
+    [[nodiscard]] std::optional<User> getUserByUsername(const std::string &username) const {
+        pqxx::connection conn(connInfo);
+        pqxx::work txn(conn);
+        const pqxx::result res = txn.exec_params(
+            "SELECT * FROM users WHERE username = $1;",
+            username);
+
+        if (res.empty()) return std::nullopt;
+
+        const auto &row = res[0];
+        User user(
+            row["id"].as<int>(),
+            row["username"].as<std::string>(),
+            row["firstname"].as<std::string>(),
+            row["lastname"].as<std::string>(),
+            row["email"].as<std::string>(),
+            row["password"].as<std::string>(),
+            row["phoneNumber"].as<std::string>(),
+            row["imagePath"].as<std::string>(),
+            row["country"].as<std::string>(),
+            row["languages"].as<std::string>(),
+            row["specialties"].as<std::string>(),
+            row["skills"].as<std::string>(),
+            row["additionalInfo"].as<std::string>());
+
+        return user;
+    }
+
     void insertUser(const User &user) const {
         pqxx::connection conn(connInfo);
         pqxx::work txn(conn);
