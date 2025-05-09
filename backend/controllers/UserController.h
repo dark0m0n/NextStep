@@ -3,6 +3,7 @@
 #include "../serializers/UserSerializer.h"
 #include "../utils/FormData.h"
 #include "../utils/Hash.h"
+#include "../utils/Token.h"
 #include "crow.h"
 #include "nlohmann/json.hpp"
 #include <string>
@@ -68,6 +69,32 @@ public:
 
             db.insertUser(user);
             return crow::response{201};
+        }
+
+        return crow::response{400, "Unsupported content type"};
+    }
+
+    [[nodiscard]] crow::response login(const crow::request &req) const {
+        std::string contentType = req.get_header_value("Content-Type");
+
+        if (contentType.find("multipart/form-data") != std::string::npos) {
+            const size_t boundaryPos = contentType.find("boundary=");
+            if (boundaryPos == std::string::npos) {
+                return crow::response{400, "No boundary in Content-Type"};
+            }
+            const std::string boundary = contentType.substr(boundaryPos + 9);
+
+            auto form = FormData::parse(req.body, boundary);
+
+            const auto user = db.getUserByUsername(form["username"]);
+            if (!user || !Hash::equal(user->getPassword(), form["password"])) {
+                return crow::response{401, "Invalid credentials"};
+            }
+
+            std::string token = Token::generateToken(form["username"]);
+
+            const json res = {{"token", token}};
+            return res.dump();
         }
 
         return crow::response{400, "Unsupported content type"};
