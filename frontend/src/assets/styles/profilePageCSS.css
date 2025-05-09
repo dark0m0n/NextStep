@@ -15,7 +15,6 @@
   ================================ */
 .profile-header {
     display: flex;
-    align-items: center;
     margin-bottom: 20px;
     text-align: left;
     border-left: 2px solid rgba(10, 158, 162);
@@ -24,19 +23,25 @@
 }
   
   .profile-photo {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-right: 20px;
+    width: 200px;
+    height: 200px;
+    border: 1px solid rgba(10, 158, 162);
+    margin: 15px 30px 15px 15px;
+    border-radius: 10%;
+  }
+
+  .profile-info{
+    margin-top: 30px;
+    text-align: left;
   }
   
   .profile-info h1 {
-    font-size: 32px;
+    font-size: 40px;
     margin: 0;
   }
   
   .profile-info h3 {
-    font-size: 18px;
+    font-size: 24px;
     color: #777;
     margin-top: 5px;
   }

@@ -10,6 +10,7 @@ export default function CreateProfile() {
   const [skills, setSkills] = useState(['']);
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
+  const [skillErrors, setSkillErrors] = useState([]);
 
   const previewLogo = (event) => {
     const file = event.target.files[0];
@@ -28,10 +29,16 @@ export default function CreateProfile() {
   const clearSelection = () => setSelectedSpecializations([]);
 
   const addSkill = () => {
-    if (!skills.includes('')) {
+    const errors = skills.map(skill => skill.trim() === '');
+
+    const hasEmpty = errors.includes(true);
+    if (hasEmpty) {
+      setSkillErrors(errors);
+    } else {
       setSkills([...skills, '']);
+      setSkillErrors([...errors, false]);
     }
-  }
+  };
 
   const deleteSkill = (index) => {
     const updatedSkills = [...skills];
@@ -75,6 +82,7 @@ export default function CreateProfile() {
     }
     const formData = new FormData();
     const photoFile = form['photo-upload'].files[0];
+    const cleanedSkills = skills.map(s => s.trim()).filter(s => s !== '');
 
     formData.append('firstname', form.firstname.value);
     formData.append('lastname', form.lastname.value);
@@ -83,7 +91,7 @@ export default function CreateProfile() {
     formData.append('country', form.country.value);
     formData.append('language', Array.from(document.querySelectorAll('input[name="lang[]"]:checked')).map(el => el.value).join(','));
     formData.append('specialties', selectedSpecializations.join(','));
-    formData.append('skills', skills.join(','));
+    formData.append('skills', JSON.stringify(cleanedSkills));
     formData.append('additionalInfo', form.description.value);
     formData.append('username', form.userName.value);
     formData.append('password', password);
@@ -255,9 +263,16 @@ export default function CreateProfile() {
                         const updated = [...skills];
                         updated[index] = e.target.value;
                         setSkills(updated);
+
+                        const upgradedErrors = [...skillErrors];
+                        upgradedErrors[index] = false;
+                        setSkillErrors(upgradedErrors);
                       }}
-                      className='input4skills'
+                      className={`input4skills ${skillErrors[index] ? 'input-error' : ''}`}
                     />
+                    {skillErrors[index] && (
+                      <p className="error-message">Заповніть це поле перед додаванням нового</p>
+                    )}
                     {skills.length > 1 && <button type="button" onClick={() => deleteSkill(index)} className='skill-button-del'>Видалити</button>}
                   </div>
                 ))}

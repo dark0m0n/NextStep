@@ -38,8 +38,15 @@ export default function LoginPage() {
       });
 
       if (response.ok) {
-        // При успішній авторизації перенаправляємо на сторінку профілю
-        navigate("/profile");
+        const data = await response.json();
+        if(data.user?.id) {
+          // Зберігаємо токен у localStorage
+          localStorage.setItem("token", data.user.id);
+          // Перенаправляємо на сторінку профілю
+          navigate("/profile");
+        } else {
+          setError("Відсутній ID користувача у відповіді");
+        }
       } else {
         // Якщо авторизація не вдалася, показуємо повідомлення про помилку
         setError("Неправильний логін або пароль");
