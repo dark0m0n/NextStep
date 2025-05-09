@@ -21,5 +21,10 @@ public:
         ([&controller](const crow::request &req) {
             return controller.createUser(req);
         });
+
+        CROW_ROUTE(app, "/api/login")
+        ([&controller](const crow::request &req) {
+            return controller.login(req);
+        });
     }
 };
