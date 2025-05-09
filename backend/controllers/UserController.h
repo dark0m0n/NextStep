@@ -6,6 +6,7 @@
 #include "crow.h"
 #include "nlohmann/json.hpp"
 #include <string>
+#include <ostream>
 
 using json = nlohmann::json;
 
@@ -42,6 +43,12 @@ public:
             auto form = FormData::parse(req.body, boundary);
 
             form["password"] = Hash::hash(form["password"].c_str());
+
+            std::string path = "public/users/" + form["username"] + ".jpg";
+            std::ofstream file("../frontend/" + path, std::ios::binary);
+            file.write(form["photo"].c_str(), static_cast<std::streamsize>(form["photo"].size()));
+            file.close();
+            form["imagePath"] = path;
 
             const User user{
                 0,
