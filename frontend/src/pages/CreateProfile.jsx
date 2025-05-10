@@ -211,12 +211,15 @@ export default function CreateProfile() {
               <label htmlFor="phone" className='label'>Телефон</label>
               <input type="text" id="phone" name="phone" className='input-info-create' pattern="[0-9]{10}" placeholder="Введіть номер телефону"/>
             </div>
-            <div className="form-group">
-              <label className='label'>Володіння мовами</label>
-              <div><label htmlFor="ua" className='label-create-prof'>Українська</label><input type="checkbox" id="ua " name="lang[]" value="ua" className='input-info-create check-create' /></div>
-              <div><label htmlFor="uk" className='label-create-prof'>Англійська</label><input type="checkbox" id="uk" name="lang[]" value="uk" className='input-info-create check-create' /></div>
-              <div><label htmlFor="ch" className='label-create-prof'>Китайська</label><input type="checkbox" id="ch" name="lang[]" value="ch" className='input-info-create check-create' /></div>
-              <div><label htmlFor="gr" className='label-create-prof'>Німецька</label><input type="checkbox" id="gr" name="lang[]" value="gr" className='input-info-create check-create' /></div>
+            <div className="language-options">
+                          <label className='label'>Володіння мовами</label>
+                          <div><input type="checkbox" id="ua " name="lang[]" value="ua" className='check-create' /><label htmlFor="ua" className='labelCheckBox'>Українська</label></div>
+
+                          <div><input type="checkbox" id="uk" name="lang[]" value="uk" className='check-create' /><label htmlFor="uk" className='labelCheckBox'>Англійська</label></div>
+
+                          <div><input type="checkbox" id="ch" name="lang[]" value="ch" className='check-create' /><label htmlFor="ch" className='labelCheckBox'>Китайська</label></div>
+
+                          <div><input type="checkbox" id="gr" name="lang[]" value="gr" className='check-create' /><label htmlFor="gr" className='labelCheckBox'>Німецька</label></div>
             </div>
             <div className="form-group">
               <label className='label'>Вкажіть спеціальності:</label>
