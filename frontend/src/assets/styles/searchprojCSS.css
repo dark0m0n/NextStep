@@ -29,11 +29,11 @@
     width: 100%;
 }
 
-.process-searchproj p {
-    margin: 30px;
-    white-space: nowrap;
-    font-weight: 600;
-}
+    .process-searchproj p {
+        margin: 30px;
+        white-space: nowrap;
+        font-weight: 600;
+    }
 
 /* ===============================
    Блоки проектів
@@ -58,29 +58,29 @@
     box-sizing: border-box;
 }
 
-.block-searchproj .title {
-    font-size: 15px;
-    margin: 0 0 7px;
-    max-width: 300px;
-}
+    .block-searchproj .title {
+        font-size: 15px;
+        margin: 0 0 7px;
+        max-width: 300px;
+    }
 
-.block-searchproj .mark {
-    font-size: 15px;
-    font-weight: 500;
-    margin: 0 0 7px;
-}
+    .block-searchproj .mark {
+        font-size: 15px;
+        font-weight: 500;
+        margin: 0 0 7px;
+    }
 
-.block-searchproj .price {
-    font-size: 15px;
-    font-weight: 500;
-    margin-top: 10px;
-    margin: 0;
-}
+    .block-searchproj .price {
+        font-size: 15px;
+        font-weight: 500;
+        margin-top: 10px;
+        margin: 0;
+    }
 
-.block-searchproj img {
-    width: 100%;
-    height: auto;
-}
+    .block-searchproj img {
+        width: 100%;
+        height: auto;
+    }
 
 /* ===============================
    Адаптація під мобільні пристрої
@@ -104,9 +104,9 @@
         gap: 15px;
     }
 
-    .process-searchproj p {
-        margin: 10px 0;
-    }
+        .process-searchproj p {
+            margin: 10px 0;
+        }
 
     .blocks-searchproj {
         flex-direction: column;
@@ -118,12 +118,12 @@
         flex: 1 1 100%; /* Для мобільних блоки займають 100% */
     }
 
-    .block-searchproj .title {
-        font-size: 14px; /* Зменшення шрифта */
-    }
+        .block-searchproj .title {
+            font-size: 14px; /* Зменшення шрифта */
+        }
 
-    .block-searchproj .mark,
-    .block-searchproj .price {
-        font-size: 14px; /* Зменшення шрифта */
-    }
+        .block-searchproj .mark,
+        .block-searchproj .price {
+            font-size: 14px; /* Зменшення шрифта */
+        }
 }
