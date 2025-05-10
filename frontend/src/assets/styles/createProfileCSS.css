@@ -69,7 +69,6 @@
      Текстові поля вводу
   ================================ */
   .input-info-create {
-    width: 100%;
     padding: 10px;
     margin-top: 8px;
     margin-bottom: 15px;
@@ -79,6 +78,7 @@
     background-color: white;
     color: #333;
   }
+
 .input4skills {
     width: 100%;
     padding: 10px;
@@ -197,22 +197,26 @@
     position: relative;
     margin-left: 10px;
     margin-bottom: 15px;
+    margin-right: 10px;
+    margin-top: 2px;
+
 }
-  
-  .check-create:checked {
-    background-color: #14B8A6;
-  }
-  
-  .check-create:checked + label {
-    color: #14B8A6;
-  }
-  
-  /* ===============================
+    .check-create:checked {
+        background-color: #14B8A6;
+    }
+
+        .check-create:checked + label {
+            color: #14B8A6;
+        }
+.labelCheckBox {
+    position: absolute;
+}
+/* ===============================
      Кастомне завантаження файлу
   ================================ */
-  .custom-file-upload input[type="file"] {
+.custom-file-upload input[type="file"] {
     display: none;
-  }
+}
   
   .upload-label {
     display: inline-block;
