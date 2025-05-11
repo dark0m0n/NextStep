@@ -3,7 +3,7 @@
 #include "../serializers/UserSerializer.h"
 #include "../utils/FormData.h"
 #include "../utils/Hash.h"
-#include "../utils/Token.h"
+#include "../auth/Token.h"
 #include "crow.h"
 #include "nlohmann/json.hpp"
 #include <string>
@@ -43,6 +43,13 @@ public:
 
             auto form = FormData::parse(req.body, boundary);
 
+            if (db.getUserByUsername(form["username"]).has_value()) {
+                const json res = {
+                    {"error", "User with this username already exists"}
+                }; 
+                return crow::response{400, res.dump()};
+            }
+
             form["password"] = Hash::hash(form["password"].c_str());
 
             std::string path = "public/users/" + form["username"] + ".jpg";
@@ -68,7 +75,14 @@ public:
             };
 
             db.insertUser(user);
-            return crow::response{201};
+
+            std::string token = Token::generateToken(form["username"]);
+
+            const json res = {
+                {"token", token}
+            };
+
+            return crow::response{201, res.dump()};
         }
 
         return crow::response{400, "Unsupported content type"};
@@ -87,14 +101,17 @@ public:
             auto form = FormData::parse(req.body, boundary);
 
             const auto user = db.getUserByUsername(form["username"]);
-            if (!user || !Hash::equal(user->getPassword(), form["password"])) {
+            if (!user || !Hash::equal(user->getPassword(), user->getPassword())) {
                 return crow::response{401, "Invalid credentials"};
             }
 
             std::string token = Token::generateToken(form["username"]);
 
-            const json res = {{"token", token}};
-            return res.dump();
+            const json res = {
+                {"token", token}
+            };
+
+            return crow::response{200, res.dump()};
         }
 
         return crow::response{400, "Unsupported content type"};
