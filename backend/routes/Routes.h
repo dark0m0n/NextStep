@@ -8,9 +8,10 @@
 #include "MessageRoute.h"
 #include "ChatMemberRoute.h"
 
+template <typename App>
 class Routes {
 public:
-    Routes(crow::SimpleApp &app, Database &db) {
+    Routes(crow::App &app, Database &db) {
         UserRoute::registerRoutes(app, db);
         StartupRoute::registerRoutes(app, db);
         ReviewRoute::registerRoutes(app, db);

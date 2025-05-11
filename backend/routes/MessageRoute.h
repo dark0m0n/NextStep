@@ -2,9 +2,10 @@
 #include "../controllers/MessageController.h"
 #include "crow.h"
 
+template <typename App>
 class MessageRoute {
 public:
-    static void registerRoutes(crow::SimpleApp &app, Database &db) {
+    static void registerRoutes(crow::App &app, Database &db) {
         MessageController controller(db);
 
         CROW_ROUTE(app, "/api/messages/<int>").methods(crow::HTTPMethod::Get)

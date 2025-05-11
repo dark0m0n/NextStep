@@ -2,9 +2,10 @@
 #include "../controllers/StartupController.h"
 #include "crow.h"
 
+template <typename App>
 class StartupRoute {
 public:
-    static void registerRoutes(crow::SimpleApp &app, Database &db) {
+    static void registerRoutes(crow::App &app, Database &db) {
         StartupController controller(db);
 
         CROW_ROUTE(app, "/api/startups").methods(crow::HTTPMethod::Get)

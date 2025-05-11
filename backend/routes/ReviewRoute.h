@@ -2,9 +2,10 @@
 #include "../controllers/ReviewController.h"
 #include "crow.h"
 
+template <typename App>
 class ReviewRoute {
 public:
-    static void registerRoutes(crow::SimpleApp &app, Database &db) {
+    static void registerRoutes(crow::App &app, Database &db) {
         ReviewController controller(db);
 
         CROW_ROUTE(app, "/api/reviews/<int>").methods(crow::HTTPMethod::Get)
