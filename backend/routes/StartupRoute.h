@@ -5,7 +5,7 @@
 template <typename App>
 class StartupRoute {
 public:
-    static void registerRoutes(crow::App &app, Database &db) {
+    static void registerRoutes(App &app, Database &db) {
         StartupController controller(db);
 
         CROW_ROUTE(app, "/api/startups").methods(crow::HTTPMethod::Get)

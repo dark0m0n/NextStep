@@ -5,7 +5,7 @@
 template <typename App>
 class UserRoute {
 public:
-    static void registerRoutes(crow::App &app, Database &db) {
+    static void registerRoutes(App &app, Database &db) {
         UserController controller(db);
 
         CROW_ROUTE(app, "/api/users").methods(crow::HTTPMethod::Get)

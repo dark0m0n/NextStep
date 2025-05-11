@@ -1,5 +1,5 @@
 #pragma once
-#include "crow.h"
+
 #include "../db/Database.h"
 #include "UserRoute.h"
 #include "StartupRoute.h"
@@ -11,12 +11,12 @@
 template <typename App>
 class Routes {
 public:
-    Routes(crow::App &app, Database &db) {
-        UserRoute::registerRoutes(app, db);
-        StartupRoute::registerRoutes(app, db);
-        ReviewRoute::registerRoutes(app, db);
-        ChatRoute::registerRoutes(app, db);
-        MessageRoute::registerRoutes(app, db);
-        ChatMemberRoute::registerRoutes(app, db);
+    Routes(App &app, Database &db) {
+        UserRoute<App>::registerRoutes(app, db);
+        StartupRoute<App>::registerRoutes(app, db);
+        ReviewRoute<App>::registerRoutes(app, db);
+        ChatRoute<App>::registerRoutes(app, db);
+        MessageRoute<App>::registerRoutes(app, db);
+        ChatMemberRoute<App>::registerRoutes(app, db);
     }
 };

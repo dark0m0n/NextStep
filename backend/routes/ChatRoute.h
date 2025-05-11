@@ -5,7 +5,7 @@
 template <typename App>
 class ChatRoute {
 public:
-    static void registerRoutes(crow::App &app, Database &db) {
+    static void registerRoutes(App &app, Database &db) {
         ChatController controller(db);
 
         CROW_ROUTE(app, "/api/chats/<int>").methods(crow::HTTPMethod::Get)

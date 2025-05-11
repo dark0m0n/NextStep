@@ -5,7 +5,7 @@
 template <typename App>
 class MessageRoute {
 public:
-    static void registerRoutes(crow::App &app, Database &db) {
+    static void registerRoutes(App &app, Database &db) {
         MessageController controller(db);
 
         CROW_ROUTE(app, "/api/messages/<int>").methods(crow::HTTPMethod::Get)
