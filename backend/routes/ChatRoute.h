@@ -2,9 +2,10 @@
 #include "../controllers/ChatController.h"
 #include "crow.h"
 
+template <typename App>
 class ChatRoute {
 public:
-    static void registerRoutes(crow::SimpleApp &app, Database &db) {
+    static void registerRoutes(crow::App &app, Database &db) {
         ChatController controller(db);
 
         CROW_ROUTE(app, "/api/chats/<int>").methods(crow::HTTPMethod::Get)
