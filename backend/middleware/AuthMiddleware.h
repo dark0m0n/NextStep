@@ -14,8 +14,9 @@ public:
         AuthContext auth;
     };
 
-    void beforeHandle(crow::request &req, crow::response &res, context &ctx) {
-        std::string authHeader = req.get_header_value("Authorization");
+    template <typename Context>
+    void before_handle(const crow::request &req, crow::response &res, context &ctx, Context &) {
+        const std::string authHeader = req.get_header_value("Authorization");
         if (authHeader.empty() || authHeader.find("Bearer ") != 0) {
             res.code = 401;
             res.body = R"({"error": "Missing or invalid Authorization header"})";
@@ -25,7 +26,7 @@ public:
 
         const std::string token = authHeader.substr(7);
 
-        auto decodedToken = Token::decodeToken(token);
+        const auto decodedToken = Token::decodeToken(token);
         if (!decodedToken.has_value()) {
             res.code = 401;
             res.body = R"({"error": "Invalid token"})";
@@ -37,5 +38,5 @@ public:
         ctx.auth.username = decodedToken->get_subject();
     }
 
-    void afterHandle(crow::request &, crow::response &, context &) {}
+    void after_handle(crow::request &, crow::response &, context &) {}
 };
