@@ -1,125 +1,404 @@
+/* Сховати .close на екранах ширше 768px */
+@media screen and (min-width: 768px) {
+    .close {
+        display: none !important;
+    }
+}
+
+.maincont {
+    display: flex;
+    gap: 20px;
+    position: relative;
+    margin-bottom: 50px;
+    min-height: 50%;
+}
 /* ===============================
-   Секція пошуку працівників
+   Сортування
 ================================ */
-.searchemp-section {
-    margin: 20px 80px;
-  }
-  
-  /* ===============================
-     Інформаційний блок секції
-  ================================ */
-  .info-searchemp h2 {
-    display: inline-block;
-    font-size: 48px;
-    margin: 0;
-  }
-  
-  .info-searchemp p {
-    font-size: 20px;
-    color: #14B8A6;
-    margin: 0 0 10px;
-  }
-  
-  /* ===============================
-     Процес пошуку (текстові блоки)
-  ================================ */
-  .process-searchemp {
+label {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+select {
+    background-color: #14B8A6;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+}
+/* ===============================
+   Фільтр
+================================ */
+.fltrHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+aside {
+    max-width: 100%;
+}
+
+.sidebar-filter {
+    position: sticky;
+    align-self: flex-start;
+    max-height: 100vh;
+    overflow-y: hidden;
+    top: 90px;
+    max-width: 253px;
+    display: none;
+}
+
+.visible {
+    display: block;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+    .checkbox-label input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+    }
+
+.fltrs {
+    padding: 10px;
+    overflow-y: auto;
+    max-height: 81vh;
+    direction: rtl; /* Переносить скролбар вліво */
+}
+    /* скролбар */
+    .fltrs * {
+        direction: ltr;
+    }
+
+    .fltrs::-webkit-scrollbar {
+        width: 10px;
+        background-color: transparent;
+    }
+
+    .fltrs::-webkit-scrollbar-track {
+        background: #fff;
+        border-radius: 5px;
+    }
+
+    .fltrs::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 5px;
+        border: 2px solid #f0f0f0;
+    }
+
+        .fltrs::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+
+.fltrInput {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: white;
+    cursor: pointer;
+    position: relative;
+}
+
+    .fltrInput:checked {
+        background-color: #14B8A6;
+    }
+
+input[type="number"] {
+    background-color: #fff;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: black;
+    padding: 5px;
+}
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+.fltrpath input[type="text"] {
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 3px;
+    margin-bottom: 15px;
+    color: black;
+}
+.fbtn {
+    background-color: #14B8A6;
+    font-size: 16px;
+    height: 30px;
+    padding: 20px 20px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    top: 180px;
+}
+
+    .fbtn:hover {
+        background-color: #173046;
+    }
+
+.options {
+    padding: 10px;
+    margin: 2%;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    max-width: 96%;
+    width: 100%;
+    position: sticky;
+    top: 100px;
+    z-index: 1;
+    border: none;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+/* ===============================
+   Секція пошуку проектів
+================================ */
+.searchemp-section {
     width: 100%;
-  }
-  
-  .process-searchemp p {
+    padding: 0px;
+    height: 100%;
+}
+
+/* ===============================
+   Інформація про проект
+================================ */
+.info-searchemp {
     margin: 30px;
-    white-space: nowrap;
-    font-weight: 600;
-  }
-  
-  /* ===============================
-     Контейнер блоків (зовнішній)
-  ================================ */
-  .blockss {
+}
+
+    .info-searchemp h2 {
+        display: inline-block;
+        font-size: 48px;
+        margin: 0;
+    }
+
+    .info-searchemp p {
+        font-size: 20px;
+        color: #14B8A6;
+        margin: 0 0 10px;
+    }
+
+
+/* ===============================
+   Блоки проектів
+================================ */
+.blockss-searchemp {
     justify-content: space-between;
-  }
-  
-  /* ===============================
-     Контейнер блоків (внутрішній)
-  ================================ */
-  .blocks {
+}
+
+.blocks-searchemp {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 20px;
-  }
-  
-  /* ===============================
-     Окремий блок з даними
-  ================================ */
-  .block {
-    max-width: 23%;
-    flex: 1 1 23%;
+    max-width: 96%;
+    margin-left: 2%;
+}
+
+/* ===============================
+   Окремий блок проекту
+================================ */
+.block-searchemp {
+    flex: 1 1 calc(50% - 20px);
     box-sizing: border-box;
-  }
-  
-  .block .title {
-    font-size: 15px;
-    margin: 0 0 7px;
-    max-width: 100%;
-  }
-  
-  .block .mark {
-    font-size: 15px;
-    font-weight: 500;
-    margin: 0 0 7px;
-  }
-  
-  .block .price {
-    font-size: 15px;
-    font-weight: 500;
-    margin-top: 10px;
-    margin: 0;
-  }
-  
-  .block img {
-    width: 100%;
-    height: auto;
-  }
-  
-  /* ===============================
-     Адаптація під мобільні пристрої
-  ================================ */
-  @media (max-width: 768px) {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
+
+    .block-searchemp .name {
+        font-size: 15px;
+        margin: 0 0 7px;
+        max-width: 300px;
+    }
+
+    .block-searchemp .rating {
+        font-size: 15px;
+        font-weight: 500;
+        margin: 0 0 7px;
+        color: #14B8A6;
+    }
+
+    .block-searchemp .salary {
+        font-size: 15px;
+        font-weight: 500;
+        margin-top: 10px;
+        margin: 0;
+        color: #173046;
+    }
+    .block-searchemp .skill-tag {
+        display: inline-block;
+        background-color: #14B8A6;
+        color: white;
+        padding: 4px 8px;
+        margin: 3px;
+        border-radius: 6px;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+    .block-searchemp    .about {
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* кількість рядків */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        color: #333;
+    }
+        .block-searchemp img {
+        width: 10%;
+        height: auto;
+        margin: 10px;
+    }
+
+.mainInfoEmp {
+    display: flex;
+}
+.column {
+    flex-direction: column;
+}
+.margin20 {
+    margin: 20px;
+}
+/* ===============================
+   Адаптація під мобільні пристрої
+================================ */
+@media (max-width: 768px) {
+
+    .filter-wrapper {
+        position: absolute;
+        z-index: 1000;
+    }
+
+    .options {
+        max-width: 100%;
+    }
+        .options select {
+            max-width: 40%;/*фіксануть*/
+        }
+
+    .close {
+        display: block;
+        margin-right: 20px;
+    }
+
+    aside {
+        display: none;
+    }
+
+        aside .visible {
+            display: block;
+        }
+
+    .fltrHead {
+        display: flex;
+        align-items: center;
+        gap: 225px;
+        margin-left: 20px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    .sidebar-filter {
+        position: fixed;
+        top: 200px;
+        overflow: hidden;
+        max-width: 930px;
+        width: 80vw;
+        height: 75%;
+        padding: 10px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .fltrs {
+        overflow: auto;
+        max-width: 930px;
+        width: 80vw;
+        height: 90%;
+        padding: 10px;
+    }
+
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+
     .searchemp-section {
-      margin: 20px 20px;
+        margin: 20px 20px; /* Зменшення відступів для мобільних */
+        margin-bottom: 100px;
     }
-  
+
     .info-searchemp h2 {
-      font-size: 32px;
+        font-size: 36px; /* Зменшення шрифта заголовку */
     }
-  
+
     .info-searchemp p {
-      font-size: 16px;
+        font-size: 16px; /* Зменшення шрифта тексту */
     }
-  
+
     .process-searchemp {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
     }
-  
-    .process-searchemp p {
-      margin: 10px 0;
-      white-space: normal;
+
+        .process-searchemp p {
+            margin: 10px 0;
+        }
+
+    .blocks-searchemp {
+        flex-direction: column;
+        gap: 15px;
     }
-  
-    .blocks {
-      flex-direction: column;
-      align-items: center;
+
+    .block-searchemp {
+        max-width: 100%;
+        flex: 1 1 100%; /* Для мобільних блоки займають 100% */
     }
-  
-    .block {
-      max-width: 100%;
-      flex: 1 1 100%;
-    }
-  }
-  
+
+        .block-searchemp .name {
+            font-size: 14px; /* Зменшення шрифта */
+        }
+
+        .block-searchemp .rating,
+        .block-searchemp .salary {
+            font-size: 14px; /* Зменшення шрифта */
+        }
+}
