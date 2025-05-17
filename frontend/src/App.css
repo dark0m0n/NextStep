@@ -248,6 +248,36 @@ hr {
     margin-bottom: 15px;
     width: 150px;
 }
+
+.required-star {
+  color: red;
+  position: relative;
+  cursor: help;
+}
+
+.required-star::after {
+  content: 'Це обов\'язкове поле';
+  position: absolute;
+  bottom: 125%;
+  /* трохи вище зірочки */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  font-size: 12px;
+  z-index: 10;
+}
+
+.required-star:hover::after {
+  opacity: 1;
+  pointer-events: auto;
+}
 /* ===============================
    Адаптація під мобільні пристрої
 ================================ */

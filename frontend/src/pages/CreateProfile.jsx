@@ -2,7 +2,7 @@ import React, { useState, useRef} from 'react';
 import '../assets/styles/createProfileCSS.css'; 
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
-
+import PhoneInputForm from '../components/PhoneMask.jsx';
 
 export default function CreateProfile() {
   const [logoPreview, setLogoPreview] = useState(null);
@@ -11,6 +11,8 @@ export default function CreateProfile() {
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
   const [skillErrors, setSkillErrors] = useState([]);
+  const [fullPhoneNumber, setFullPhoneNumber] = useState('');
+
 
   const previewLogo = (event) => {
     const file = event.target.files[0];
@@ -55,11 +57,15 @@ export default function CreateProfile() {
 
     document.getElementById('wrongPshort').style.display = 'none';
     document.getElementById('wrongPneq').style.display = 'none';
+    document.getElementById('wrongEmail').style.display = 'none';
     form.password.style.borderColor = '#ccc';
     form.confirmPassword.style.borderColor = '#ccc';
+    form.Email.style.borderColor = '#ccc';
     
     const password = form.password.value;
     const confirmPassword = form.confirmPassword.value;
+    const email = form.Email.value;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
      if (password.length < 8) {
         form.password.style.borderColor = 'red';
@@ -80,14 +86,21 @@ export default function CreateProfile() {
       form.confirmPassword.style.borderColor = '#ccc';
       document.getElementById('wrongPneq').style.display = 'none'; 
     }
+
+    if (!emailRegex.test(email)) {
+      form.Email.style.borderColor = 'red';
+      document.getElementById('wrongEmail').style.display = 'block';
+      form.Email.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
     const formData = new FormData();
     const photoFile = form['photo-upload'].files[0];
     const cleanedSkills = skills.map(s => s.trim()).filter(s => s !== '');
 
     formData.append('firstname', form.firstname.value);
     formData.append('lastname', form.lastname.value);
-    formData.append('email', form.Email.value);
-    formData.append('phoneNumber', form.phone.value);
+    formData.append('email', email);
+    formData.append('phoneNumber', fullPhoneNumber);
     formData.append('country', form.country.value);
     formData.append('language', Array.from(document.querySelectorAll('input[name="lang[]"]:checked')).map(el => el.value).join(','));
     formData.append('specialties', selectedSpecializations.join(','));
@@ -127,16 +140,16 @@ export default function CreateProfile() {
         <div className="container">
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="password" className='label'>Ім'я користувача *</label>
+              <label htmlFor="username" className='label'>Ім'я користувача <span className="required-star">*</span></label>
               <input
-                type="twxt"
+                type="text"
                 id="userName"
                 name="userName"
                 required
                 className='input-info-create'
                 placeholder="Введіть ім'я користувача"
               />
-              <label htmlFor="password" className='label'>Пароль *</label>
+              <label htmlFor="password" className='label'>Пароль <span className="required-star">*</span></label>
               <p id="wrongPshort">Пароль повинен бути більше 8-ми символів</p>
               <input
                 type="password"
@@ -147,7 +160,7 @@ export default function CreateProfile() {
                 placeholder="Введіть пароль"
                 ref={passwordRef}
               />
-              <label htmlFor="confirmPassword" className='label'>Підтвердіть пароль *</label>
+              <label htmlFor="confirmPassword" className='label'>Підтвердіть пароль <span className="required-star">*</span></label>
               <p id="wrongPneq">Паролі повинні бути однаковими</p>
               <input
                 type="password"
@@ -158,7 +171,8 @@ export default function CreateProfile() {
                 placeholder="Підтвердіть пароль"
                 ref={confirmPasswordRef}
               />
-              <label htmlFor="Email" className='label'>Email *</label>
+              <label htmlFor="Email" className='label'>Email <span className="required-star">*</span></label>
+              <p id="wrongEmail">Некоректна електронна пошта</p>
               <input
                 type="text"
                 id="Email"
@@ -167,7 +181,7 @@ export default function CreateProfile() {
                 className='input-info-create'
                 placeholder="Введіть ел. пошту"
               />
-              <label htmlFor="country" className='label'>Країна *</label>
+              <label htmlFor="country" className='label'>Країна <span className="required-star">*</span></label>
               <select id="country" name="country" required className='input-info-create'>
                 <option value="">- Вибрати -</option>
                 <option value="ua">Україна</option>
@@ -207,13 +221,13 @@ export default function CreateProfile() {
               <label htmlFor="name" className='label'>Прізвище</label>
               <input type="text" id="lastname" name="lastname" className='input-info-create' placeholder="Введіть прізвище"/>
               <label htmlFor="name" className='label'>Ім'я</label>
-              <input type="text" id="firstname" name="firstname" className='input-info-create' placeholder="Введіть ім'я"/>
-              <label htmlFor="phone" className='label'>Телефон</label>
-              <input type="text" id="phone" name="phone" className='input-info-create' pattern="[0-9]{10}" placeholder="Введіть номер телефону"/>
+              <input type="text" id="firstname" name="firstname" className='input-info-create' placeholder="Введіть ім'я" />
+              <PhoneInputForm onPhoneChange={setFullPhoneNumber} />
+
             </div>
             <div className="language-options">
                           <label className='label'>Володіння мовами</label>
-                          <div><input type="checkbox" id="ua " name="lang[]" value="ua" className='check-create' /><label htmlFor="ua" className='labelCheckBox'>Українська</label></div>
+                          <div><input type="checkbox" id="ua" name="lang[]" value="ua" className='check-create' /><label htmlFor="ua" className='labelCheckBox'>Українська</label></div>
 
                           <div><input type="checkbox" id="uk" name="lang[]" value="uk" className='check-create' /><label htmlFor="uk" className='labelCheckBox'>Англійська</label></div>
 
