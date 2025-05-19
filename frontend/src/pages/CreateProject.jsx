@@ -95,6 +95,7 @@ const CreateStartupPage = () => {
     const fileInput = document.getElementById("photo-upload");
     if (fileInput && fileInput.files.length > 0) {
       formData.append("photo", fileInput.files[0]);
+      console.log("photo")
     }
 
     let experienceString = "";
@@ -121,16 +122,21 @@ const CreateStartupPage = () => {
     }
 
     formData.append("experience", experienceString);
+    console.log("experience", experienceString);
     formData.append("userID", token);
-    formData.append("startup-name", formData.get("startup-name"));
+    formData.append("title", formData.get("startup-name"));
+    console.log("startup-name", formData.get("startup-name"));
     formData.append("description", formData.get("description"));
+    console.log("description", formData.get("description"));
 
     const categoriesString = categories.join(", ");
     formData.append("category", categoriesString);
+    console.log("category", categoriesString);
 
     let invest = formData.get("investment");
     if (!invest || invest.trim() === "") invest = "0";
     formData.set("investment", invest);
+    console.log("investment", invest);
 
     try {
       const response = await fetch("/api/startup", {
@@ -162,7 +168,7 @@ const CreateStartupPage = () => {
             {/* Назва */}
             <div className="form-group-create-proj">
               <label htmlFor="startup-name" className="label-create-proj">
-                Назва стартапу <span className="required-star">*</span>
+                Назва стартапу: <span className="required-star">*</span>
               </label>
               <input
                 type="text"
@@ -176,7 +182,7 @@ const CreateStartupPage = () => {
 
             {/* Фото */}
             <div className="form-group-create-proj">
-              <label htmlFor="photo-upload" className="label-create-prof">Фото</label>
+              <label htmlFor="photo-upload" className="label-create-prof">Фото:</label>
               {logoSrc && (
                 <img
                   id="logo-preview"
@@ -206,7 +212,7 @@ const CreateStartupPage = () => {
             {/* Опис */}
             <div className="form-group-create-proj">
               <label htmlFor="description" className="label-create-proj">
-                Опис <span className="required-star">*</span>
+                Опис: <span className="required-star">*</span>
               </label>
               <textarea
                 id="description"
@@ -220,7 +226,7 @@ const CreateStartupPage = () => {
             {/* Категорія */}
             <div className="form-group-create-proj">
               <label htmlFor="category" className="label-create-proj">
-                Категорія <span className="required-star">*</span>
+                Категорія: <span className="required-star">*</span>
               </label>
               <p id="wrongCategory" style={{ color: "red", display: "none", fontStyle: "italic", marginLeft: "10px" }}>
                 Додайте принаймні одну категорію
@@ -274,13 +280,13 @@ const CreateStartupPage = () => {
 
             {/* Інвестиції */}
             <div className="form-group-create-proj">
-              <label htmlFor="investment" className="label-create-proj">Необхідні інвестиції</label>
+              <label htmlFor="investment" className="label-create-proj">Необхідні інвестиції:</label>
               <input
                 type="text"
                 id="investment"
                 name="investment"
                 className="input-info-create-proj"
-                placeholder="Наприклад 2 000 гривень"
+                placeholder="Наприклад, 2 000 гривень"
               />
             </div>
 
