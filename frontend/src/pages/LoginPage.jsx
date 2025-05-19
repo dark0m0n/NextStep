@@ -39,9 +39,9 @@ export default function LoginPage() {
 
       if (response.ok) {
         const data = await response.json();
-        if(data.user?.id) {
+        if(data.token) {
           // Зберігаємо токен у localStorage
-          localStorage.setItem("token", data.user.id);
+          localStorage.setItem("token", data.token);
           // Перенаправляємо на сторінку профілю
           navigate("/profile");
         } else {

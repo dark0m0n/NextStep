@@ -1,110 +1,297 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "../assets/styles/createProjCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
 
-/* ------------------------------- Головна функція ------------------------------- */
 const CreateStartupPage = () => {
+  const token = localStorage.getItem("token");
+
   const [logoSrc, setLogoSrc] = useState("");
   const [visibleExperience, setVisibleExperience] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [customCategory, setCustomCategory] = useState('');
+  const [customSpecName, setCustomSpecName] = useState('');
+  const [customSpecExp, setCustomSpecExp] = useState('');
+  const [customSpecVisible, setCustomSpecVisible] = useState(false);
 
-  /* ------------------------ Завантаження логотипу ------------------------ */
+  const categoryRef = useRef(null);
+  const specRef = useRef(null);
+
+  const specLabels = {
+    analize: "Аналіз даних",
+    marketing: "Маркетолог",
+    "web-prog": "Веб-розробник",
+    finance: "Фінансист",
+    designer: "Дизайнер",
+    developer: "Розробник ПЗ",
+  };
+
   const previewLogo = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-
-    reader.onload = (e) => {
-      setLogoSrc(e.target.result);
-    };
-
+    reader.onload = (e) => setLogoSrc(e.target.result);
     reader.readAsDataURL(file);
   };
 
-  /* ---------------------- Перемикання поля досвіду ---------------------- */
+  const handleAddCategory = () => {
+    const categoryToAdd = selectedCategory === "other" ? customCategory.trim() : selectedCategory;
+
+    if (categoryToAdd && !categories.includes(categoryToAdd)) {
+      setCategories([...categories, categoryToAdd]);
+      setCustomCategory('');
+      setSelectedCategory('');
+    }
+
+    if (categoryRef.current) categoryRef.current.style.borderColor = '#ccc';
+    const errorEl = document.getElementById('wrongCategory');
+    if (errorEl) errorEl.style.display = 'none';
+  };
+
+  const handleRemoveCategory = (categoryToRemove) => {
+    setCategories(categories.filter(cat => cat !== categoryToRemove));
+  };
+
   const toggleExperienceField = (specialization) => {
     setVisibleExperience((prev) => ({
       ...prev,
       [specialization]: !prev[specialization],
     }));
+    const errorEl = document.getElementById('wrongSpec');
+    if (errorEl) errorEl.style.display = 'none';
   };
 
-  /* ---------------------- Очищення вибраних тегів ---------------------- */
   const clearSelection = () => {
     setVisibleExperience({});
+    setCustomSpecVisible(false);
+    setCustomSpecName('');
+    setCustomSpecExp('');
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const selectedSpecs = Object.values(visibleExperience).some(v => v);
+    if (!selectedSpecs) {
+      document.getElementById('wrongSpec').style.display = 'block';
+      specRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    } else {
+      document.getElementById('wrongSpec').style.display = 'none';
+    }
+
+    if (categories.length === 0) {
+      categoryRef.current.style.borderColor = 'red';
+      document.getElementById('wrongCategory').style.display = 'block';
+      categoryRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    } else {
+      categoryRef.current.style.borderColor = '#ccc';
+      document.getElementById('wrongCategory').style.display = 'none';
+    }
+
+    const formData = new FormData(e.target);
+
+    const fileInput = document.getElementById("photo-upload");
+    if (fileInput && fileInput.files.length > 0) {
+      formData.append("photo", fileInput.files[0]);
+    }
+
+    let experienceString = "";
+
+    Object.entries(visibleExperience).forEach(([specId, visible]) => {
+      if (visible) {
+        const exp = document.getElementById(`experience-${specId}-input`);
+        if (exp) {
+          const value = exp.value?.trim() || "0";
+          const label = specLabels[specId] || specId;
+          experienceString += `${label}: ${value}, `;
+        }
+      }
+    });
+
+    if (customSpecVisible && customSpecName.trim()) {
+      const name = customSpecName.trim();
+      const exp = customSpecExp.trim() || "0";
+      experienceString += `${name}: ${exp}, `;
+    }
+
+    if (experienceString.endsWith(", ")) {
+      experienceString = experienceString.slice(0, -2);
+    }
+
+    formData.append("experience", experienceString);
+    formData.append("userID", token);
+    formData.append("startup-name", formData.get("startup-name"));
+    formData.append("description", formData.get("description"));
+
+    const categoriesString = categories.join(", ");
+    formData.append("category", categoriesString);
+
+    let invest = formData.get("investment");
+    if (!invest || invest.trim() === "") invest = "0";
+    formData.set("investment", invest);
+
+    try {
+      const response = await fetch("/api/startup", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        console.log("Стартап створено успішно!");
+      } else {
+        const err = await response.text();
+        console.log("Помилка: " + err);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+      console.log("Помилка при з'єднанні з сервером.");
+    }
   };
 
   return (
     <>
-      <MyHeader/>
+      <MyHeader />
       <section className="create-project">
         <div className="info">
           <h2 className="create-title">Створи свій Стартап</h2>
         </div>
         <div className="container">
-          <form action="#" method="POST">
-            <div className="form-group">
-              <label htmlFor="startup-name" className="label-create-proj">Назва стартапу *</label>
-              <input type="text" id="startup-name" name="startup-name" required className="input-info-create" placeholder="Введіть назву стартапу" />
+          <form onSubmit={handleSubmit}>
+            {/* Назва */}
+            <div className="form-group-create-proj">
+              <label htmlFor="startup-name" className="label-create-proj">
+                Назва стартапу <span className="required-star">*</span>
+              </label>
+              <input
+                type="text"
+                id="startup-name"
+                name="startup-name"
+                required
+                className="input-info-create"
+                placeholder="Введіть назву стартапу"
+              />
             </div>
 
-            <div className="form-group">
-  <label htmlFor="photo-upload" className="label-create-prof">Фото</label>
-
-  {logoSrc && (
-    <img
-      id="logo-preview"
-      src={logoSrc}
-      alt="Logo Preview"
-      style={{
-        display: 'block',
-        maxWidth: '100px',
-        marginTop: '10px',
-        borderRadius: '5px',
-        border: '1px solid #ccc'
-      }}
-    />
-  )}
-
-  <div className="custom-file-upload">
-    <label htmlFor="photo-upload" className="upload-label">Завантажити фото</label>
-    <input
-      type="file"
-      id="photo-upload"
-      name="photo-upload"
-      accept="image/*"
-      onChange={previewLogo}
-    />
-  </div>
-</div>
-
-            <div className="form-group">
-              <label htmlFor="contact-info" className="label-create-proj">Контактна інформація *</label>
-              <input type="text" id="contact-info" name="contact-info" required className="input-info-create-proj" placeholder="Введіть дані для зворотнього зв'язку"/>
+            {/* Фото */}
+            <div className="form-group-create-proj">
+              <label htmlFor="photo-upload" className="label-create-prof">Фото</label>
+              {logoSrc && (
+                <img
+                  id="logo-preview"
+                  src={logoSrc}
+                  alt="Logo Preview"
+                  style={{
+                    display: 'block',
+                    maxWidth: '100px',
+                    marginTop: '10px',
+                    borderRadius: '5px',
+                    border: '1px solid #ccc'
+                  }}
+                />
+              )}
+              <div className="custom-file-upload">
+                <label htmlFor="photo-upload" className="upload-label">Завантажити фото</label>
+                <input
+                  type="file"
+                  id="photo-upload"
+                  name="photo-upload"
+                  accept="image/*"
+                  onChange={previewLogo}
+                />
+              </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="description" className="label-create-proj">Опис *</label>
-              <textarea id="description" name="description" required className="input-info-create-proj text" placeholder="Опишіть ваш стартап"></textarea>
+            {/* Опис */}
+            <div className="form-group-create-proj">
+              <label htmlFor="description" className="label-create-proj">
+                Опис <span className="required-star">*</span>
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                required
+                className="input-info-create-proj text"
+                placeholder="Опишіть ваш стартап"
+              />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="category" className="label-create-proj">Категорія *</label>
-              <select id="category" name="category" required className="input-info-create-proj" >
-                <option value="">- Вибрати -</option>
-                <option value="it">IT</option>
-                <option value="production">Виробництво</option>
-                <option value="other">Інше</option>
-              </select>
+            {/* Категорія */}
+            <div className="form-group-create-proj">
+              <label htmlFor="category" className="label-create-proj">
+                Категорія <span className="required-star">*</span>
+              </label>
+              <p id="wrongCategory" style={{ color: "red", display: "none", fontStyle: "italic", marginLeft: "10px" }}>
+                Додайте принаймні одну категорію
+              </p>
+              <div className="category-list">
+                {categories.length === 0 ? (
+                  <p className="category-item">Для стартапу ще немає визначених категорій</p>
+                ) : (
+                  <div className="category-item">
+                    {categories.map((category, index) => (
+                      <span
+                        key={category}
+                        onClick={() => handleRemoveCategory(category)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        {category}
+                        {index < categories.length - 1 && <span>, </span>}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="category-input">
+                <select
+                  id="category"
+                  name="category"
+                  className="input-info-create-proj"
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  ref={categoryRef}
+                >
+                  <option value="">- Вибрати -</option>
+                  <option value="it">IT</option>
+                  <option value="production">Виробництво</option>
+                  <option value="other">Інше</option>
+                </select>
+                {selectedCategory === "other" && (
+                  <input
+                    type="text"
+                    placeholder="Введіть свою категорію"
+                    className="input-info-create-proj"
+                    value={customCategory}
+                    onChange={(e) => setCustomCategory(e.target.value)}
+                  />
+                )}
+                <button type="button" onClick={handleAddCategory} className="tag">
+                  Додати
+                </button>
+              </div>
             </div>
 
-            <div className="form-group">
+            {/* Інвестиції */}
+            <div className="form-group-create-proj">
               <label htmlFor="investment" className="label-create-proj">Необхідні інвестиції</label>
-              <input type="text" id="investment" name="investment" required className="input-info-create-proj" placeholder="Вкажіть 0, якщо інвестиції не потрібно"/>
+              <input
+                type="text"
+                id="investment"
+                name="investment"
+                className="input-info-create-proj"
+                placeholder="Наприклад 2 000 гривень"
+              />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="team-members" className="label-create-proj">Необхідні члени команди</label>
-              <label htmlFor="specializations" className="label-create-proj">Вкажіть необхідні спеціальності:</label>
+            {/* Спеціальності */}
+            <div className="form-group-create-proj">
+              <label htmlFor="specializations" className="label-create-proj">
+                Вкажіть необхідні спеціальності: <span className="required-star">*</span>
+              </label>
+              <p id="wrongSpec" style={{ color: "red", display: "none", fontStyle: "italic", marginLeft: "10px" }}>
+                Додайте принаймні одну спеціальність для команди
+              </p>
               <div className="tags">
                 {[
                   { id: "analize", label: "Аналіз даних" },
@@ -120,14 +307,27 @@ const CreateStartupPage = () => {
                     className="tag"
                     id="formbtn"
                     onClick={() => toggleExperienceField(spec.id)}
+                    ref={specRef}
                   >
                     {spec.label}
                   </button>
                 ))}
+                <button
+                  type="button"
+                  className="tag"
+                  id="formbtn"
+                  onClick={() => {
+                    setCustomSpecVisible(true);
+                    const errorEl = document.getElementById('wrongSpec');
+                    if (errorEl) errorEl.style.display = 'none';
+                  }}
+                >
+                  Інше
+                </button>
               </div>
             </div>
 
-            {/* ---------------- Відображення полів досвіду ---------------- */}
+            {/* Поля досвіду */}
             {[
               { id: "marketing", label: "Маркетолог" },
               { id: "developer", label: "Розробник ПЗ" },
@@ -138,12 +338,7 @@ const CreateStartupPage = () => {
             ].map(
               (spec) =>
                 visibleExperience[spec.id] && (
-                  <div
-                    className="form-group"
-                    id={`experience_${spec.id}`}
-                    key={spec.id}
-                    style={{ display: "block" }}
-                  >
+                  <div className="form-group-create-proj" key={spec.id}>
                     <label htmlFor={`experience-${spec.id}-input`} className="label-create-proj">
                       Досвід роботи "{spec.label}":
                     </label>
@@ -151,13 +346,40 @@ const CreateStartupPage = () => {
                       type="text"
                       id={`experience-${spec.id}-input`}
                       name={`experience-${spec.id}`}
-                      className="input-info-create-proj" 
+                      className="input-info-create-proj"
                       placeholder="Введіть необхідний досвід роботи"
                     />
                   </div>
                 )
             )}
 
+            {/* Кастомна спеціальність */}
+            {customSpecVisible && (
+              <>
+                <div className="form-group-create-proj">
+                  <label className="label-create-proj">Назва спеціальності:</label>
+                  <input
+                    type="text"
+                    className="input-info-create-proj"
+                    placeholder="Введіть назву спеціальності"
+                    value={customSpecName}
+                    onChange={(e) => setCustomSpecName(e.target.value)}
+                  />
+                </div>
+                <div className="form-group-create-proj">
+                  <label className="label-create-proj">Досвід роботи:</label>
+                  <input
+                    type="text"
+                    className="input-info-create-proj"
+                    placeholder="Введіть досвід роботи"
+                    value={customSpecExp}
+                    onChange={(e) => setCustomSpecExp(e.target.value)}
+                  />
+                </div>
+              </>
+            )}
+
+            {/* Кнопки */}
             <button type="button" id="formbtnCl" onClick={clearSelection}>
               Очистити вибір
             </button>
@@ -168,8 +390,7 @@ const CreateStartupPage = () => {
           </form>
         </div>
       </section>
-
-      <MyFooter/>
+      <MyFooter />
     </>
   );
 };

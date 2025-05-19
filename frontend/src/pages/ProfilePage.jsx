@@ -5,16 +5,16 @@ import MyFooter from "../components/Footer.jsx";
 
 export default function ProfilePage() {
   const [userData, setUserData] = useState(null);
-  const userId = localStorage.getItem("UserId") || 1; // Отримуємо ID користувача з localStorage або використовуємо 1 за замовчуванням
+  const token = localStorage.getItem("token") || 1; // Отримуємо ID користувача з localStorage або використовуємо 1 за замовчуванням
 
   useEffect(() => {
-    fetch(`/api/user/${userId}`)
+    fetch(`/api/user/${token}`)
       .then((res) => res.json())
       .then((data) => {
         setUserData(data);
       })
       .catch((error) => console.error("Помилка при завантаженні профілю:", error));
-  }, [userId]);
+  }, [token]);
 
   if (!userData) {
     return <div>Завантаження...</div>;

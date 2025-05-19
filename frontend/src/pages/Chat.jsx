@@ -11,23 +11,23 @@ export default function ChatPage() {
   const messagesEndRef = useRef(null);
 
 
-  // Завантажуємоо чати
-  useEffect(() => {
-    fetch("/api/chats")
-      .then((res) => res.json())
-      .then((data) => setChats(data))
-      .catch((err) => console.error("Failed to fetch chats:", err));
-  }, []);
+ const token = localStorage.getItem("token") || 1;
+useEffect(() => {
+  fetch(`/api/chats/${token}`)
+    .then((res) => res.json())
+    .then((data) => setChats(data))
+    .catch((err) => console.error("Failed to fetch chats:", err));
+}, [token]);
 
   // Завантажуємо повідомленя
   useEffect(() => {
-    if (selectedChatId !== null) {
-      fetch(`/api/messages?chatID=${selectedChatId}`)
-        .then((res) => res.json())
-        .then((data) => setMessages(data))
-        .catch((err) => console.error("Failed to fetch messages:", err));
-    }
-  }, [selectedChatId]);
+  if (selectedChatId !== null) {
+    fetch(`/api/messages/${selectedChatId}`)
+      .then((res) => res.json())
+      .then((data) => setMessages(data))
+      .catch((err) => console.error("Failed to fetch messages:", err));
+  }
+}, [selectedChatId]);
 
   // Прокрутка до останнього повідомлення
 useEffect(() => {
@@ -37,33 +37,33 @@ useEffect(() => {
 }, [messages]);
 
   // Надсилання повідомлення
-  const sendMessage = () => {
-    if (messageInput.trim() === "" || selectedChatId === null) return;
+ const sendMessage = () => {
+  if (messageInput.trim() === "" || selectedChatId === null) return;
 
-    fetch("/api/sendMessage", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        chatID: selectedChatId,
-        senderID: 1, //ЗАМІНИТИ НА РЕАЛЬНИЙ user ID
-        text: messageInput,
-      }),
+  fetch("/api/message", {  // змінив URL на /api/message
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      chatID: selectedChatId,
+      senderID: token, // передаємо правильний userID
+      text: messageInput,
+    }),
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to send message");
+      return res.json();
     })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to send message");
-        return res.json();
-      })
-      .then(() => {
-        setMessageInput("");
-        // Перезавантажити повідомлення
-        return fetch(`/api/messages?chatID=${selectedChatId}`);
-      })
-      .then((res) => res.json())
-      .then((data) => setMessages(data))
-      .catch((err) => console.error("Sending error:", err));
-  };
+    .then(() => {
+      setMessageInput("");
+      return fetch(`/api/messages/${selectedChatId}`);
+    })
+    .then((res) => res.json())
+    .then((data) => setMessages(data))
+    .catch((err) => console.error("Sending error:", err));
+};
+
 
   return (
     <>

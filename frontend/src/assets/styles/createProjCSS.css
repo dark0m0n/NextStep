@@ -22,6 +22,12 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin: auto;
   }
+
+  .category-item{
+    margin-left: 10px;
+    font-style: italic;
+    color: rgb(93, 93, 93)
+  }
   
   /* Заголовок форми */
   .create-title {
@@ -39,8 +45,9 @@
   /* ===============================
      Формові елементи
   ================================ */
-  .form-group {
+  .form-group-create-proj {
     margin-bottom: 20px;
+    margin-top: 20px;
   }
   
   /* Назва поля */
@@ -63,6 +70,9 @@
     color: #333;
   }
   
+  .category-input *{
+   margin: 10px;
+  }
   /* Текстова область */
   .text {
     resize: vertical;
