@@ -24,6 +24,7 @@ select {
     border: none;
     border-radius: 10px;
     text-align: center;
+
 }
 /* ===============================
    Фільтр
@@ -172,7 +173,7 @@ input[type="range"] {
         background-color: #173046;
     }
 
-.options {
+.options1 {
     padding: 10px;
     margin: 2%;
     margin-top: 40px;
@@ -280,8 +281,9 @@ input[type="range"] {
         position: absolute;
         z-index: 1000;
     }
-    .options {
+    .options1 {
         max-width: 100%;
+        margin-left: 0px;
     }
     .close {
         display: block;
@@ -333,9 +335,13 @@ input[type="range"] {
             width: 16px;
             height: 16px;
         }
+    #sortSelect1 {
+        width: 170px;
+    }
     .searchproj-section {
         margin: 20px 20px; /* Зменшення відступів для мобільних */
         margin-bottom: 100px;
+        margin-top: 35%;
     }
 
     .info-searchproj h2 {
