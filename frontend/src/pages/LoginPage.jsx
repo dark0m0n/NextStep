@@ -39,16 +39,13 @@ export default function LoginPage() {
 
       if (response.ok) {
         const data = await response.json();
-        if(data.user?.id) {
-          // Зберігаємо токен у localStorage
-          localStorage.setItem("token", data.user.id);
-          // Перенаправляємо на сторінку профілю
-          navigate("/profile");
+        if(data.token) {
+          localStorage.setItem("token", data.token);
+          navigate(`/profile/${data.username}`);
         } else {
           setError("Відсутній ID користувача у відповіді");
         }
       } else {
-        // Якщо авторизація не вдалася, показуємо повідомлення про помилку
         setError("Неправильний логін або пароль");
       }
     } catch (err) {

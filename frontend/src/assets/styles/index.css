@@ -110,6 +110,7 @@ button {
     border-bottom: 3px solid #14B8A6;
     display: inline-block;
     margin-bottom: 50px;
+    margin-top: 50px;
     font-size: 40px;
   }
   
@@ -162,7 +163,13 @@ button {
     margin-top: 20px;
     padding-left: 20px;
   }
-  
+    .all-ach h2 {
+        border-bottom: 3px solid #14B8A6;
+        display: inline-block;
+        margin-bottom: 50px;
+        margin-top: 50px;
+        font-size: 40px;
+    }
   /* ===============================
      Цінності
   ================================ */
@@ -181,20 +188,35 @@ button {
   /* ===============================
      Кейси та спонсори
   ================================ */
-  .case,
-  .spons {
+  .case{
     display: flex;
     justify-content: center;
     gap: 40px;
     flex-wrap: wrap;
-    text-align: left;
+    text-align: center;
+
   }
   
   .case .cases p {
     max-width: 300px;
     font-size: 32px;
-    margin-left: 30px;
   }
+.cases {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+.cases img {
+    height: 200px;
+    width: 200px;
+}
+    .cases h2 {
+        border-bottom: 3px solid #14B8A6;
+        display: inline-block;
+        margin-bottom: 50px;
+        margin-top: 50px;
+        font-size: 40px;
+}
+    
   
   /* ===============================
      Форма
@@ -319,6 +341,9 @@ button {
      Мобільна адаптація
   ================================ */
   @media (max-width: 768px) {
+    .hero {
+        margin-top: 25%;
+    }
     .hero-content h1 {
       font-size: 42px;
     }
@@ -351,6 +376,9 @@ button {
     .case .cases p {
       font-size: 24px;
       margin-left: 0;
+    }
+    .case {
+        text-align: center;
     }
   
     .center-wrapper h2 {

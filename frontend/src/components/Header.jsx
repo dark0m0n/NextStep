@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const MyHeader = () => {
   const [smenuVisible, setSmenuVisible] = useState(false);
@@ -18,16 +18,17 @@ const MyHeader = () => {
             inputElement.style.borderColor = 'red';
         }
     };
-
   return (
     <header>
-    <div className="nav-container">
-      <a href="/"><img className="logo" src="images/logo3_w.png" alt="Logo" /></a>
+          <div className="nav-container">
+              <div className="logo">
+                  <a href="/"><img src="images/logo3_w.png" alt="Logo" /></a>
+              </div>
 
-        <div id="search-container">
-          <input type="text" id="search-input" placeholder="Введіть запит для пошуку..." />
-          <button id="search-submit" onClick={submitSearch}>Знайти</button>
-        </div>
+              <div id="search-container">
+                <input type="text" id="search-input" placeholder="Введіть запит для пошуку..." />
+                <button id="search-submit" onClick={submitSearch}>Знайти</button>
+              </div>
 
               <button className="mainnavbtn" onClick={toggleMenu}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
@@ -36,6 +37,7 @@ const MyHeader = () => {
                       <rect y="12" width="25" height="3" rx="2.5" fill="white" />
                   </svg>
               </button>
+
               {menuVisible && (
                   <nav id="nav">
                       <a href="/log"><button className="button menubtn">Профіль</button></a>

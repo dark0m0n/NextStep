@@ -306,6 +306,9 @@ input[type=radio] {
      Адаптація під мобільні пристрої
   ================================ */
 @media (max-width: 768px) {
+    #root {
+        margin-top: 33%;
+    }
     body, html {
         overflow: scroll; /* або scroll */
     }
@@ -386,6 +389,7 @@ input[type=radio] {
         width: 100%;
         max-width: 100%;
         margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     .fbs-proj {

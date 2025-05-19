@@ -6,9 +6,9 @@ const MyFooter = () => {
           <p><a href="mailto:support@next.step">support@next.step</a></p>
           <p>м. Львів, вул. Степана Бандери 12, Україна</p>
           <div className="footer-icons">
-          <a href=""><img src="/images/insta.png" alt="Instagram"/></a>
-              <a href=""><img src="/images/fb.png" alt="Facebook"/></a>
-              <a href=""><img src="/images/yt.png" alt="YouTube"/></a>
+              <a href=""><img src="/images/tg.svg" alt="Telegram"/></a>
+              <a href=""><img src="/images/yt.svg" alt="YouTube"/></a>
+              <a href=""><img src="/images/fc.svg" alt="Facebook"/></a>
           </div>
           <div className="footer-links">
             <a href="#">Умови та положення</a>

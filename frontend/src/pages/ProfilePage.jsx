@@ -1,20 +1,30 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import "../assets/styles/profilePageCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
 
 export default function ProfilePage() {
+  const {username} = useParams();
   const [userData, setUserData] = useState(null);
-  const userId = localStorage.getItem("UserId") || 1; // Отримуємо ID користувача з localStorage або використовуємо 1 за замовчуванням
 
   useEffect(() => {
-    fetch(`/api/user/${userId}`)
-      .then((res) => res.json())
+    const token = localStorage.getItem("token");
+    fetch(`/api/user/${username}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+    )
+      .then((res) => {
+        if (!res.ok) throw new Error("Profile load error");
+        return res.json();
+      })
       .then((data) => {
         setUserData(data);
       })
-      .catch((error) => console.error("Помилка при завантаженні профілю:", error));
-  }, [userId]);
+      .catch((error) => console.error("Помилка:", error));
+  }, [username]);
 
   if (!userData) {
     return <div>Завантаження...</div>;
@@ -42,7 +52,7 @@ export default function ProfilePage() {
           <div className="expir">
             <h2>Досвід роботи</h2>
             <div className="spc">
-              {/* Просто заглушка, заміни логікою коли будеш мати справжній досвід */}
+              {/*замінити логікою коли буде справжній досвід */}
               <div className="specs">
                 <p className="strong">
                   <strong className="strong-profile">Спеціальність:</strong>

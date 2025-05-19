@@ -262,14 +262,14 @@ export default function SearchPage() {
                     </p>
 
                 </div>
-                    <div className="options">
+                    <div className="options1">
                         <div className="start-fltr">
                             <button className="fbtn" onClick={toggleFltr}>Фільтр</button>
                         </div>
                         <div className="start-fltr">    
                             <div className="sort-control">
                                 <label htmlFor="sortSelect">Сортувати:</label>
-                                <select id="sortSelect" onChange={(e) => setSortOption(e.target.value)}>
+                                <select id="sortSelect1" onChange={(e) => setSortOption(e.target.value)}>
                                     <option value="">-- Без сортування --</option>
                                     <option value="price-asc">Ціна: від найменшої</option>
                                     <option value="price-desc">Ціна: від найбільшої</option>

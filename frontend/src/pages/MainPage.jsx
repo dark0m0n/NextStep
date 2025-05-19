@@ -16,7 +16,7 @@ export default function NextStepPage() {
               Знайди існуючий стартап, вже навчених працівників або створи свій
               стартап
             </p>
-            <button className="start-btn">Get Started</button>
+            <a href="/searchproj"><button className="start-btn">Get Started</button></a>
           </div>
         </div>
       </section>
@@ -81,25 +81,17 @@ export default function NextStepPage() {
         <h2>Кейси</h2>
         <div className="case">
           <div className="cases">
-            <img src="public/images/usa.png" alt="Кейс 1" />
-            <p>Компанія Hello228: Продаж вітань закордон</p>
+            <img src="public/images/case1.jpg" alt="Кейс 1" />
+            <p>Компанія Hello: Продаж вітань закордон</p>
           </div>
           <div className="cases">
-            <img src="public/images/usa.png" alt="Кейс 2" />
-            <p>АТ Hello1488: Продаж вітань в Україні</p>
+            <img src="public/images/case2.jpg" alt="Кейс 2" />
+            <p>ПП "Андрійчик": Найсмачніша пекарня твого міста</p>
           </div>
           <div className="cases">
-            <img src="public/images/usa.png" alt="Кейс 3" />
-            <p>ТОВ Hello: Вітають і доставляють будь куди</p>
+            <img src="public/images/case3.jpg" alt="Кейс 3" />
+            <p>ТОВ "SlipStream ": Найшвидше таксі м. Львів</p>
           </div>
-        </div>
-
-        <hr />
-        <h2>Наші партнери</h2>
-        <div className="spons">
-          <img src="public/images/usa.png" alt="Партнер 1" />
-          <img src="public/images/usa.png" alt="Партнер 2" />
-          <img src="public/images/usa.png" alt="Партнер 3" />
         </div>
       </section>
 
@@ -137,7 +129,7 @@ export default function NextStepPage() {
 
           <label className="label-main checkbox">
             <input type="checkbox" id="consent" required className="check-main"/>
-            <span class="checkmark"></span>
+            <span className="checkmark"></span>
                 Заповнюючи цю форму, я погоджуюсь на збір та обробку персональних
               даних
          </label>

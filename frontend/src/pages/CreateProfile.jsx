@@ -3,6 +3,7 @@ import '../assets/styles/createProfileCSS.css';
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
 import PhoneInputForm from '../components/PhoneMask.jsx';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreateProfile() {
   const [logoPreview, setLogoPreview] = useState(null);
@@ -12,6 +13,7 @@ export default function CreateProfile() {
   const confirmPasswordRef = useRef(null);
   const [skillErrors, setSkillErrors] = useState([]);
   const [fullPhoneNumber, setFullPhoneNumber] = useState('');
+  const navigate = useNavigate();
 
 
   const previewLogo = (event) => {
@@ -121,6 +123,11 @@ export default function CreateProfile() {
 
       if (response.ok) {
         console.log('Профіль створено успішно.');
+        const data = await response.json();
+if (data.token) {
+  localStorage.setItem("token", data.token);
+  navigate(`/profile/${data.username}`);
+}
       } else {
         console.log('Помилка при створенні профілю.');
       }

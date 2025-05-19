@@ -267,6 +267,9 @@
      Адаптація під мобільні пристрої
   ================================ */
   @media (max-width: 768px) {
+    .create-profile {
+        margin-top: 50%;
+    }
     .info h2 {
       font-size: 28px;
       text-align: left;

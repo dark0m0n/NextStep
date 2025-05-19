@@ -9,7 +9,10 @@
 :root {
   background-color: #f5f7fa;
 }
-
+.no-scroll {
+    overflow-y: hidden;
+    height: 100%;
+}
 /* ===============================
    Базова структура сторінки
 ================================ */
@@ -30,9 +33,14 @@ html {
    Логотип
 ================================ */
 .logo {
-  width: 97px;
-  height: 42px;
+    display: flex;
+    align-items: center;
 }
+
+    .logo img {
+        width: 97px;
+        height: 42px;
+    }
 
 /* ===============================
    Хедер та навігація
@@ -47,14 +55,13 @@ header {
     width: 100%;
     top: 0;
 }
-
 .nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
 }
-
 /* Кнопки навігації */
 nav button {
     background: none;
@@ -148,11 +155,13 @@ nav button {
 /* ===============================
    Пошук
 ================================ */
+
 #search-container {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 10px;
+  
 }
 
 #search-input {
@@ -286,16 +295,7 @@ hr {
   header {
     padding: 15px 20px;
     display: flex;
-    position: sticky;
-  }
-  .nav-container {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  nav button {
-    font-size: 16px;
+    position: fixed;
   }
     #nav {
         margin-top: 75px;
@@ -307,17 +307,38 @@ hr {
         margin-left: 25%;
     }
 
-  #search-container {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 5px;
-    width: 100%;
 
-  }
+    .nav-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
 
-  #search-input {
-    width: 100%;
-  }
+    .logo {
+        flex: 1 1 auto;
+    }
+
+    .mainnavbtn {
+        flex: 0 0 auto;
+        margin-left: auto;
+        padding: 11px 0 0 6px;
+    }
+
+    #search-container {
+        order: 2;
+        flex-basis: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 5px;
+        margin-top: -35px
+    }
+
+    #search-input {
+        width: 100%;
+    }
 
   #smenu a {
     display: block;
@@ -329,21 +350,6 @@ hr {
     .stronger {
         font-weight: 500;
     }
-    .mainnavbtn {
-        background: none;
-        color: white;
-        border: none;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: all 0.4s;
-        padding: 13px 0 0 5px;
-        position: fixed;
-        right: 15px;
-        top: 10px;
-    }
-
     .menubtn {
         margin-left: 0px;
     }
@@ -356,8 +362,8 @@ hr {
     flex-wrap: wrap;
   }
   .footer-icons img {
-    width: 24px;
-    height: 24px;
+    width: 36px;
+    height: 36px;
   }
 
   .footer-links {
@@ -370,5 +376,5 @@ hr {
     padding: 10px;
   }
 
-  
+
 }

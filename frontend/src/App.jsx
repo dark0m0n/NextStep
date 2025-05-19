@@ -16,14 +16,14 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/log" element={<LoginPage/>}/>
-        <Route path="/profile" element={<ProfilePage/>}/>
+        <Route path="/profile/:username" element={<ProfilePage/>}/>
         <Route path="/createprof" element={<CreateProfile/>}/> 
         <Route path="/createproj" element={<CreateProject/>}/>
-        <Route path="/project" element={<ProjectPage/>}/>
+        <Route path="/project/:id" element={<ProjectPage/>}/>
         <Route path="/searchemp" element={<SearchEmp/>}/>
         <Route path="/searchproj" element={<SearchProject/>}/>
         <Route path="/chat" element={<ChatPage/>}/>
-        {/* Додайте інші маршрути тут */}
+        
       </Routes>
     </Router>
   );

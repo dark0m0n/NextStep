@@ -38,7 +38,6 @@ select {
     margin-bottom: 20px;
     margin-top: 20px;
 }
-
 aside {
     max-width: 100%;
 }
@@ -186,7 +185,7 @@ input[type="number"] {
 }
 
 /* ===============================
-   Інформація про проект
+   Інформація про робітника
 ================================ */
 .info-searchemp {
     margin: 30px;
@@ -206,7 +205,7 @@ input[type="number"] {
 
 
 /* ===============================
-   Блоки проектів
+   Блоки робітників
 ================================ */
 .blockss-searchemp {
     justify-content: space-between;
@@ -222,7 +221,7 @@ input[type="number"] {
 }
 
 /* ===============================
-   Окремий блок проекту
+   Окремий блок робітника
 ================================ */
 .block-searchemp {
     flex: 1 1 calc(50% - 20px);
@@ -298,12 +297,12 @@ input[type="number"] {
     }
 
     .options {
-        max-width: 100%;
-    }
-        .options select {
-            max-width: 40%;/*фіксануть*/
-        }
+        max-width: 96%;
 
+    }
+    #sortSelect {
+        width: 165px;
+    }
     .close {
         display: block;
         margin-right: 20px;
@@ -361,8 +360,9 @@ input[type="number"] {
         }
 
     .searchemp-section {
-        margin: 20px 20px; /* Зменшення відступів для мобільних */
+        margin: 14px 14px; /* Зменшення відступів для мобільних */
         margin-bottom: 100px;
+        margin-top: 35%;
     }
 
     .info-searchemp h2 {
