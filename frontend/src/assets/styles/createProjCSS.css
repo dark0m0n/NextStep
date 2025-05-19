@@ -36,11 +36,12 @@
   }
   
   /* Секція створення проекту */
-  .create-project {
+.create-project {
     display: flex;
     align-items: center;
     flex-direction: column;
-  }
+
+}
   
   /* ===============================
      Формові елементи
@@ -164,6 +165,9 @@
      Адаптація під мобільні пристрої
   ================================ */
   @media (max-width: 768px) {
+    .create-project {
+        margin-top: 50%;
+    }
     .info h2 {
       font-size: 28px;
       max-width: 100%;
