@@ -14,7 +14,7 @@ public:
         AuthContext auth;
     };
 
-    template <typename Context>
+    template<typename Context>
     void before_handle(const crow::request &req, crow::response &res, context &ctx, Context &) {
         if (req.method == "OPTIONS"_method) return;
         if (req.url == "/api/user" && req.method == "POST"_method) return;
@@ -28,8 +28,8 @@ public:
         }
 
         const std::string token = authHeader.substr(7);
-
         const auto decodedToken = Token::decodeToken(token);
+
         if (!decodedToken.has_value()) {
             res.code = 401;
             res.body = R"({"error": "Invalid token"})";

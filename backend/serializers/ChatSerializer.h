@@ -8,34 +8,11 @@ using json = nlohmann::json;
 
 class ChatSerializer {
 public:
-    static json serializeChat(const Chat &chat) {
-        return {
-            {"id", chat.getId()},
-            {"isGroup", chat.getIsGroup()},
-            {"title", chat.getTitle()}
-        };
-    }
+    static json serializeChat(const Chat &chat);
 
-    static json serializeChats(const std::vector<Chat> &chats) {
-        json j;
-        for (const auto &chat: chats) {
-            j.push_back(serializeChat(chat));
-        }
-        return j;
-    }
+    static json serializeChats(const std::vector<Chat> &chats);
 
-    static json serializeOptionalChat(const std::optional<Chat> &chat) {
-        if (chat.has_value()) {
-            return serializeChat(chat.value());
-        }
-        return nullptr;
-    }
+    static json serializeOptionalChat(const std::optional<Chat> &chat);
 
-    static Chat deserializeChat(const json &j) {
-        return Chat{
-            j.at("id").get<int>(),
-            j.at("isGroup").get<bool>(),
-            j.at("title").get<std::string>()
-        };
-    }
+    static Chat deserializeChat(const json &j);
 };

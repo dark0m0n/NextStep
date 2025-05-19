@@ -19,7 +19,7 @@ public:
         });
 
         CROW_ROUTE(app, "/api/chat").methods(crow::HTTPMethod::Post)
-        ([&controller](crow::request req) {
+        ([&controller](const crow::request &req) {
             return controller.createChat(req);
         });
     }

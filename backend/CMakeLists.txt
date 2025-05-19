@@ -3,7 +3,30 @@ project(oop)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(oop main.cpp)
+add_executable(oop main.cpp
+        db/Database.cpp
+        auth/Token.cpp
+        controllers/ChatController.cpp
+        controllers/ChatMemberController.cpp
+        controllers/MessageController.cpp
+        controllers/ReviewController.cpp
+        controllers/StartupController.cpp
+        controllers/UserController.cpp
+        models/Chat.cpp
+        models/ChatMember.cpp
+        models/Message.cpp
+        models/Review.cpp
+        models/Startup.cpp
+        models/User.cpp
+        serializers/ChatMemberSerializer.cpp
+        serializers/ChatSerializer.cpp
+        serializers/MessageSerializer.cpp
+        serializers/ReviewSerializer.cpp
+        serializers/StartupSerializer.cpp
+        serializers/UserSerializer.cpp
+        utils/FormData.cpp
+        utils/Hash.cpp
+)
 
 include(FetchContent)
 FetchContent_Declare(

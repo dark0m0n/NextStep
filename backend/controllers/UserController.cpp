@@ -1,0 +1,113 @@
+#include "UserController.h"
+#include "../serializers/UserSerializer.h"
+#include "../utils/FormData.h"
+#include "../utils/Hash.h"
+#include "../auth/Token.h"
+#include <string>
+#include <ostream>
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
+
+UserController::UserController(Database &db) : db(db) {
+}
+
+crow::response UserController::getAllUsers() const {
+    const auto users = db.getAllUsers();
+    return crow::response{200, UserSerializer::serializeUsers(users).dump()};
+}
+
+crow::response UserController::getUserById(const int id) const {
+    const auto user = db.getUserById(id);
+    if (!user) {
+        return crow::response{404, R"({"error": "User not found"})"};
+    }
+    return crow::response{200, UserSerializer::serializeOptionalUser(user).dump()};
+}
+
+crow::response UserController::createUser(const crow::request &req) const {
+    std::string contentType = req.get_header_value("Content-Type");
+
+    if (contentType.find("multipart/form-data") != std::string::npos) {
+        const size_t boundaryPos = contentType.find("boundary=");
+        if (boundaryPos == std::string::npos) {
+            return crow::response{400, "No boundary in Content-Type"};
+        }
+        const std::string boundary = contentType.substr(boundaryPos + 9);
+
+        auto form = FormData::parse(req.body, boundary);
+
+        if (db.getUserByUsername(form["username"]).has_value()) {
+            const json res = {
+                {"error", "User with this username already exists"}
+            };
+            return crow::response{400, res.dump()};
+        }
+
+        form["password"] = Hash::hash(form["password"].c_str());
+
+        std::string path = "public/users/" + form["username"] + ".jpg";
+        std::ofstream file("../frontend/" + path, std::ios::binary);
+        file.write(form["photo"].c_str(), static_cast<std::streamsize>(form["photo"].size()));
+        file.close();
+        form["imagePath"] = path;
+
+        const User user{
+            0,
+            form["username"],
+            form["firstname"],
+            form["lastname"],
+            form["email"],
+            form["password"],
+            form["phoneNumber"],
+            form["imagePath"],
+            form["country"],
+            form["language"],
+            form["specialities"],
+            form["skills"],
+            form["additionalInfo"]
+        };
+
+        db.insertUser(user);
+
+        std::string token = Token::generateToken(form["username"]);
+
+        const json res = {
+            {"token", token}
+        };
+
+        return crow::response{201, res.dump()};
+    }
+
+    return crow::response{400, "Unsupported content type"};
+}
+
+crow::response UserController::login(const crow::request &req) const {
+    std::string contentType = req.get_header_value("Content-Type");
+
+    if (contentType.find("multipart/form-data") != std::string::npos) {
+        const size_t boundaryPos = contentType.find("boundary=");
+        if (boundaryPos == std::string::npos) {
+            return crow::response{400, "No boundary in Content-Type"};
+        }
+        const std::string boundary = contentType.substr(boundaryPos + 9);
+
+        auto form = FormData::parse(req.body, boundary);
+
+        const auto user = db.getUserByUsername(form["username"]);
+        if (!user || !Hash::equal(user->getPassword(), user->getPassword())) {
+            return crow::response{401, "Invalid credentials"};
+        }
+
+        std::string token = Token::generateToken(form["username"]);
+
+        const json res = {
+            {"token", token}
+        };
+
+        return crow::response{200, res.dump()};
+    }
+
+    return crow::response{400, "Unsupported content type"};
+}
+

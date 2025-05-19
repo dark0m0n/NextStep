@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <utility>
 
 class User {
     int id;
@@ -8,31 +7,35 @@ class User {
             skills, additionalInfo;
 
 public:
-    User(const int id, std::string username, std::string firstname, std::string lastname, std::string email,
+    User(int id, std::string username, std::string firstname, std::string lastname, std::string email,
          std::string password, std::string phoneNumber, std::string imagePath, std::string country,
-         std::string language, std::string specialties, std::string skills, std::string additionalInfo)
-        : id(id), username(std::move(username)), firstname(std::move(firstname)), lastname(std::move(lastname)),
-          email(std::move(email)), password(std::move(password)), phoneNumber(std::move(phoneNumber)),
-          imagePath(std::move(imagePath)), country(std::move(country)), language(std::move(language)),
-          specialties(std::move(specialties)),
-          skills(std::move(skills)), additionalInfo(std::move(additionalInfo)) {
-    }
+         std::string language, std::string specialties, std::string skills, std::string additionalInfo);
 
     ~User() = default;
 
-    [[nodiscard]] int getId() const { return id; }
-    [[nodiscard]] std::string getUsername() const { return username; }
-    [[nodiscard]] std::string getFirstname() const { return firstname; }
-    [[nodiscard]] std::string getLastname() const { return lastname; }
-    [[nodiscard]] std::string getEmail() const { return email; }
-    [[nodiscard]] std::string getPassword() const { return password; }
-    [[nodiscard]] std::string getPhoneNumber() const { return phoneNumber; }
-    [[nodiscard]] std::string getImagePath() const { return imagePath; }
-    [[nodiscard]] std::string getCountry() const { return country; }
-    [[nodiscard]] std::string getLanguage() const { return language; }
-    [[nodiscard]] std::string getSpecialties() const { return specialties; }
-    [[nodiscard]] std::string getSkills() const { return skills; }
-    [[nodiscard]] std::string getAdditionalInfo() const { return additionalInfo; }
+    [[nodiscard]] int getId() const;
 
-    void to_json(); // TODO
+    [[nodiscard]] std::string getUsername() const;
+
+    [[nodiscard]] std::string getFirstname() const;
+
+    [[nodiscard]] std::string getLastname() const;
+
+    [[nodiscard]] std::string getEmail() const;
+
+    [[nodiscard]] std::string getPassword() const;
+
+    [[nodiscard]] std::string getPhoneNumber() const;
+
+    [[nodiscard]] std::string getImagePath() const;
+
+    [[nodiscard]] std::string getCountry() const;
+
+    [[nodiscard]] std::string getLanguage() const;
+
+    [[nodiscard]] std::string getSpecialties() const;
+
+    [[nodiscard]] std::string getSkills() const;
+
+    [[nodiscard]] std::string getAdditionalInfo() const;
 };
