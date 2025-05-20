@@ -18,6 +18,7 @@ const CreateStartupPage = () => {
   const [customProjectType, setCustomProjectType] = useState('');
   const [selectedProjectType, setSelectedProjectType] = useState('');
   const [Data, setData] = useState({});
+  const [investment, setInvestment] = useState('');
 
   const categoryRef = useRef(null);
   const projTypeRef = useRef(null);
@@ -39,6 +40,13 @@ const CreateStartupPage = () => {
     reader.readAsDataURL(file);
   };
 
+  const handleInvestmentChange = (e) => {
+    let rawValue = e.target.value.replace(/\s/g, '');
+    if (!/^\d*$/.test(rawValue)) return;
+    const formatted = rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    setInvestment(formatted);
+  };
+  
 
   const handleAddCategory = () => {
     const categoryToAdd = selectedCategory === "Інше" ? customCategory.trim() : selectedCategory;
@@ -109,7 +117,9 @@ const CreateStartupPage = () => {
     if ((selectedProjectType === "Інше" && customProjectType.trim() === "") || selectedProjectType === "") {
       projTypeRef.current.style.borderColor = 'red';
       document.getElementById('wrongProjectType').style.display = 'block';
-      projTypeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => {
+        projTypeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
       return;
     } else {
       projTypeRef.current.style.borderColor = '#ccc';
@@ -318,7 +328,10 @@ const CreateStartupPage = () => {
                         <div className="form-group-create-proj">
               <label htmlFor="projectType" className="label-create-proj">
                 Тип проєкту <span className="required-star">*</span>
-                </label>
+              </label>
+              <p id="wrongProjectType" style={{ color: "red", display: "none", fontStyle: "italic", marginLeft: "10px" }}>
+                Виберіть тип проєкту
+              </p>
               <div className="category-input">
                 <select
                   id="projectType"
@@ -335,7 +348,7 @@ const CreateStartupPage = () => {
                   <option value="MVP">MVP</option>
                   <option value="Інше">Інше</option>
                 </select>
-                {selectedCategory === "Інше" && (
+                {selectedProjectType === "Інше" && (
                   <input
                     type="text"
                     placeholder="Введіть свою категорію"
@@ -349,15 +362,20 @@ const CreateStartupPage = () => {
 
             {/* Інвестиції */}
             <div className="form-group-create-proj">
-              <label htmlFor="investment" className="label-create-proj">Необхідні інвестиції</label>
-              <input
-                type="text"
-                id="investment"
-                name="investment"
-                className="input-info-create-proj"
-                placeholder="Наприклад 2 000 гривень"
-              />
-            </div>
+  <label htmlFor="investment" className="label-create-proj">Необхідні інвестиції</label>
+  <div className="investment-input-wrapper">
+    <input
+      type="text"
+      id="investment"
+      name="investment"
+      className="input-info-create-proj investment-input"
+      placeholder="Наприклад 2000"
+      value={investment}
+      onChange={handleInvestmentChange}
+    />
+    <div className="currency-label">грн</div>
+  </div>
+</div>
 
             {/* Спеціальності */}
             <div className="form-group-create-proj">

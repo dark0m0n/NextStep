@@ -163,6 +163,32 @@
   .upload-label:hover {
     background-color: #173046;
   }
+
+    .investment-input-wrapper {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding-right: 8px;
+      margin-top: 8px;
+      margin-bottom: 24px;
+      margin-left: 8px;
+      background-color: white;
+    }
+  
+    .investment-input {
+      border: none;
+      outline: none;
+      flex-grow: 1;
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+  
+    .currency-label {
+      font-size: 14px;
+      color: #333;
+      padding-left: 4px;
+    }
   
   /* ===============================
      Адаптація під мобільні пристрої
