@@ -462,6 +462,11 @@ const filteredSkills = skills.filter(skill =>
                                     <div className="column margin20">
                                         <p className="name">{employee.name}</p>
                                         <p className="specialization">{employee.specialization}</p>
+                                        <div className="languages">
+                                            {employee.language.map((language, index) => (
+                                                <span className="language" key={index}>{language}</span>
+                                            ))}
+                                        </div>
                                     </div>
                                     </div>
                                         <div className="skills">
@@ -471,7 +476,7 @@ const filteredSkills = skills.filter(skill =>
                                         </div>
                                         <p className="about">
                                             {employee.description && employee.description.length > 100
-                                                ? employee.description.slice(0, 100) + '...'
+                                                ? employee.description.slice(0, 200) + '...'
                                                 : employee.description}
                                         </p>
                                     <p className="rating">★ {employee.rating}</p>
