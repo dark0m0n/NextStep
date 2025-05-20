@@ -231,11 +231,31 @@ input[type="number"] {
     border: none;
     border-radius: 10px;
 }
+    .block-searchemp:hover {
+        text-decoration: underline;
+    }
 
     .block-searchemp .name {
         font-size: 15px;
         margin: 0 0 7px;
         max-width: 300px;
+    }
+    .block-searchemp .languages {
+        margin: 10px 0;
+        font-size: 12px;
+
+    }
+    .block-searchemp .language {
+        margin-right: 10px;
+        border: 1px solid #173046;
+        border-radius: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .block-searchemp .specialization {
+        margin: 10px 0;
+        font-size: 16px;
+        font-size: 16px;
     }
 
     .block-searchemp .rating {
