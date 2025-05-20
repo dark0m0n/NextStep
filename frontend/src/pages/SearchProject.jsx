@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import "../assets/styles/searchprojCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
 
 export default function SearchPage() {
-    const [priceMin, setPriceMin] = useState(1);
-    const [priceMax, setPriceMax] = useState(100000);
+    const [priceMin, setPriceMin] = useState("");
+    const [priceMax, setPriceMax] = useState("");
     const [sortOption, setSortOption] = useState("");
 
     //Увімк/вимк меню фільтрів
@@ -27,43 +27,54 @@ export default function SearchPage() {
             fltrRef.current.classList.add("visible");
         }
     }, []);
-
-    // Для бд
-    const tags = ["IT", "Виробництво", "Інновації", "Технології"];
     const [selectedTags, setSelectedTags] = useState([]);
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [selectedRatings, setSelectedRatings] = useState([]);
+    const [allProjects, setAllProjects] = useState([]);
+const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [onlyHiring, setOnlyHiring] = useState(false);
+    
 
-    // Просто бд проєктів
-    const allProjects = [
-        // IT
-        { id: 1, tag: "IT", title: "Хмарна CRM-платформа", mark: 9.2, price: 3000, projType: "Стартап" },
-        { id: 2, tag: "IT", title: "Система управління задачами", mark: 8.5, price: 4500, projType: "Малий бізнес" },
-        { id: 3, tag: "IT", title: "Онлайн-сервіс для аналітики", mark: 7.8, price: 7000, projType: "Пілотний проєкт" },
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const res = await fetch("/api/startups");
+                if (!res.ok) throw new Error("Помилка при завантаженні даних");
+                const data = await res.json();
 
-        // Виробництво
-        { id: 4, tag: "Виробництво", title: "Міні-лінія фасування кави", mark: 6.5, price: 15000, projType: "Стартап" },
-        { id: 5, tag: "Виробництво", title: "Автоматизований верстат ЧПУ", mark: 8.0, price: 30000, projType: "Малий бізнес" },
-        { id: 6, tag: "Виробництво", title: "Еко-пакування з крохмалю", mark: 7.0, price: 20000, projType: "MVP" },
+                const processedData = data.map((project) => ({
+                    ...project,
+                    mark: Number(project.mark),
+                    tag: Array.isArray(project.tag)
+                        ? project.tag
+                        : typeof project.tag === "string"
+                            ? project.tag.split(",").map((tag) => tag.trim())
+                            : [],
+                    imagePath: project.imagePath || "images/ua.png",
+                }));
 
-        // Інновації
-        { id: 7, tag: "Інновації", title: "Розумна система моніторингу повітря", mark: 9.0, price: 18000, projType: "Пілотний проєкт" },
-        { id: 8, tag: "Інновації", title: "Доповнена реальність для освіти", mark: 8.7, price: 12000, projType: "Малий бізнес" },
-        { id: 9, tag: "Інновації", title: "Нанопокриття для панелей", mark: 6.8, price: 9500, projType: "Стартап" },
-
-        // Технології
-        { id: 10, tag: "Технології", title: "3D-принтер з переробленого пластику", mark: 9.5, price: 35000, projType: "Стартап" },
-        { id: 11, tag: "Технології", title: "Сенсорна рукавиця для реабілітації", mark: 8.1, price: 25000, projType: "MVP" },
-        { id: 12, tag: "Технології", title: "AI-модуль контролю енергії", mark: 9.0, price: 40000, projType: "Пілотний проєкт" }
-    ];
+                setAllProjects(processedData);
+            } catch (err) {
+                console.error(err);
+                setError("Не вдалося завантажити проєкти");
+            } finally {
+                setIsLoading(false);
+            }
+        };
+    
+        fetchProjects();
+    }, []);
+    
 
     // Відфільтровано
     const filteredProjects = allProjects.filter((project) => {
-        const tagMatch = selectedTags.length === 0 || selectedTags.includes(project.tag);
+        const tagMatch = selectedTags.length === 0 || project.tag.some(tag => selectedTags.includes(tag));
         const ratingMatch = selectedRatings.length === 0 || selectedRatings.some(r => project.mark >= r);
         const priceMatch = project.price >= priceMin && project.price <= priceMax;
         const typeMatch = selectedTypes.length === 0 || selectedTypes.includes(project.projType);
-        return tagMatch && typeMatch && ratingMatch && priceMatch;
+        const hiringMatch = !onlyHiring || project.hiring === true;
+        return tagMatch && typeMatch && ratingMatch && priceMatch && hiringMatch;
     });
 
     // Відсортовано + відфільтровано
@@ -106,19 +117,38 @@ export default function SearchPage() {
         );
     };
 
-    // Фільтри по ціні
     const handleMinChange = (e) => {
-        const value = Math.min(Number(e.target.value), priceMax - 1);
-        setPriceMin(value);
+        const val = e.target.value;
+    
+        if (/^\d*$/.test(val)) {
+            const num = Number(val);
+    
+            if (val === "") {
+                setPriceMin("");
+            } else if (num < priceMax && num <= 100000) {
+                setPriceMin(num);
+            }
+        }
     };
-
+    
     const handleMaxChange = (e) => {
-        const value = Math.max(Number(e.target.value), priceMin + 1);
-        setPriceMax(value);
+        const val = e.target.value;
+    
+        if (/^\d*$/.test(val)) {
+            const num = Number(val);
+    
+            if (val === "") {
+                setPriceMax("");
+            } else if (num > priceMin && num <= 100000) {
+                setPriceMax(num);
+            }
+        }
     };
-    if (priceMin >= priceMax) {
-        setPriceMax(priceMin + 1);
-    }
+    useEffect(() => {
+        if (priceMin >= priceMax) {
+            setPriceMax(priceMin);
+        }
+    }, [priceMin, priceMax]);
 
     // Слайдер цін (динам. зміна кольору)
     const minSliderRef = useRef(null);
@@ -127,6 +157,9 @@ export default function SearchPage() {
         const percent = ((value - min) / (max - min)) * 100;
         return `linear-gradient(to right, #14B8A6 0%, #14B8A6 ${percent}%, #ddd ${percent}%, #ddd 100%)`;
     };
+
+    const allTags = useMemo(() => [...new Set(allProjects.flatMap(project => project.tag))], [allProjects]);
+
 
     useEffect(() => {
         if (minSliderRef.current) {
@@ -150,12 +183,23 @@ export default function SearchPage() {
                         </svg>
                         </button>
                     </div>
-                    <div className="fltrs">
+                        <div className="fltrs">
+                        <div className="fltrpath">
+                            <div className="fltrHead">
+                                    <h5>Набір персоналу</h5>
+                                    </div>
+                                    <input
+                                        type="checkbox"
+                                        checked={onlyHiring}
+                                        onChange={() => setOnlyHiring(prev => !prev)}
+                                        className="fltrInput"
+                                    />
+                        </div>
                         <div className="fltrpath">
                             <div className="fltrHead">
                                 <h5>За тегами</h5>
                             </div>
-                                {tags.map((tag) => (
+                                {allTags.map((tag) => (
                                     <label key={tag} className="checkbox-label">
                                         <input
                                             type="checkbox"
@@ -205,49 +249,68 @@ export default function SearchPage() {
                             </div>
                                     <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
                                         <input
-                                            type="number"
-                                            min="0"
+                                        type="text"
+                                        placeholder="Від"
+                                        min="0"
+                                        max={priceMax}
                                             onChange={handleMinChange}
-                                            style={{ width: "100%" }}
+                                            style={{ width: "100%", height: "30px", borderRadius: "5px", border: "1px solid #ccc" }}
                                             value={priceMin}
                                         />
                                         <input
-                                            type="number"
-                                            min="0"
+                                        type="text"
+                                        placeholder="До"
+                                        min="0"
+                                        max={priceMax}
                                             onChange={handleMaxChange}
-                                            style={{ width: "100%" }}
+                                            style={{ width: "100%", height: "30px", borderRadius: "5px", border: "1px solid #ccc" }}
                                             
                                             value={priceMax}
                                         />
                                     </div>
 
-                                    <input
-                                        type="range"
-                                        min="0"
-                                        max="100000"
-                                        step="100"
-                                        value={priceMin}
-                                        ref={minSliderRef}
-                                        onInput={(e) => {
-                                            setPriceMin(Number(e.target.value));
-                                            e.target.style.background = getSliderBackground(e.target.value, 0, 100000);
-                                        }}
-                                        style={{ width: "100%", marginBottom: "5px" }}
-                                    />
+                                    <div className="range-slider-container">
+    <div className="slider-track">
+        <input
+            type="range"
+            min="0"
+            max="100000"
+            step="100"
+            value={priceMin}
+            onChange={(e) => {
+                const val = Number(e.target.value);
+                if (val < priceMax) setPriceMin(val);
+            }}
+            className="range-thumb min"
+            style={{
+                background: `linear-gradient(to right, #14B8A6 0%, #14B8A6 ${(priceMin / 100000) * 100}%, white ${(priceMin / 100000) * 100}%, white 100%)`,
+            }}
+                                        />
+                                    </div>
+                                    <div className="slider-track">
+        <input
+            type="range"
+            min="0"
+            max="100000"
+            step="100"
+            value={priceMax}
+            onChange={(e) => {
+                const val = Number(e.target.value);
+                if (val > priceMin) setPriceMax(val);
+            }}
+            className="range-thumb max"
+            style={{
+                background: `linear-gradient(to right, 
+                    #14B8A6 0%, 
+                    #14B8A6 ${(priceMax / 100000) * 100}%, 
+                    white ${(priceMax / 100000) * 100}%, 
+                    white 100%)`,
+            }}
+        />
+    </div>
+</div>
 
-                                    <input
-                                        type="range"
-                                        min="0"
-                                        max="100000"
-                                        step="100"
-                                        value={priceMax}
-                                        ref={maxSliderRef}
-                                        onInput={(e) => {
-                                            setPriceMax(Number(e.target.value));
-                                            e.target.style.background = getSliderBackground(e.target.value, 0, 100000);
-                                        }}
-                                        style={{ width: "100%" }}
-                                    />
+
                         </div>
                     </div>
                     </aside>
@@ -281,22 +344,26 @@ export default function SearchPage() {
                     </div>
                 <div className="blockss-searchproj">
                     <div className="blocks-searchproj">
-                            {filteredProjects.length === 0 && (
-                                <p style={{ padding: "20px", fontStyle: "italic" }}>
-                                    Немає проєктів, які відповідають обраним критеріям.
-                                </p>
-                            )}
-
-                            {sortedProjects.map((project, index) => (
-                            <div className="block-searchproj" data-tags={project.tag} key={index}>
-                                <a href="/project">{/* /project/${project.id} */}
-                                    <img src="images/ua.png" alt="UA flag" />
-                                    <p className="title">{project.title}</p>
-                                    <p className="mark">★ {project.mark}</p>
-                                    <p className="price">Від {project.price.toLocaleString()} грн</p>
-                                </a>
-                            </div>
-                        ))}
+                    {isLoading ? (
+    <p style={{ padding: "20px" }}>Завантаження проєктів...</p>
+) : error ? (
+    <p style={{ padding: "20px", color: "red" }}>{error}</p>
+) : filteredProjects.length === 0 ? (
+    <p style={{ padding: "20px", fontStyle: "italic" }}>
+        Немає проєктів, які відповідають обраним критеріям.
+    </p>
+) : (
+    sortedProjects.map((project) => (
+        <div className="block-searchproj" data-tags={project.tag} key={project.id}>
+            <a href={`project/${project.id}`} className="block-link">
+                <img src={project.imagePath}  alt={project.title} />
+                <p className="title">{project.title}</p>
+                <p className="mark">★ {project.mark}</p>
+                <p className="price">Від {project.price}</p>
+            </a>
+        </div>
+    ))
+)}
                     </div>
 
                     
