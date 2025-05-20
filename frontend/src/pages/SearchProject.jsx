@@ -108,7 +108,7 @@ const [isLoading, setIsLoading] = useState(true);
         );
     };
 
-    // Фільтр по тегам
+    // Фільтр по категоріям
     const handleTagChange = (tag) => {
         setSelectedTags((prev) =>
             prev.includes(tag)
@@ -185,19 +185,19 @@ const [isLoading, setIsLoading] = useState(true);
                     </div>
                         <div className="fltrs">
                         <div className="fltrpath">
-                            <div className="fltrHead">
+                            <div className="fltrHead nabir">
                                     <h5>Набір персоналу</h5>
-                                    </div>
                                     <input
                                         type="checkbox"
                                         checked={onlyHiring}
                                         onChange={() => setOnlyHiring(prev => !prev)}
                                         className="fltrInput"
                                     />
+                                    </div>
                         </div>
                         <div className="fltrpath">
                             <div className="fltrHead">
-                                <h5>За тегами</h5>
+                                <h5>За категоріями</h5>
                             </div>
                                 {allTags.map((tag) => (
                                     <label key={tag} className="checkbox-label">
