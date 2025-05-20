@@ -3,10 +3,12 @@ import { useParams } from "react-router-dom";
 import "../assets/styles/profilePageCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfilePage() {
   const {username} = useParams();
   const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:8000/api/user/${username}`)
@@ -93,6 +95,7 @@ export default function ProfilePage() {
             <p className="otherInfo">{userData.additionalInfo}</p>
           </div>
         </div>
+        <button onClick={navigate(`/editprofile`)}>Редагувати профіль</button>
       </div>
 
       <MyFooter />

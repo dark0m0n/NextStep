@@ -1,13 +1,22 @@
 import { useState, useEffect } from 'react';
 
-const PhoneInputForm = ({ onPhoneChange }) => {
+const PhoneInputForm = ({ onPhoneChange, initialPhone = '' }) => {
   const [countryCode, setCountryCode] = useState('+38');
   const [phone, setPhone] = useState('');
 
+  useEffect(() => {
+    if (initialPhone) {
+      const match = initialPhone.match(/^(\+d{1,3})(\d{6,})$/)
+      if (match) {
+        setCountryCode(match[1]);
+        setPhone(match[2]);
+      }
+    }
+  }, [initialPhone]);
 
-    useEffect(() => {
+  useEffect(() => {
     onPhoneChange(countryCode + phone);
-    }, [countryCode, phone, onPhoneChange]);
+  }, [countryCode, phone, onPhoneChange]);
   
   const handlePhoneChange = (e) => {
     const onlyDigits = e.target.value.replace(/\D/g, '').slice(0, 10);
