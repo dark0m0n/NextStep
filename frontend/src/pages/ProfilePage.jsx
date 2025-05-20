@@ -9,13 +9,7 @@ export default function ProfilePage() {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    fetch(`/api/user/${username}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-    )
+    fetch(`http://localhost:8000/api/user/${username}`)
       .then((res) => {
         if (!res.ok) throw new Error("Profile load error");
         return res.json();

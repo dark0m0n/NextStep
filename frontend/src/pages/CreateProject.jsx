@@ -16,8 +16,11 @@ const CreateStartupPage = () => {
   const [customSpecVisible, setCustomSpecVisible] = useState(false);
   const [specClicked, setSpecClicked] = useState(false);
   const [showCategoryTip, setShowCategoryTip] = useState(false);
+  const [customProjectType, setCustomProjectType] = useState('');
+  const [selectedProjectType, setSelectedProjectType] = useState('');
 
   const categoryRef = useRef(null);
+  const projTypeRef = useRef(null);
   const specRef = useRef(null);
 
   const specLabels = {
@@ -35,6 +38,7 @@ const CreateStartupPage = () => {
     reader.onload = (e) => setLogoSrc(e.target.result);
     reader.readAsDataURL(file);
   };
+
 
   const handleAddCategory = () => {
     const categoryToAdd = selectedCategory === "Інше" ? customCategory.trim() : selectedCategory;
@@ -86,6 +90,16 @@ const CreateStartupPage = () => {
       document.getElementById('wrongSpec').style.display = 'none';
     }
 
+    if ((selectedProjectType === "Інше" && customProjectType.trim() === "") || selectedProjectType === "") {
+      projTypeRef.current.style.borderColor = 'red';
+      document.getElementById('wrongProjectType').style.display = 'block';
+      projTypeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    } else {
+      projTypeRef.current.style.borderColor = '#ccc';
+      document.getElementById('wrongProjectType').style.display = 'none';
+    }
+
     if (categories.length === 0) {
       categoryRef.current.style.borderColor = 'red';
       document.getElementById('wrongCategory').style.display = 'block';
@@ -130,6 +144,7 @@ const CreateStartupPage = () => {
     formData.append("userID", token);
     formData.append("startup-name", formData.get("startup-name"));
     formData.append("description", formData.get("description"));
+    formData.append("projectType", selectedProjectType === "Інше" ? customProjectType.trim() : selectedProjectType);
 
     const categoriesString = categories.join(", ");
     formData.append("category", categoriesString);
@@ -139,7 +154,7 @@ const CreateStartupPage = () => {
     formData.set("investment", invest);
 
     try {
-      const response = await fetch("/api/startup", {
+      const response = await fetch("http://localhost:8000/api/startup", {
         method: "POST",
         body: formData,
       });
@@ -280,6 +295,39 @@ const CreateStartupPage = () => {
                 <button type="button" onClick={handleAddCategory} className="tag">
                   Додати
                 </button>
+              </div>
+            </div>
+
+                        {/* Тип проєкту */}
+                        <div className="form-group-create-proj">
+              <label htmlFor="projectType" className="label-create-proj">
+                Тип проєкту <span className="required-star">*</span>
+                </label>
+              <div className="category-input">
+                <select
+                  id="projectType"
+                  name="projectType"
+                  className="input-info-create-proj"
+                  value={selectedProjectType}
+                  onChange={(e) => setSelectedProjectType(e.target.value)}
+                  ref={projTypeRef}
+                >
+                  <option value="">- Вибрати -</option>
+                  <option value="Стартап">Стартап</option>
+                  <option value="Малий бізнес">Малий бізнес</option>
+                  <option value="Пілотний проєкт">Пілотний проєкт</option>
+                  <option value="MVP">MVP</option>
+                  <option value="Інше">Інше</option>
+                </select>
+                {selectedCategory === "Інше" && (
+                  <input
+                    type="text"
+                    placeholder="Введіть свою категорію"
+                    className="input-info-create-proj"
+                    value={customProjectType}
+                    onChange={(e) => setCustomProjectType(e.target.value)}
+                  />
+                )}
               </div>
             </div>
 

@@ -29,22 +29,18 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const response = await fetch("/api/login", {
+      const response = await fetch("http://localhost:8000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, password }),
+        credentials: "include",
       });
 
       if (response.ok) {
         const data = await response.json();
-        if(data.token) {
-          localStorage.setItem("token", data.token);
           navigate(`/profile/${data.username}`);
-        } else {
-          setError("Відсутній ID користувача у відповіді");
-        }
       } else {
         setError("Неправильний логін або пароль");
       }

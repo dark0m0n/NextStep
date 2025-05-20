@@ -39,7 +39,7 @@ const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const res = await fetch("/api/startups");
+                const res = await fetch("http://localhost:8000/api/startups");
                 if (!res.ok) throw new Error("Помилка при завантаженні даних");
                 const data = await res.json();
 

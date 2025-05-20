@@ -118,16 +118,14 @@ export default function CreateProfile() {
     try {
       const response = await fetch('http://localhost:8000/api/user', {
         method: 'POST',
-        body: formData, // без headers, бо FormData сам їх генерує
+        body: formData,
+        credentials: "include",
       });
 
       if (response.ok) {
         console.log('Профіль створено успішно.');
         const data = await response.json();
-if (data.token) {
-  localStorage.setItem("token", data.token);
   navigate(`/profile/${data.username}`);
-}
       } else {
         console.log('Помилка при створенні профілю.');
       }
