@@ -65,7 +65,6 @@ aside {
         width: 16px;
         height: 16px;
     }
-
 .fltrs {
     padding: 10px;
     overflow-y: auto;
@@ -343,6 +342,11 @@ aside {
             width: 16px;
             height: 16px;
         }
+    .nabir {
+        display: flex;
+        justify-content: flex-start;
+        gap: 10px;
+    }
     #sortSelect1 {
         width: 170px;
     }
