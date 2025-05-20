@@ -2,7 +2,7 @@ import "../assets/styles/projPageCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 // Компонент зірочок рейтингу
 const RatingStars = ({ max = 10, onChange }) => {
@@ -54,6 +54,7 @@ export default function ProjectPage() {
     const [fbVisible, setFbVisible] = useState(false);
     const [comment, setComment] = useState("");
     const [validationErrors, setValidationErrors] = useState({ rating: false, comment: false });
+    const navigate = useNavigate();
 
     // Функція для обчислення середнього рейтингу
     const calculateAverageRating = (reviewsArray) => {
@@ -68,7 +69,7 @@ export default function ProjectPage() {
             const response = await fetch(`http://localhost:8000/api/startup/${id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ averageRating: avgRating }),
+                body: JSON.stringify({ averageRating: avgRating, hiring: startup.hiring }),
             });
 
             if (!response.ok) {
@@ -194,7 +195,7 @@ export default function ProjectPage() {
             <section className="project-section">
                 <div className="contacts-proj">
                     <h3>Мінімальна вартість для внеску</h3>
-                    <p>{startup.investment}</p>
+                    <p>{startup.investment} грн</p>
                     <h3>Контакти</h3>
                     <p>{user.username}</p>
                     <p>{user.email}</p>
@@ -236,16 +237,19 @@ export default function ProjectPage() {
                                 ))}
                             </div>
                         </div>
-
-                        <p className="mark">
-                            {/* Тут більше не показуємо фіксований рейтинг */}
+                        <div className="hiring">
+                            {startup.hiring ? (
+                                <p className="hiring-text">Вакансії доступні</p>
+                            ) : (
+                                <p className="hiring-text">Вакансії недоступні</p>
+                            )}
+                        </div>
                             {/* Кнопка відкриття форми */}
-                            <div className="start-fbs">
-                                <button className="fbsbtn" onClick={toggleFb}>
-                                    Надіслати відгук
-                                </button>
-                            </div>
-                        </p>
+                        <div className="start-fbs">
+                            <button className="fbsbtn" onClick={toggleFb}>
+                                Надіслати відгук
+                            </button>
+                        </div>
 
                         {fbVisible && (
                             <div className="overlay-createFBform">
@@ -351,6 +355,8 @@ export default function ProjectPage() {
                             </ul>
                         </section>
                     </div>
+                    <button onClick={navigate(`/editproject/${id}`)}>Редагувати</button>
+                    <button>Видалити</button>
                 </div>
             </section>
 

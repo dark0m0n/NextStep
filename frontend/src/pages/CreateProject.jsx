@@ -1,10 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../assets/styles/createProjCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
 
 const CreateStartupPage = () => {
-  const token = localStorage.getItem("token");
 
   const [logoSrc, setLogoSrc] = useState("");
   const [visibleExperience, setVisibleExperience] = useState({});
@@ -18,6 +17,7 @@ const CreateStartupPage = () => {
   const [showCategoryTip, setShowCategoryTip] = useState(false);
   const [customProjectType, setCustomProjectType] = useState('');
   const [selectedProjectType, setSelectedProjectType] = useState('');
+  const [Data, setData] = useState({});
 
   const categoryRef = useRef(null);
   const projTypeRef = useRef(null);
@@ -77,6 +77,22 @@ const CreateStartupPage = () => {
     setCustomSpecExp('');
     setSpecClicked(false);
   };
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/user/me`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Profile load error");
+        return res.json();
+      })
+      .then((data) => {
+        setData(data);
+      })
+      .catch((error) => console.error("Помилка:", error));
+  }, []);
+
+  if (!Data) {
+    return <div>Завантаження...</div>;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -141,8 +157,8 @@ const CreateStartupPage = () => {
     }
 
     formData.append("experience", experienceString);
-    formData.append("userID", token);
-    formData.append("startup-name", formData.get("startup-name"));
+    formData.append("userID", Data.userID);
+    formData.append("title", formData.get("startup-name"));
     formData.append("description", formData.get("description"));
     formData.append("projectType", selectedProjectType === "Інше" ? customProjectType.trim() : selectedProjectType);
 

@@ -10,6 +10,7 @@ import SearchEmp from './pages/SearchEmp';
 import SearchProject from './pages/SearchProject';
 import ChatPage from './pages/Chat';
 import EditProfile from './pages/EditProfile';
+import EditProject from './pages/EditProject';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/searchproj" element={<SearchProject/>}/>
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/editprofile" element={<EditProfile />} />
+        <Route path="/editproject/:id" element={<EditProject />} />
       </Routes>
     </Router>
   );
