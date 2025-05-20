@@ -72,11 +72,16 @@ crow::response UserController::createUser(const crow::request &req) const {
 
         std::string token = Token::generateToken(form["username"]);
 
-        const json res = {
+        const json j = {
             {"token", token}
         };
 
-        return crow::response{201, res.dump()};
+        crow::response res;
+        res.code = 201;
+        res.add_header("Set-Cookie", "token=" + token + "; HttpOnly; SameSite=Strict; Path=/");
+        res.body = j.dump();
+
+        return res;
     }
 
     return crow::response{400, "Unsupported content type"};
@@ -101,11 +106,16 @@ crow::response UserController::login(const crow::request &req) const {
 
         std::string token = Token::generateToken(form["username"]);
 
-        const json res = {
+        const json j = {
             {"token", token}
         };
 
-        return crow::response{200, res.dump()};
+        crow::response res;
+        res.code = 200;
+        res.add_header("Set-Cookie", "token=" + token + "; HttpOnly; SameSite=Strict; Path=/");
+        res.body = j.dump();
+
+        return res;
     }
 
     return crow::response{400, "Unsupported content type"};

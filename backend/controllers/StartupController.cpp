@@ -38,7 +38,12 @@ crow::response StartupController::createStartup(const crow::request &req) const 
             std::stoi(form["userID"]),
             form["title"],
             form["description"],
-            form["imagePath"]
+            form["imagePath"],
+            form["experience"],
+            form["category"],
+            form["projectType"],
+            std::stoi(form["investment"]),
+            std::stoi(form["date"])
         };
 
         db.insertStartup(startup);

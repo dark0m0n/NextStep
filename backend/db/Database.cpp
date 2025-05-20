@@ -29,7 +29,12 @@ Database::Database(const std::string &connInfo) : connInfo(connInfo) {
                 userID INTEGER REFERENCES users(id) ON DELETE CASCADE,
                 title TEXT NOT NULL,
                 description TEXT NOT NULL,
-                imagePath TEXT
+                imagePath TEXT,
+                experience TEXT,
+                category TEXT,
+                projectType TEXT,
+                investment INTEGER,
+                averageRating INTEGER
             );
 
             CREATE TABLE IF NOT EXISTS reviews (
@@ -177,7 +182,12 @@ std::vector<Startup> Database::getAllStartups() const {
             row["userID"].as<int>(),
             row["title"].as<std::string>(),
             row["description"].as<std::string>(),
-            row["imagePath"].as<std::string>());
+            row["imagePath"].as<std::string>(),
+            row["experience"].as<std::string>(),
+            row["category"].as<std::string>(),
+            row["projectType"].as<std::string>(),
+            row["investment"].as<int>(),
+            row["averageRating"].as<int>());
     }
 
     return startups;
@@ -198,7 +208,12 @@ std::optional<Startup> Database::getStartupById(const int id) const {
         row["userID"].as<int>(),
         row["title"].as<std::string>(),
         row["description"].as<std::string>(),
-        row["imagePath"].as<std::string>());
+        row["imagePath"].as<std::string>(),
+        row["experience"].as<std::string>(),
+        row["category"].as<std::string>(),
+        row["projectType"].as<std::string>(),
+        row["investment"].as<int>(),
+        row["averageRating"].as<int>());
 
     return startup;
 }
@@ -207,12 +222,18 @@ void Database::insertStartup(const Startup &startup) const {
     pqxx::connection conn(connInfo);
     pqxx::work txn(conn);
     txn.exec_params(
-        "INSERT INTO startups (userID, title, description, imagePath)"
-        "VALUES ($1, $2, $3, $4);",
+        "INSERT INTO startups (userID, title, description, imagePath, experience, category, projectType, "
+        "investment, averageRating)"
+        "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);",
         startup.getUserID(),
         startup.getTitle(),
         startup.getDescription(),
-        startup.getImagePath());
+        startup.getImagePath(),
+        startup.getExperience(),
+        startup.getCategory(),
+        startup.getProjectType(),
+        startup.getInvestment(),
+        startup.getAverageRating());
     txn.commit();
 }
 
