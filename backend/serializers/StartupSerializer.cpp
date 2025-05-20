@@ -6,7 +6,12 @@ json StartupSerializer::serializeStartup(const Startup &startup) {
         {"userID", startup.getUserID()},
         {"title", startup.getTitle()},
         {"description", startup.getDescription()},
-        {"imagePath", startup.getImagePath()}
+        {"imagePath", startup.getImagePath()},
+        {"experience", startup.getExperience()},
+        {"category", startup.getCategory()},
+        {"projectType", startup.getProjectType()},
+        {"investment", startup.getInvestment()},
+        {"averageRating", startup.getAverageRating()}
     };
 }
 
@@ -31,6 +36,11 @@ Startup StartupSerializer::deserializeStartup(const json &j) {
         j.at("userID").get<int>(),
         j.at("title").get<std::string>(),
         j.at("description").get<std::string>(),
-        j.at("imagePath").get<std::string>()
+        j.at("imagePath").get<std::string>(),
+        j.at("experience").get<std::string>(),
+        j.at("category").get<std::string>(),
+        j.at("projectType").get<std::string>(),
+        j.at("investment").get<int>(),
+        j.at("averageRating").get<int>()
     };
 }
