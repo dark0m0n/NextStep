@@ -14,6 +14,8 @@ const CreateStartupPage = () => {
   const [customSpecName, setCustomSpecName] = useState('');
   const [customSpecExp, setCustomSpecExp] = useState('');
   const [customSpecVisible, setCustomSpecVisible] = useState(false);
+  const [specClicked, setSpecClicked] = useState(false);
+  const [showCategoryTip, setShowCategoryTip] = useState(false);
 
   const categoryRef = useRef(null);
   const specRef = useRef(null);
@@ -35,12 +37,13 @@ const CreateStartupPage = () => {
   };
 
   const handleAddCategory = () => {
-    const categoryToAdd = selectedCategory === "other" ? customCategory.trim() : selectedCategory;
+    const categoryToAdd = selectedCategory === "Інше" ? customCategory.trim() : selectedCategory;
 
     if (categoryToAdd && !categories.includes(categoryToAdd)) {
       setCategories([...categories, categoryToAdd]);
       setCustomCategory('');
       setSelectedCategory('');
+      setShowCategoryTip(true);
     }
 
     if (categoryRef.current) categoryRef.current.style.borderColor = '#ccc';
@@ -50,9 +53,11 @@ const CreateStartupPage = () => {
 
   const handleRemoveCategory = (categoryToRemove) => {
     setCategories(categories.filter(cat => cat !== categoryToRemove));
+    setShowCategoryTip(false);
   };
 
   const toggleExperienceField = (specialization) => {
+    setSpecClicked(true); 
     setVisibleExperience((prev) => ({
       ...prev,
       [specialization]: !prev[specialization],
@@ -66,6 +71,7 @@ const CreateStartupPage = () => {
     setCustomSpecVisible(false);
     setCustomSpecName('');
     setCustomSpecExp('');
+    setSpecClicked(false);
   };
 
   const handleSubmit = async (e) => {
@@ -95,7 +101,6 @@ const CreateStartupPage = () => {
     const fileInput = document.getElementById("photo-upload");
     if (fileInput && fileInput.files.length > 0) {
       formData.append("photo", fileInput.files[0]);
-      console.log("photo")
     }
 
     let experienceString = "";
@@ -122,21 +127,16 @@ const CreateStartupPage = () => {
     }
 
     formData.append("experience", experienceString);
-    console.log("experience", experienceString);
     formData.append("userID", token);
-    formData.append("title", formData.get("startup-name"));
-    console.log("startup-name", formData.get("startup-name"));
+    formData.append("startup-name", formData.get("startup-name"));
     formData.append("description", formData.get("description"));
-    console.log("description", formData.get("description"));
 
     const categoriesString = categories.join(", ");
     formData.append("category", categoriesString);
-    console.log("category", categoriesString);
 
     let invest = formData.get("investment");
     if (!invest || invest.trim() === "") invest = "0";
     formData.set("investment", invest);
-    console.log("investment", invest);
 
     try {
       const response = await fetch("/api/startup", {
@@ -168,7 +168,7 @@ const CreateStartupPage = () => {
             {/* Назва */}
             <div className="form-group-create-proj">
               <label htmlFor="startup-name" className="label-create-proj">
-                Назва стартапу: <span className="required-star">*</span>
+                Назва стартапу <span className="required-star">*</span>
               </label>
               <input
                 type="text"
@@ -182,7 +182,7 @@ const CreateStartupPage = () => {
 
             {/* Фото */}
             <div className="form-group-create-proj">
-              <label htmlFor="photo-upload" className="label-create-prof">Фото:</label>
+              <label htmlFor="photo-upload" className="label-create-prof">Фото</label>
               {logoSrc && (
                 <img
                   id="logo-preview"
@@ -212,7 +212,7 @@ const CreateStartupPage = () => {
             {/* Опис */}
             <div className="form-group-create-proj">
               <label htmlFor="description" className="label-create-proj">
-                Опис: <span className="required-star">*</span>
+                Опис <span className="required-star">*</span>
               </label>
               <textarea
                 id="description"
@@ -226,7 +226,10 @@ const CreateStartupPage = () => {
             {/* Категорія */}
             <div className="form-group-create-proj">
               <label htmlFor="category" className="label-create-proj">
-                Категорія: <span className="required-star">*</span>
+                Категорія <span className="required-star">*</span>
+                {showCategoryTip && (
+                  <span className="tip">Натиснути на назву для видалення</span>
+                )}
               </label>
               <p id="wrongCategory" style={{ color: "red", display: "none", fontStyle: "italic", marginLeft: "10px" }}>
                 Додайте принаймні одну категорію
@@ -259,11 +262,13 @@ const CreateStartupPage = () => {
                   ref={categoryRef}
                 >
                   <option value="">- Вибрати -</option>
-                  <option value="it">IT</option>
-                  <option value="production">Виробництво</option>
-                  <option value="other">Інше</option>
+                  <option value="IT">IT</option>
+                  <option value="Виробництво">Виробництво</option>
+                  <option value="Інновації">Інновації</option>
+                  <option value="Технології">Технології</option>
+                  <option value="Інше">Інше</option>
                 </select>
-                {selectedCategory === "other" && (
+                {selectedCategory === "Інше" && (
                   <input
                     type="text"
                     placeholder="Введіть свою категорію"
@@ -280,13 +285,13 @@ const CreateStartupPage = () => {
 
             {/* Інвестиції */}
             <div className="form-group-create-proj">
-              <label htmlFor="investment" className="label-create-proj">Необхідні інвестиції:</label>
+              <label htmlFor="investment" className="label-create-proj">Необхідні інвестиції</label>
               <input
                 type="text"
                 id="investment"
                 name="investment"
                 className="input-info-create-proj"
-                placeholder="Наприклад, 2 000 гривень"
+                placeholder="Наприклад 2 000 гривень"
               />
             </div>
 
@@ -294,7 +299,11 @@ const CreateStartupPage = () => {
             <div className="form-group-create-proj">
               <label htmlFor="specializations" className="label-create-proj">
                 Вкажіть необхідні спеціальності: <span className="required-star">*</span>
+                              {(customSpecVisible || Object.values(visibleExperience).some(Boolean)) && (
+                                  <span className="tip">Натиснути ПОВТОРНО на назву для видалення</span>
+                              )}
               </label>
+
               <p id="wrongSpec" style={{ color: "red", display: "none", fontStyle: "italic", marginLeft: "10px" }}>
                 Додайте принаймні одну спеціальність для команди
               </p>
@@ -323,7 +332,16 @@ const CreateStartupPage = () => {
                   className="tag"
                   id="formbtn"
                   onClick={() => {
-                    setCustomSpecVisible(true);
+                    setCustomSpecVisible((prev) => {
+                      const newState = !prev;
+                      if (!newState) {
+                        // Якщо приховали поля — очистити значення
+                        setCustomSpecName('');
+                        setCustomSpecExp('');
+                      }
+                      return newState;
+                    });
+
                     const errorEl = document.getElementById('wrongSpec');
                     if (errorEl) errorEl.style.display = 'none';
                   }}
