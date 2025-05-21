@@ -197,6 +197,51 @@ nav button {
   background-color: #173046;
 }
 
+.searchProp {
+    position: absolute;
+    top: 121%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+button {
+    border: none;
+    outline: none;
+}
+
+    button:focus,
+    button:active {
+        outline: none;
+        border: none;
+        box-shadow: none;
+    }
+    .searchProp p {
+        color: black;
+        margin: 0;
+        white-space: nowrap;
+    }
+    .searchProp select {
+        cursor: pointer;
+        display: flex;
+        padding: 3px;
+    }
+.searchType {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+}
+#togProp {
+    padding: 0px 0px 0px 0px;
+    color: #fff;
+}
+
+
 /* ===============================
    Футер
 ================================ */
