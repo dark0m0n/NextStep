@@ -3,10 +3,10 @@
 
 Startup::Startup(const int id, const int userID, std::string title, std::string description, std::string imagePath,
                  std::string experience, std::string category, std::string projectType, const int investment,
-                 const int averageRating)
+                 const int averageRating, const bool hiring)
     : id(id), userID(userID), title(std::move(title)), description(std::move(description)),
       imagePath(std::move(imagePath)), experience(std::move(experience)), category(std::move(category)),
-      projectType(std::move(projectType)), investment(investment), averageRating(averageRating) {
+      projectType(std::move(projectType)), investment(investment), averageRating(averageRating), hiring(hiring) {
 }
 
 int Startup::getID() const { return id; }
@@ -28,3 +28,5 @@ std::string Startup::getProjectType() const { return projectType; }
 int Startup::getInvestment() const { return investment; }
 
 int Startup::getAverageRating() const { return averageRating; }
+
+bool Startup::getHiring() const { return hiring; }

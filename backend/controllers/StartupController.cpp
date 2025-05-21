@@ -43,7 +43,8 @@ crow::response StartupController::createStartup(const crow::request &req) const 
             form["category"],
             form["projectType"],
             std::stoi(form["investment"]),
-            std::stoi(form["date"])
+            std::stoi(form["date"]),
+            form["hiring"] == "true"
         };
 
         db.insertStartup(startup);

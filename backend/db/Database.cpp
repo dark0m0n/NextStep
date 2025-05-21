@@ -34,7 +34,8 @@ Database::Database(const std::string &connInfo) : connInfo(connInfo) {
                 category TEXT,
                 projectType TEXT,
                 investment INTEGER,
-                averageRating INTEGER
+                averageRating INTEGER,
+                hiring BOOLEAN
             );
 
             CREATE TABLE IF NOT EXISTS reviews (
@@ -187,7 +188,8 @@ std::vector<Startup> Database::getAllStartups() const {
             row["category"].as<std::string>(),
             row["projectType"].as<std::string>(),
             row["investment"].as<int>(),
-            row["averageRating"].as<int>());
+            row["averageRating"].as<int>(),
+            row["hiring"].as<bool>());
     }
 
     return startups;
@@ -213,7 +215,8 @@ std::optional<Startup> Database::getStartupById(const int id) const {
         row["category"].as<std::string>(),
         row["projectType"].as<std::string>(),
         row["investment"].as<int>(),
-        row["averageRating"].as<int>());
+        row["averageRating"].as<int>(),
+        row["hiring"].as<bool>());
 
     return startup;
 }
@@ -223,8 +226,8 @@ void Database::insertStartup(const Startup &startup) const {
     pqxx::work txn(conn);
     txn.exec_params(
         "INSERT INTO startups (userID, title, description, imagePath, experience, category, projectType, "
-        "investment, averageRating)"
-        "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);",
+        "investment, averageRating, hiring)"
+        "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);",
         startup.getUserID(),
         startup.getTitle(),
         startup.getDescription(),
@@ -233,7 +236,8 @@ void Database::insertStartup(const Startup &startup) const {
         startup.getCategory(),
         startup.getProjectType(),
         startup.getInvestment(),
-        startup.getAverageRating());
+        startup.getAverageRating(),
+        startup.getHiring());
     txn.commit();
 }
 

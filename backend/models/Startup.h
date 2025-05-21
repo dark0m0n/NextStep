@@ -4,10 +4,12 @@
 class Startup {
     int id, userID, investment, averageRating;
     std::string title, description, imagePath, experience, category, projectType;
+    bool hiring;
 
 public:
     Startup(int id, int userID, std::string title, std::string description, std::string imagePath,
-            std::string experience, std::string category, std::string projectType, int investment, int averageRating);
+            std::string experience, std::string category, std::string projectType, int investment, int averageRating,
+            bool hiring);
 
     ~Startup() = default;
 
@@ -30,4 +32,6 @@ public:
     [[nodiscard]] int getInvestment() const;
 
     [[nodiscard]] int getAverageRating() const;
+
+    [[nodiscard]] bool getHiring() const;
 };
