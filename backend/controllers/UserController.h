@@ -12,7 +12,12 @@ public:
 
     [[nodiscard]] crow::response getUserById(int id) const;
 
+    [[nodiscard]] crow::response getUserByUsername(const std::string &username) const;
+
     [[nodiscard]] crow::response createUser(const crow::request &req) const;
 
     [[nodiscard]] crow::response login(const crow::request &req) const;
+
+    template <typename App>
+    [[nodiscard]] crow::response getMe(App &app, const crow::request &req) const;
 };

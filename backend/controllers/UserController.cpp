@@ -3,6 +3,7 @@
 #include "../utils/FormData.h"
 #include "../utils/Hash.h"
 #include "../auth/Token.h"
+#include "../middleware/AuthMiddleware.h"
 #include <string>
 #include <ostream>
 #include "nlohmann/json.hpp"
@@ -19,6 +20,14 @@ crow::response UserController::getAllUsers() const {
 
 crow::response UserController::getUserById(const int id) const {
     const auto user = db.getUserById(id);
+    if (!user) {
+        return crow::response{404, R"({"error": "User not found"})"};
+    }
+    return crow::response{200, UserSerializer::serializeOptionalUser(user).dump()};
+}
+
+crow::response UserController::getUserByUsername(const std::string &username) const {
+    const auto user = db.getUserByUsername(username);
     if (!user) {
         return crow::response{404, R"({"error": "User not found"})"};
     }
@@ -121,3 +130,15 @@ crow::response UserController::login(const crow::request &req) const {
     return crow::response{400, "Unsupported content type"};
 }
 
+template<typename App>
+crow::response UserController::getMe(App &app, const crow::request &req) const {
+    auto &ctx = app.template get_context<AuthMiddleware>(req);
+
+    if (!ctx.auth.authorized) {
+        return crow::response{401, "Unauthorized"};
+    }
+
+    auto user = db.getUserByUsername(ctx.auth.username);
+
+    return crow::response{UserSerializer::serializeOptionalUser(user).dump()};
+}

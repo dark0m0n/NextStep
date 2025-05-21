@@ -1,5 +1,6 @@
 #pragma once
 #include "../controllers/UserController.h"
+#include "../middleware/AuthMiddleware.h"
 #include "crow.h"
 
 template <typename App>
@@ -18,6 +19,11 @@ public:
             return controller.getUserById(id);
         });
 
+        CROW_ROUTE(app, "/api/user/<string>").methods(crow::HTTPMethod::Get)
+        ([&controller](const std::string &username) {
+            return controller.getUserByUsername(username);
+        });
+
         CROW_ROUTE(app, "/api/user").methods(crow::HTTPMethod::Post)
         ([&controller](const crow::request &req) {
             return controller.createUser(req);
@@ -26,6 +32,11 @@ public:
         CROW_ROUTE(app, "/api/login")
         ([&controller](const crow::request &req) {
             return controller.login(req);
+        });
+
+        CROW_ROUTE(app, "/api/user/me").methods(crow::HTTPMethod::Get)
+        ([&controller, &app](const crow::request &req) {
+            return controller.getMe(app, req);
         });
     }
 };
