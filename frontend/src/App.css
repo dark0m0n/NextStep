@@ -39,8 +39,8 @@ html {
 }
 
     .logo img {
-        width: 97px;
-        height: 42px;
+        width: 96px;
+        height: 41px;
     }
 
 /* ===============================
@@ -72,18 +72,69 @@ nav button {
     font-size: 18px;
     cursor: pointer;
 }
+    nav button:hover {
+        background-color: #173046;
+    }
 .mainnavbtn {
-    background: none;
-    color: white;
-    border: none;
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.4s;
-    padding: 11px 0 0 7px;
+    display: flex;
+    align-items: center;
     justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.4s;
 }
+
+
+#nav-icon {
+    width: 32px;
+    height: 21px;
+    position: relative;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+    #nav-icon span {
+        display: block;
+        position: absolute;
+        height: 4px;
+        width: 100%;
+        background: white;
+        border-radius: 2px;
+        opacity: 1;
+        left: 0;
+        transition: all 0.3s ease-in-out;
+    }
+
+        #nav-icon span:nth-child(1) {
+            top: 0;
+        }
+
+        #nav-icon span:nth-child(2) {
+            top: 8px;
+        }
+
+        #nav-icon span:nth-child(3) {
+            top: 16px;
+        }
+
+    #nav-icon.open span:nth-child(1) {
+        transform: rotate(45deg);
+        top: 8px;
+    }
+
+    #nav-icon.open span:nth-child(2) {
+        opacity: 0;
+        width: 0;
+    }
+
+    #nav-icon.open span:nth-child(3) {
+        transform: rotate(-45deg);
+        top: 8px;
+    }
 
 .menubtn {
     width: 100%;
@@ -111,7 +162,8 @@ nav button {
     position: absolute;
     top: 90px;
     right: 0px;
-    border-radius: 5px;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
     width: 200px;
     height: 90vh;
 }
@@ -196,7 +248,15 @@ nav button {
 #search-submit:hover {
   background-color: #173046;
 }
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
 
+    to {
+        transform: rotate(60deg);
+    }
+}
 .searchProp {
     position: absolute;
     top: 121%;
@@ -209,6 +269,7 @@ nav button {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     z-index: 10;
 }
+
 button {
     border: none;
     outline: none;
@@ -240,7 +301,13 @@ button {
     padding: 0px 0px 0px 0px;
     color: #fff;
 }
-
+.rotate {
+    transition: transform 2s linear;
+    transform-origin: center;
+}
+    .rotate:hover {
+        animation: spin 0.3s linear 1;
+    }
 
 /* ===============================
    Футер
@@ -249,27 +316,31 @@ button {
   background-color: rgba(10, 158, 162);
   padding: 30px 20px;
   text-align: center;
-  color: #173046;
+  color: #fff;
   font-weight: 600;
   margin-top: auto;
 }
 
 .footer a {
-  color: #173046;
+  color: #fff;
   text-decoration: none;
   font-weight: 600;
 }
-
+    .footer .logo {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
 .footer a:hover {
   text-decoration: underline;
 }
 
 .footer-content p {
-  margin: 5px 0;
+  margin: 5px 0 20px;
 }
-
 .footer-icons {
-  margin: 15px 0;
+
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -299,7 +370,7 @@ hr {
   margin: 20px auto;
 }
 .hrMENU {
-    margin-top: 0px;
+    margin-top: -5px;
     margin-bottom: 15px;
     width: 150px;
 }
@@ -339,7 +410,7 @@ hr {
 @media (max-width: 768px) {
 
   header {
-    padding: 15px 20px;
+    padding: 3px 20px;
     display: flex;
     position: fixed;
   }
@@ -372,6 +443,52 @@ hr {
         padding: 11px 0 0 6px;
     }
 
+    #nav-icon {
+        width: 32px;
+        height: 21px;
+        position: relative;
+        cursor: pointer;
+        z-index: 1001;
+    }
+
+        #nav-icon span {
+            display: block;
+            position: absolute;
+            height: 4px;
+            width: 100%;
+            background: white;
+            border-radius: 2px;
+            opacity: 1;
+            left: 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+            #nav-icon span:nth-child(1) {
+                top: 0;
+            }
+
+            #nav-icon span:nth-child(2) {
+                top: 8px;
+            }
+
+            #nav-icon span:nth-child(3) {
+                top: 16px;
+            }
+
+        #nav-icon.open span:nth-child(1) {
+            transform: rotate(45deg);
+            top: 8px;
+        }
+
+        #nav-icon.open span:nth-child(2) {
+            opacity: 0;
+            width: 0;
+        }
+
+        #nav-icon.open span:nth-child(3) {
+            transform: rotate(-45deg);
+            top: 8px;
+        }
     #search-container {
         order: 2;
         flex-basis: 100%;
@@ -379,11 +496,12 @@ hr {
         flex-direction: column;
         align-items: stretch;
         gap: 5px;
-        margin-top: -35px
+        margin-top: -8px;
     }
 
     #search-input {
-        width: 100%;
+
+        width: 92%;
     }
 
   #smenu a {
