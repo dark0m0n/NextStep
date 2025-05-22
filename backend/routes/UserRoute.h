@@ -29,7 +29,7 @@ public:
             return controller.createUser(req);
         });
 
-        CROW_ROUTE(app, "/api/login")
+        CROW_ROUTE(app, "/api/login").methods(crow::HTTPMethod::Post)
         ([&controller](const crow::request &req) {
             return controller.login(req);
         });
