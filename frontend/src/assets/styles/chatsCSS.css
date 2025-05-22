@@ -2,8 +2,11 @@
 @media (max-width: 768px) {
     .main-chat-container {
         display: flex;
+        
     }
-
+    .chat-page {
+        margin-top: 10%;
+    }
     .chat-list {
         width: 100%;
         background-color: #ffffff;
