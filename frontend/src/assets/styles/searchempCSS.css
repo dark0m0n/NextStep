@@ -274,16 +274,38 @@ input[type="number"] {
         margin: 0;
         color: #173046;
     }
-    .block-searchemp .skill-tag {
-        display: inline-block;
-        background-color: #14B8A6;
-        color: white;
-        padding: 4px 8px;
-        margin: 3px;
-        border-radius: 6px;
-        font-size: 12px;
-        margin-bottom: 10px;
+.searchQueries {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+.searchQuery {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: black;
+    background-color: transparent;
+    padding: 0px 10px 3px;
+    border: 1px solid black;
+    border-radius: 10px;
+    font-size: 12px;
+}
+    .searchQuery button{
+        background-color: transparent;
+        padding: 2px 2px;
+        margin: 3px 10px 0px -7px;
     }
+    .skill-tag {
+    display: inline-block;
+    background-color: #14B8A6;
+    color: white;
+    padding: 4px 8px;
+    margin: 3px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
     .block-searchemp    .about {
         display: -webkit-box;
         -webkit-line-clamp: 2; /* кількість рядків */
