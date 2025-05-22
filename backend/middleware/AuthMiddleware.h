@@ -18,6 +18,7 @@ public:
     void before_handle(const crow::request &req, crow::response &res, context &ctx, Context &) {
         if (req.method == "OPTIONS"_method) return;
         if (req.url == "/api/user" && req.method == "POST"_method) return;
+        if (req.url == "/api/login") return;
 
         const std::string authHeader = req.get_header_value("Authorization");
         if (authHeader.empty() || authHeader.find("Bearer ") != 0) {
