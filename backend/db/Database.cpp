@@ -1,6 +1,7 @@
 #include "Database.h"
+#include <cstdlib>
 
-Database::Database(const std::string &connInfo) : connInfo(connInfo) {
+Database::Database(const std::string &connInfo) {
     pqxx::connection conn(connInfo);
     if (!conn.is_open()) {
         throw DbConnectionError("Failed to connect to the database.");
@@ -41,7 +42,7 @@ Database::Database(const std::string &connInfo) : connInfo(connInfo) {
             CREATE TABLE IF NOT EXISTS reviews (
                 id SERIAL PRIMARY KEY,
                 userID INTEGER REFERENCES users(id) ON DELETE CASCADE,
-                startupID INTEGER REFERENCES reviews(id) ON DELETE CASCADE,
+                startupID INTEGER REFERENCES startups(id) ON DELETE CASCADE,
                 text TEXT NOT NULL,
                 rating INTEGER NOT NULL
             );
@@ -61,7 +62,7 @@ Database::Database(const std::string &connInfo) : connInfo(connInfo) {
             CREATE TABLE IF NOT EXISTS messages (
                 id SERIAL PRIMARY KEY,
                 chatID INTEGER NOT NULL REFERENCES chats(id) ON DELETE CASCADE,
-                senderID INTEGER NOT NULL REFERENCES chats(id) ON DELETE CASCADE,
+                senderID INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
                 text TEXT NOT NULL,
                 sendAt TIMESTAMP DEFAULT NOW()
             );
@@ -124,6 +125,9 @@ std::optional<User> Database::getUserById(const int id) const {
 
 std::optional<User> Database::getUserByUsername(const std::string &username) const {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
     pqxx::work txn(conn);
     const pqxx::result res = txn.exec_params(
         "SELECT * FROM users WHERE username = $1;",
@@ -150,8 +154,12 @@ std::optional<User> Database::getUserByUsername(const std::string &username) con
     return user;
 }
 
-void Database::insertUser(const User &user) const {
-    pqxx::connection conn(connInfo);
+void Database::insertUser(const User &user) {
+    const char *env = std::getenv("DB_CONN_STRING");
+    pqxx::connection conn(env);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
     pqxx::work txn(conn);
     txn.exec_params(
         "INSERT INTO users (username, firstname, lastname, email, password, phoneNumber, imagePath, country,"
@@ -223,6 +231,9 @@ std::optional<Startup> Database::getStartupById(const int id) const {
 
 void Database::insertStartup(const Startup &startup) const {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
     pqxx::work txn(conn);
     txn.exec_params(
         "INSERT INTO startups (userID, title, description, imagePath, experience, category, projectType, "

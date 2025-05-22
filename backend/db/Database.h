@@ -7,9 +7,14 @@
 #include "../models/Chat.h"
 #include "../models/ChatMember.h"
 #include "../models/Message.h"
+#include <cstdlib>
+
+
+inline std::string connInfo = std::getenv("DB_CONN_STRING");
 
 class Database {
-    std::string connInfo;
+    // const char *env = std::getenv("DB_CONN_STRING");
+    // std::string connInfo = env;
 
 public:
     explicit Database(const std::string &connInfo);
@@ -17,7 +22,8 @@ public:
     [[nodiscard]] std::vector<User> getAllUsers() const;
     [[nodiscard]] std::optional<User> getUserById(int id) const;
     [[nodiscard]] std::optional<User> getUserByUsername(const std::string &username) const;
-    void insertUser(const User &user) const;
+
+    static void insertUser(const User &user);
 
     [[nodiscard]] std::vector<Startup> getAllStartups() const;
     [[nodiscard]] std::optional<Startup> getStartupById(int id) const;
