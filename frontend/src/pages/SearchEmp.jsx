@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import EmployeeFilters from "../components/EmployeeFilters.jsx";
 import EmployeeSort from "../components/EmployeeSort.jsx";
 import "../assets/styles/searchempCSS.css";
@@ -8,8 +8,20 @@ import MyFooter from "../components/Footer.jsx";
 
 export default function SearchPage() {
     const location = useLocation();
+    const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
-    const searchQuery = queryParams.get("query")?.toLowerCase() || "";
+    const searchQuery = queryParams.get("query")?.toLowerCase() || ""; // отримуємо параметр з URL
+    const searchWords = Array.from(new Set(searchQuery.toLowerCase().split(" ").filter(Boolean)));
+
+    const handleRemoveWord = (wordToRemove) => {
+        const updatedWords = searchWords.filter(word => word !== wordToRemove);
+        if (updatedWords.length > 0) {
+            queryParams.set("query", updatedWords.join(" "));
+        } else {
+            queryParams.delete("query");
+        }
+        navigate(`${location.pathname}?${queryParams.toString()}`);
+    };
 
     const [salaryMin, setSalaryMin] = useState(1);
     const [salaryMax, setSalaryMax] = useState(100000);
@@ -211,19 +223,26 @@ export default function SearchPage() {
 
     // Відфільтровано
     const filteredEmployees = allEmployees.filter((employee) => {
+        const searchWords = searchQuery.toLowerCase().split(" ").filter(Boolean);
         const skillMatch = selectedSkills.length === 0 || selectedSkills.some(skill => employee.skills.includes(skill));
         const ratingMatch = selectedRatings1.length === 0 || selectedRatings1.some(r => employee.rating >= r);
         const salaryMatch = employee.salary >= salaryMin && employee.salary <= salaryMax;
         const categoryMatch = selectedCategory.length === 0 || selectedCategory.includes(employee.category);
         const languageMatch = selectedLanguage.length === 0 || selectedLanguage.some(lang => employee.language.includes(lang));
         const countryMatch = selectedCountry.length === 0 || selectedCountry.includes(employee.country);
-        const queryMatch =
-            searchQuery === "" ||
-            employee.name.toLowerCase().includes(searchQuery) ||
-            employee.specialization.toLowerCase().includes(searchQuery) ||
-            employee.skills.some(skill => skill.toLowerCase().includes(searchQuery)) ||
-            employee.category.toLowerCase().includes(searchQuery) ||
-            employee.description.toLowerCase().includes(searchQuery);
+        const fullText = (
+            employee.name +
+            " " +
+            employee.specialization +
+            " " +
+            employee.skills.join(" ") +
+            " " +
+            employee.category +
+            " " +
+            employee.description
+        ).toLowerCase();
+
+        const queryMatch = searchWords.length === 0 || searchWords.some(word => fullText.includes(word));
         return skillMatch && categoryMatch && ratingMatch && salaryMatch && languageMatch && countryMatch && queryMatch;
     });
 
@@ -346,15 +365,31 @@ export default function SearchPage() {
                         <div className="start-fltr">
                             <button className="fbtn" onClick={toggleFltr1}>Фільтр</button>
                         </div>
+                        {searchWords.length > 0 && filteredEmployees.length !== 0 && (
+                            <div className="searchQueries">                   
+                                {searchWords.map((word, index) => (
+                                    <div className="searchQueries">
+                                        <span key={index} className="searchQuery">
+                                            <button className="removeQuery" onClick={() => handleRemoveWord(word)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 50 50">
+                                                <path d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z"></path>
+                                            </svg>
+                                        </button>
+                                            {word}
+                                    </span>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                         <div className="start-fltr">
                             <EmployeeSort setSortOption1={setSortOption1} /> 
-                        </div>
+                        </div>   
                     </div>
                     <div className="blockss-searchemp">
                         <div className="blocks-searchemp">
                             {filteredEmployees.length === 0 && (
                                 <p style={{ padding: "20px", fontStyle: "italic" }}>
-                                    Немає персоналу, який відповідає обраним критеріям.
+                                    Немає персоналу, який відповідає вашому запиту.
                                 </p>
                             )}
 

@@ -65,11 +65,14 @@ export default function ProjectPage() {
 
     // Оновлення середнього рейтингу в бекенді
     const updateStartupRating = async (avgRating) => {
+        const formData = new FormData();
+
+        formData.append("averageRating", avgRating);
+        formData.append("hiring", startup.hiring);
         try {
             const response = await fetch(`http://localhost:8000/api/startup/${id}`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ averageRating: avgRating, hiring: startup.hiring }),
+                body: formData,
             });
 
             if (!response.ok) {

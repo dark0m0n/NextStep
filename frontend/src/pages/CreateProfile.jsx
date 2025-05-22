@@ -274,30 +274,39 @@ export default function CreateProfile() {
             <div id="skills-container">
               <label htmlFor="skills" className='label'>Скіли:</label>
               <div className="skills">
-                {skills.map((skill, index) => (
-                  <div key={index}>
-                    <input
-                      type="text"
-                      name="skills[]"
-                      placeholder="Введіть скіл"
-                      value={skill}
-                      onChange={(e) => {
-                        const updated = [...skills];
-                        updated[index] = e.target.value;
-                        setSkills(updated);
-
-                        const upgradedErrors = [...skillErrors];
-                        upgradedErrors[index] = false;
-                        setSkillErrors(upgradedErrors);
-                      }}
-                      className={`input4skills ${skillErrors[index] ? 'input-error' : ''}`}
-                    />
-                    {skillErrors[index] && (
-                      <p className="error-message">Заповніть це поле перед додаванням нового</p>
-                    )}
-                    {skills.length > 1 && <button type="button" onClick={() => deleteSkill(index)} className='skill-button-del'>Видалити</button>}
-                  </div>
-                ))}
+              {skills.map((skill, index) => (
+                <div key={index}>
+                  <input
+                    type="text"
+                    name="skills[]"
+                    placeholder="Введіть скіл"
+                    value={skill}
+                    onChange={(e) => {
+                      const updated = [...skills];
+                      updated[index] = e.target.value;
+                      setSkills(updated);
+                      const upgradedErrors = [...skillErrors];
+                      upgradedErrors[index] = false;
+                      setSkillErrors(upgradedErrors);
+                    }}
+                    className={`input4skills ${skillErrors[index] ? 'input-error' : ''}`}
+                  />
+                  {skillErrors[index] && (
+                    <p className="error-message">Заповніть це поле перед додаванням нового</p>
+                  )}
+                  {skills.length > 1 && (
+                    (index !== skills.length - 1 || skill.trim() !== '') && (
+                      <button
+                        type="button"
+                        onClick={() => deleteSkill(index)}
+                        className="skill-button-del"
+                      >
+                        Видалити
+                      </button>
+                    )
+                  )}
+                </div>
+              ))}
               </div>
               <br />
               <button type="button" id="formbtn" onClick={addSkill} className='skill-button-create'>Додати скіл</button>

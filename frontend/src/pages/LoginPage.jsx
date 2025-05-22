@@ -28,13 +28,15 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
 
+    const formData = new FormData();
+
+    formData.append("username", username);
+    formData.append("password", password);
+
     try {
       const response = await fetch("http://localhost:8000/api/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, password }),
+        body: formData,
         credentials: "include",
       });
 
