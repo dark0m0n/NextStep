@@ -65,8 +65,11 @@ const CreateStartupPage = () => {
 
   const handleRemoveCategory = (categoryToRemove) => {
     setCategories(categories.filter(cat => cat !== categoryToRemove));
-    setShowCategoryTip(false);
-  };
+    };
+
+    useEffect(() => {
+        setShowCategoryTip(categories.length > 0);
+    }, [categories]);
 
   const toggleExperienceField = (specialization) => {
     setSpecClicked(true); 
@@ -287,7 +290,6 @@ const CreateStartupPage = () => {
                         style={{ cursor: "pointer" }}
                       >
                         {category}
-                        {index < categories.length - 1 && <span>, </span>}
                       </span>
                     ))}
                   </div>
