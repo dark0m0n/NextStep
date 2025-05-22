@@ -130,15 +130,15 @@ crow::response UserController::login(const crow::request &req) const {
     return crow::response{400, "Unsupported content type"};
 }
 
-template<typename App>
-crow::response UserController::getMe(App &app, const crow::request &req) const {
-    auto &ctx = app.template get_context<AuthMiddleware>(req);
-
-    if (!ctx.auth.authorized) {
-        return crow::response{401, "Unauthorized"};
-    }
-
-    auto user = db.getUserByUsername(ctx.auth.username);
-
-    return crow::response{UserSerializer::serializeOptionalUser(user).dump()};
-}
+// template<typename App>
+// crow::response UserController::getMe(App &app, const crow::request &req) const {
+//     auto &ctx = app.template get_context<AuthMiddleware>(req);
+//
+//     if (!ctx.auth.authorized) {
+//         return crow::response{401, "Unauthorized"};
+//     }
+//
+//     auto user = db.getUserByUsername(ctx.auth.username);
+//
+//     return crow::response{UserSerializer::serializeOptionalUser(user).dump()};
+// }
