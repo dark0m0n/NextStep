@@ -26,9 +26,15 @@
   .category-item{
     margin-left: 10px;
     font-style: italic;
-    color: rgb(93, 93, 93)
+    color: rgb(93, 93, 93);
+    display: flex;
+    gap: 10px;
   }
-  
+    .category-item span {
+        padding: 0px 10px 0px 10px;
+        border: 1px solid;
+        border-radius: 10px;
+    }
   /* Заголовок форми */
   .create-title {
     text-align: center;
