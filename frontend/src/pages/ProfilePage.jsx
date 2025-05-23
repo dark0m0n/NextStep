@@ -36,7 +36,7 @@ export default function MyProfilePage() {
       <div className="profile-container">
         <div className="profile-header">
           <img
-            src={userData.imagePath || "images/logo.png"}
+            src={userData.imagePath || "/images/logo.png"}
             alt="Фото профілю"
             className="profile-photo"
             id="profile-photo"
