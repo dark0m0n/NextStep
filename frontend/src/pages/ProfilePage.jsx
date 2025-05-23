@@ -1,32 +1,33 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../assets/styles/profilePageCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
-import { useNavigate } from "react-router-dom";
 
-export default function ProfilePage() {
-  const {username} = useParams();
+export default function MyProfilePage() {
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/user/${username}`, {
-      credentials: "include", 
+    fetch("http://localhost:8000/api/user/me", {
+      credentials: "include",
     })
       .then((res) => {
-        if (!res.ok) throw new Error("Profile load error");
+        if (res.status === 401) {
+          navigate("/login");
+          return null;
+        }
+        if (!res.ok) throw new Error("Не вдалося завантажити профіль");
         return res.json();
       })
-      .then((data) => {
-        setUserData(data);
-      })
-      .catch((error) => console.error("Помилка:", error));
-  }, [username]);
+      .then((data) => data && setUserData(data))
+      .catch((err) => console.error("Помилка завантаження:", err));
+  }, [navigate]);
 
   if (!userData) {
     return <div>Завантаження...</div>;
   }
+
 
   return (
     <>
