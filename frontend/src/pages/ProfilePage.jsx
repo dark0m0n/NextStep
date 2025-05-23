@@ -11,7 +11,9 @@ export default function ProfilePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/user/${username}`)
+    fetch(`http://localhost:8000/api/user/${username}`, {
+      credentials: "include", 
+    })
       .then((res) => {
         if (!res.ok) throw new Error("Profile load error");
         return res.json();
