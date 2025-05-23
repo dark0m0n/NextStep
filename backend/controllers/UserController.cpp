@@ -55,8 +55,8 @@ crow::response UserController::createUser(const crow::request &req) const {
 
         form["password"] = Hash::hash(form["password"].c_str());
 
-        std::string path = "public/users/" + form["username"] + ".jpg";
-        std::ofstream file("../frontend/" + path, std::ios::binary);
+        std::string path = "/users/" + form["username"] + ".jpg";
+        std::ofstream file("../frontend/public" + path, std::ios::binary);
         file.write(form["photo"].c_str(), static_cast<std::streamsize>(form["photo"].size()));
         file.close();
         form["imagePath"] = path;
