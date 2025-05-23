@@ -20,26 +20,33 @@ public:
         if (req.url == "/api/user" && req.method == "POST"_method) return;
         if (req.url == "/api/login") return;
 
-        const std::string authHeader = req.get_header_value("Authorization");
-        if (authHeader.empty() || authHeader.find("Bearer ") != 0) {
-            res.code = 401;
-            res.body = R"({"error": "Missing or invalid Authorization header"})";
-            res.end();
-            return;
+        const std::string cookieHeader = req.get_header_value("Cookie");
+
+        if (!cookieHeader.empty()) {
+            std::string tokenKey = "token=";
+            auto tokenPos = cookieHeader.find(tokenKey);
+            if (tokenPos != std::string::npos) {
+                auto start = tokenPos + tokenKey.length();
+                auto end = cookieHeader.find(';', start);
+                auto token = cookieHeader.substr(start, end - start);
+
+                const auto decodedToken = Token::decodeToken(token);
+
+                if (!decodedToken.has_value()) {
+                    res.code = 401;
+                    res.body = "Invalid token";
+                    return;
+                }
+
+                ctx.auth.authorized = true;
+                ctx.auth.username = decodedToken->get_subject();
+            }
         }
 
-        const std::string token = authHeader.substr(7);
-        const auto decodedToken = Token::decodeToken(token);
-
-        if (!decodedToken.has_value()) {
+        if (!ctx.auth.authorized) {
             res.code = 401;
-            res.body = R"({"error": "Invalid token"})";
-            res.end();
-            return;
+            res.end("Unauthorized");
         }
-
-        ctx.auth.authorized = true;
-        ctx.auth.username = decodedToken->get_subject();
     }
 
     void after_handle(crow::request &, crow::response &, context &) {}
