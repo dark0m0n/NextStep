@@ -109,7 +109,7 @@ crow::response UserController::login(const crow::request &req) const {
         auto form = FormData::parse(req.body, boundary);
 
         const auto user = db.getUserByUsername(form["username"]);
-        if (!user || !Hash::equal(user->getPassword(), user->getPassword())) {
+        if (!user.has_value() || !Hash::equal(user->getPassword(), form["password"])) {
             return crow::response{401, "Invalid credentials"};
         }
 
@@ -121,7 +121,7 @@ crow::response UserController::login(const crow::request &req) const {
 
         crow::response res;
         res.code = 200;
-        res.add_header("Set-Cookie", "token=" + token + "; HttpOnly; SameSite=Strict; Path=/");
+        res.add_header("Set-Cookie", "token=" + token + "; HttpOnly; SameSite=None; Path=/");
         res.body = j.dump();
 
         return res;
