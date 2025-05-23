@@ -72,7 +72,7 @@ crow::response UserController::createUser(const crow::request &req) const {
             form["imagePath"],
             form["country"],
             form["language"],
-            form["specialities"],
+            form["specialties"],
             form["skills"],
             form["additionalInfo"]
         };
