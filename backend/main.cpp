@@ -14,6 +14,7 @@ int main() {
       .global()
         .headers("X-Custom-Header", "Upgrade-Insecure-Requests")
         .methods("GET"_method, "POST"_method, "PUT"_method, "DELETE"_method, "OPTIONS"_method)
+        .allow_credentials()
       .prefix("/cors")
         .origin("*")
       .prefix("/nocors")
