@@ -32,7 +32,7 @@ const MyHeader = () => {
         <header>
             <div className="nav-container">
                 <div className="logo">
-                    <a href="/"><img src="images/logo_13.png" alt="Logo" /></a>
+                    <a href="/"><img src="/images/logo_13.png" alt="Logo" /></a>
                 </div>
 
                 <div id="search-container" style={{ position: "relative" }}>

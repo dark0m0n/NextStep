@@ -7,7 +7,6 @@ import MyFooter from "../components/Footer.jsx";
 export default function MyProfilePage() {
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
-
   useEffect(() => {
     fetch("http://localhost:8000/api/user/me", {
       credentials: "include",
@@ -24,6 +23,8 @@ export default function MyProfilePage() {
       .catch((err) => console.error("Помилка завантаження:", err));
   }, [navigate]);
 
+
+
   if (!userData) {
     return <div>Завантаження...</div>;
   }
@@ -32,7 +33,7 @@ export default function MyProfilePage() {
   return (
     <>
       <MyHeader />
-
+  
       <div className="profile-container">
         <div className="profile-header">
           <img
@@ -42,27 +43,34 @@ export default function MyProfilePage() {
             id="profile-photo"
           />
           <div className="profile-info">
-            <h1>{userData.firstname} {userData.lastname}</h1>
-            <h3>{userData.specialties}</h3>
+            <h1 className="profile-name">{userData.username}</h1>
+            <h2>{userData.firstname} {userData.lastname}</h2>
           </div>
         </div>
-
+  
         <div className="profile-exp">
-          <div className="expir">
-            <h2>Досвід роботи</h2>
-            <div className="spc">
-              {/*замінити логікою коли буде справжній досвід */}
-              <div className="specs">
-                <p className="strong">
-                  <strong className="strong-profile">Спеціальність:</strong>
-                </p>
-                <p className="spec">{userData.specialties}</p>
-                <p className="exp">0 днів</p>
-              </div>
-            </div>
-          </div>
+        <h2>Досвід роботи</h2>
+        <div className="expir">
+            {userData.specialties.split(",").map((spec, index) => {
+              const [name, experience] = spec.split(":").map((s) => s.trim());
+              return (
+                <div className="spc" key={index}>
+                  <div className="specs">
+                    <p className="strong">
+                      <strong className="strong-profile">Спеціальність:</strong>
+                      <p>{name}</p>
+                    </p>
+                    <p className="strong">
+                      <strong className="strong-profile">Досвід:</strong>
+                      <p> {experience || "-"}</p>
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+</div>
         </div>
-
+  
         <div className="profile-content">
           <div className="section">
             <p className="strong">
@@ -74,16 +82,16 @@ export default function MyProfilePage() {
               <li><strong className="strong-descr">Країна:</strong> {userData.country}</li>
             </ul>
           </div>
-
+  
           <div className="section">
             <strong className="strong-profile">Навички</strong>
             <ul>
-              {userData.skills.split(",").map((skill, index) => (
+              {userData.skills.split(";").map((skill, index) => (
                 <li key={index}>{skill.trim()}</li>
               ))}
             </ul>
           </div>
-
+  
           <div className="section">
             <strong className="strong-profile">Володіння мовами</strong>
             <ul>
@@ -92,16 +100,18 @@ export default function MyProfilePage() {
               ))}
             </ul>
           </div>
-
+  
           <div className="other">
             <strong className="strong-profile">Додаткова інформація</strong>
             <p className="otherInfo">{userData.additionalInfo}</p>
           </div>
         </div>
-        <button onClick={() => navigate(`/editprofile`)}>Редагувати профіль</button>
+  
+        <button onClick={() => navigate(`/editprofile`)} style={{ fontSize: "20px" }} >Редагувати профіль</button>
       </div>
-
+  
       <MyFooter />
     </>
   );
+  
 }
