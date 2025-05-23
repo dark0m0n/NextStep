@@ -20,10 +20,9 @@ public:
         if (req.url == "/api/user" && req.method == "POST"_method) return;
         if (req.url == "/api/login") return;
 
-        const std::string cookieHeader = req.get_header_value("Cookie");
-
-        if (!cookieHeader.empty()) {
-            std::string tokenKey = "token=";
+        if (std::string cookieHeader = req.get_header_value("Cookie"); !cookieHeader.empty()) {
+            cookieHeader = " " + cookieHeader;
+            std::string tokenKey = " token=";
             auto tokenPos = cookieHeader.find(tokenKey);
             if (tokenPos != std::string::npos) {
                 auto start = tokenPos + tokenKey.length();
