@@ -55,7 +55,9 @@ export default function EditProfile() {
     
     useEffect(() => {
         const fetchUser = async () => {
-            const res = await fetch('http://localhost:8000/api/user/me');
+            const res = await fetch(`http://localhost:8000/api/user/me`, {
+      credentials: "include", 
+    });
             if (res.ok) {
                 const data = await res.json();
                 setInitialData(data);
@@ -116,6 +118,7 @@ export default function EditProfile() {
             const response = await fetch('http://localhost:8000/api/user', {
                 method: 'PUT',
                 body: formData,
+                credentials: "include",
             });
 
             if (response.ok) {

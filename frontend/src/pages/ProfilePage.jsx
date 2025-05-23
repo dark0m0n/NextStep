@@ -97,7 +97,7 @@ export default function ProfilePage() {
             <p className="otherInfo">{userData.additionalInfo}</p>
           </div>
         </div>
-        <button onClick={navigate(`/editprofile`)}>Редагувати профіль</button>
+        <button onClick={() => navigate(`/editprofile`)}>Редагувати профіль</button>
       </div>
 
       <MyFooter />
