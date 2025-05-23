@@ -34,7 +34,7 @@ public:
             return controller.login(req);
         });
 
-        CROW_ROUTE(app, "/api/user/me").methods(crow::HTTPMethod::Get)
+        CROW_ROUTE(app, "/api/me").methods(crow::HTTPMethod::Get)
         ([&controller, &app](const crow::request &req) {
             return controller.getMe(app, req);
         });
