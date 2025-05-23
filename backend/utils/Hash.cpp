@@ -22,7 +22,7 @@ std::string Hash::hash(const char *password) {
         1 << 16,
         1,
         password, strlen(password),
-        salt, strlen(salt),
+        salt, sizeof(salt),
         hash, sizeof(hash),
         encoded, sizeof(encoded),
         Argon2_id,
