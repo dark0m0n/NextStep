@@ -36,7 +36,7 @@ const MyHeader = () => {
                 </div>
 
                 <div id="search-container" style={{ position: "relative" }}>
-                <div>
+                <div className="searchinp-togProp">
                     <input type="text" id="search-input" placeholder="Введіть запит для пошуку..." />
                     <button id="togProp" onClick={toggleSettings}>
                         <svg className="rotate" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 24 24">

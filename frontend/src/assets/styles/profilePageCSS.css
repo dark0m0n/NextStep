@@ -63,6 +63,7 @@
     border-radius: 10px;
     box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
     margin-bottom: 15px;
+    padding: 20px;
 }
   
   /* ===============================
@@ -95,11 +96,21 @@
   /* ===============================
      Досвід
   ================================ */
-  .expir {
-    width: 100%;
-    padding: 20px;
-    margin-bottom: 20px;
-  }
+    .expir {
+      width: 100%;
+        /* додай, щоб контейнер займав всю ширину */
+        box-sizing: border-box;
+        /* на всяк випадок */
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      /* щоб елементи переносились на наступний рядок */
+      gap: 20px;
+      /* відступи між картками */
+      padding: 20px 0; 
+      min-height: 200px;
+    
+    }
   
   .expir h2 {
     font-size: 20px;
@@ -114,20 +125,25 @@
   /* ===============================
      Спеціальності
   ================================ */
-  .spc {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
+    .spc {
+      flex: 1 1 30%;
+      box-sizing: border-box;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1);
+      border-left: 2px solid rgba(10, 158, 162);
+    height: 175px;
+    }
+      
 
-.specs {
+/*.specs {
     width: 30%;
     padding: 10px;
     box-sizing: border-box;
     margin-bottom: 20px;
     border-radius: 10px;
     box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
-}
+}*/
 
 .spec, .exp {
     font-size: 16px;

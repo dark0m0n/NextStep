@@ -2,50 +2,57 @@
    Загальні стилі та скидання
 ================================ */
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
+
 :root {
-  background-color: #f5f7fa;
+    background-color: #f5f7fa;
 }
+
 .no-scroll {
     overflow-y: hidden;
     height: 100%;
 }
+
 /* ===============================
-   Базова структура сторінки
-================================ */
-html, body, #root {
+     Базова структура сторінки
+  ================================ */
+html,
+body,
+#root {
     font-family: 'Segoe UI', sans-serif;
     background-color: #f5f7fa;
     color: #2b2b2b;
     width: 100%;
     display: flex;
     flex-direction: column;
+    overscroll-behavior: none;
 }
+
 html {
     overflow-y: scroll !important;
     height: auto !important;
 }
 
 /* ===============================
-   Логотип
-================================ */
+     Логотип
+  ================================ */
 .logo {
     display: flex;
     align-items: center;
-    margin-top:5px;
+    margin-top: 5px;
 }
 
-    .logo img {
-        width: 96px;
-        height: 41px;
-    }
+.logo img {
+    width: 96px;
+    height: 41px;
+}
 
 /* ===============================
-   Хедер та навігація
-================================ */
+     Хедер та навігація
+  ================================ */
 header {
     background-color: rgba(10, 158, 162);
     color: white;
@@ -56,6 +63,7 @@ header {
     width: 100%;
     top: 0;
 }
+
 .nav-container {
     display: flex;
     justify-content: space-between;
@@ -63,6 +71,7 @@ header {
     width: 100%;
     gap: 20px;
 }
+
 /* Кнопки навігації */
 nav button {
     background: none;
@@ -72,9 +81,11 @@ nav button {
     font-size: 18px;
     cursor: pointer;
 }
-    nav button:hover {
-        background-color: #173046;
-    }
+
+nav button:hover {
+    background-color: #173046;
+}
+
 .mainnavbtn {
     width: 70px;
     height: 70px;
@@ -97,44 +108,44 @@ nav button {
     z-index: 1001;
 }
 
-    #nav-icon span {
-        display: block;
-        position: absolute;
-        height: 4px;
-        width: 100%;
-        background: white;
-        border-radius: 2px;
-        opacity: 1;
-        left: 0;
-        transition: all 0.3s ease-in-out;
-    }
+#nav-icon span {
+    display: block;
+    position: absolute;
+    height: 4px;
+    width: 100%;
+    background: white;
+    border-radius: 2px;
+    opacity: 1;
+    left: 0;
+    transition: all 0.3s ease-in-out;
+}
 
-        #nav-icon span:nth-child(1) {
-            top: 0;
-        }
+#nav-icon span:nth-child(1) {
+    top: 0;
+}
 
-        #nav-icon span:nth-child(2) {
-            top: 8px;
-        }
+#nav-icon span:nth-child(2) {
+    top: 8px;
+}
 
-        #nav-icon span:nth-child(3) {
-            top: 16px;
-        }
+#nav-icon span:nth-child(3) {
+    top: 16px;
+}
 
-    #nav-icon.open span:nth-child(1) {
-        transform: rotate(45deg);
-        top: 8px;
-    }
+#nav-icon.open span:nth-child(1) {
+    transform: rotate(45deg);
+    top: 8px;
+}
 
-    #nav-icon.open span:nth-child(2) {
-        opacity: 0;
-        width: 0;
-    }
+#nav-icon.open span:nth-child(2) {
+    opacity: 0;
+    width: 0;
+}
 
-    #nav-icon.open span:nth-child(3) {
-        transform: rotate(-45deg);
-        top: 8px;
-    }
+#nav-icon.open span:nth-child(3) {
+    transform: rotate(-45deg);
+    top: 8px;
+}
 
 .menubtn {
     width: 100%;
@@ -155,6 +166,7 @@ nav button {
     margin-bottom: 20px;
     padding: 0 10px;
 }
+
 #nav {
     flex-direction: column;
     background-color: rgba(10, 158, 162, 0.9);
@@ -169,14 +181,15 @@ nav button {
 }
 
 /* ===============================
-   Меню при адаптації
-================================ */
+     Меню при адаптації
+  ================================ */
 #smenu {
-  top: 100%;
-  width: 100%;
-  padding: 10px 0;
-  text-align: right;
+    top: 100%;
+    width: 100%;
+    padding: 10px 0;
+    text-align: right;
 }
+
 .smbtn {
     font-size: 16px;
     height: 30px;
@@ -188,12 +201,15 @@ nav button {
     align-items: center;
     border: none;
 }
+
 .smbtn:hover {
     background-color: #173046;
 }
+
 .stronger {
     font-weight: 500;
 }
+
 #smenu a {
     color: white;
     text-decoration: none;
@@ -202,52 +218,53 @@ nav button {
 }
 
 #smenu #one {
-  font-weight: 400;
+    font-weight: 400;
 }
 
 /* ===============================
-   Пошук
-================================ */
+     Пошук
+  ================================ */
 
 #search-container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 10px;
-  
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+
 }
 
 #search-input {
-  padding: 8px;
-  font-size: 16px;
-  background-color: transparent;
-  color: #fff;
-  width: 300px;
-  border: none;
-  border-bottom: 1px solid #fff;
+    padding: 8px;
+    font-size: 16px;
+    background-color: transparent;
+    color: #fff;
+    width: 300px;
+    border: none;
+    border-bottom: 1px solid #fff;
 }
 
 #search-input::placeholder {
-  color: #fff;
-  font-size: 14px;
+    color: #fff;
+    font-size: 14px;
 }
 
 #search-submit {
-  padding: 8px 16px;
-  background-color: rgba(10, 158, 162);
-  color: white;
-  border: none;
-  font-size: 16px;
-  border-radius: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  justify-content: center;
+    padding: 8px 16px;
+    background-color: rgba(10, 158, 162);
+    color: white;
+    border: none;
+    font-size: 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
 }
 
 #search-submit:hover {
-  background-color: #173046;
+    background-color: #173046;
 }
+
 @keyframes spin {
     from {
         transform: rotate(0deg);
@@ -257,6 +274,7 @@ nav button {
         transform: rotate(60deg);
     }
 }
+
 .searchProp {
     position: absolute;
     top: 121%;
@@ -275,100 +293,116 @@ button {
     outline: none;
 }
 
-    button:focus,
-    button:active {
-        outline: none;
-        border: none;
-        box-shadow: none;
-    }
-    .searchProp p {
-        color: black;
-        margin: 0;
-        white-space: nowrap;
-    }
-    .searchProp select {
-        cursor: pointer;
-        display: flex;
-        padding: 3px;
-    }
+button:focus,
+button:active {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+.searchProp p {
+    color: black;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.searchProp select {
+    cursor: pointer;
+    display: flex;
+    padding: 3px;
+}
+
 .searchType {
     display: flex;
     align-items: center;
     justify-content: start;
     gap: 10px;
 }
+
 #togProp {
     padding: 0px 0px 0px 0px;
     color: #fff;
+    margin-bottom: 0px;
 }
+
+.searchinp-togProp {
+    display: flex;
+    justify-content: center;
+}
+
 .rotate {
     transition: transform 2s linear;
     transform-origin: center;
 }
-    .rotate:hover {
-        animation: spin 0.3s linear 1;
-    }
+
+.rotate:hover {
+    animation: spin 0.3s linear 1;
+}
 
 /* ===============================
-   Футер
-================================ */
+     Футер
+  ================================ */
 .footer {
-  background-color: rgba(10, 158, 162);
-  padding: 30px 20px;
-  text-align: center;
-  color: #fff;
-  font-weight: 600;
-  margin-top: auto;
+    background-color: rgba(10, 158, 162);
+    padding: 30px 20px;
+    text-align: center;
+    color: #fff;
+    font-weight: 600;
+    margin-top: auto;
 }
 
 .footer a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
 }
-    .footer .logo {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 30px;
-        margin-top: 30px;
-    }
+
+.footer .logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
 .footer a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .footer-content p {
-  margin: 5px 0 20px;
+    margin: 5px 0 20px;
 }
+
 .footer-icons {
 
-  display: flex;
-  justify-content: center;
-  gap: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
 .footer-icons img {
-  width: 32px;
-  height: 32px;
+    width: 32px;
+    height: 32px;
 }
 
 .footer-links {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
 }
 
 /* ===============================
-   Горизонтальна лінія
-================================ */
+     Горизонтальна лінія
+  ================================ */
 hr {
-  width: 77%;
-  border: none;
-  height: 2px;
-  background-color: #14B8A6;
-  margin: 20px auto;
+    width: 77%;
+    border: none;
+    height: 2px;
+    background-color: #14B8A6;
+    margin: 20px auto;
 }
+
 .hrMENU {
     margin-top: -5px;
     margin-bottom: 15px;
@@ -376,49 +410,52 @@ hr {
 }
 
 .required-star {
-  color: red;
-  position: relative;
-  cursor: help;
+    color: red;
+    position: relative;
+    cursor: help;
 }
 
 .required-star::after {
-  content: 'Це обов\'язкове поле';
-  position: absolute;
-  bottom: 125%;
-  /* трохи вище зірочки */
-  left: 50%;
-  transform: translateX(-50%);
-  background: #333;
-  color: #fff;
-  padding: 5px 8px;
-  border-radius: 4px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  font-size: 12px;
-  z-index: 10;
+    content: 'Це обов\'язкове поле';
+    position: absolute;
+    bottom: 125%;
+    /* трохи вище зірочки */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    font-size: 12px;
+    z-index: 10;
 }
 
 .required-star:hover::after {
-  opacity: 1;
-  pointer-events: auto;
+    opacity: 1;
+    pointer-events: auto;
 }
+
 /* ===============================
-   Адаптація під мобільні пристрої
-================================ */
+     Адаптація під мобільні пристрої
+  ================================ */
 @media (max-width: 768px) {
 
-  header {
-    padding: 3px 20px;
-    display: flex;
-    position: fixed;
-  }
+    header {
+        padding: 3px 20px;
+        display: flex;
+        position: fixed;
+    }
+
     #nav {
         margin-top: 75px;
         width: 50%;
         position: fixed;
     }
+
     .button {
         margin-right: 10px;
         margin-left: 25%;
@@ -451,44 +488,45 @@ hr {
         z-index: 1001;
     }
 
-        #nav-icon span {
-            display: block;
-            position: absolute;
-            height: 4px;
-            width: 100%;
-            background: white;
-            border-radius: 2px;
-            opacity: 1;
-            left: 0;
-            transition: all 0.3s ease-in-out;
-        }
+    #nav-icon span {
+        display: block;
+        position: absolute;
+        height: 4px;
+        width: 100%;
+        background: white;
+        border-radius: 2px;
+        opacity: 1;
+        left: 0;
+        transition: all 0.3s ease-in-out;
+    }
 
-            #nav-icon span:nth-child(1) {
-                top: 0;
-            }
+    #nav-icon span:nth-child(1) {
+        top: 0;
+    }
 
-            #nav-icon span:nth-child(2) {
-                top: 8px;
-            }
+    #nav-icon span:nth-child(2) {
+        top: 8px;
+    }
 
-            #nav-icon span:nth-child(3) {
-                top: 16px;
-            }
+    #nav-icon span:nth-child(3) {
+        top: 16px;
+    }
 
-        #nav-icon.open span:nth-child(1) {
-            transform: rotate(45deg);
-            top: 8px;
-        }
+    #nav-icon.open span:nth-child(1) {
+        transform: rotate(45deg);
+        top: 8px;
+    }
 
-        #nav-icon.open span:nth-child(2) {
-            opacity: 0;
-            width: 0;
-        }
+    #nav-icon.open span:nth-child(2) {
+        opacity: 0;
+        width: 0;
+    }
 
-        #nav-icon.open span:nth-child(3) {
-            transform: rotate(-45deg);
-            top: 8px;
-        }
+    #nav-icon.open span:nth-child(3) {
+        transform: rotate(-45deg);
+        top: 8px;
+    }
+
     #search-container {
         order: 2;
         flex-basis: 100%;
@@ -504,41 +542,44 @@ hr {
         width: 92%;
     }
 
-  #smenu a {
-    display: block;
-    margin-right: 0;
-    text-align: left;
-    padding-left: 20px;
-  }
+    #smenu a {
+        display: block;
+        margin-right: 0;
+        text-align: left;
+        padding-left: 20px;
+    }
 
     .stronger {
         font-weight: 500;
     }
+
     .menubtn {
         margin-left: 0px;
     }
-  button {
-    font-size: 24px;
-    padding: 12px 16px;
-  }
 
-  .footer-icons {
-    flex-wrap: wrap;
-  }
-  .footer-icons img {
-    width: 36px;
-    height: 36px;
-  }
+    button {
+        font-size: 24px;
+        padding: 12px 16px;
+    }
 
-  .footer-links {
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 5px;
-  }
+    .footer-icons {
+        flex-wrap: wrap;
+    }
 
-  .footer{
-    padding: 10px;
-  }
+    .footer-icons img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 5px;
+    }
+
+    .footer {
+        padding: 10px;
+    }
 
 
 }
