@@ -8,7 +8,7 @@ export default function MyProfilePage() {
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
-    fetch("http://localhost:8000/api/user/me", {
+    fetch("http://localhost:8000/api/me", {
       credentials: "include",
     })
       .then((res) => {
