@@ -1,4 +1,7 @@
 import React, { useState, useRef } from 'react';
+import Cropper from 'react-easy-crop';
+import getCroppedImg from '../utils/cropImage';
+import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 import '../assets/styles/createProfileCSS.css'; 
 
@@ -20,18 +23,59 @@ export default function CreateProfile() {
   const [customSpecExpError, setCustomSpecExpError] = useState('');
   const [skillInvalidChars, setSkillInvalidChars] = useState(Array(skills.length).fill(false));
 
+    const [cropModalOpen, setCropModalOpen] = useState(false);
+    const [imageSrc, setImageSrc] = useState(null);
+    const [crop, setCrop] = useState({ x: 0, y: 0 });
+    const [zoom, setZoom] = useState(1);
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+    const [croppedBlob, setCroppedBlob] = useState(null);
+    const customStyles = {
+        content: {
+            width: '400px',
+            height: '400px',
+            margin: 'auto',
+            padding: '20px',
+            borderRadius: '16px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        },
+    };
 
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
   const navigate = useNavigate();
 
   // Handlers
-  const previewLogo = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e) => setLogoPreview(e.target.result);
-    reader.readAsDataURL(file);
-  };
+    const previewLogo = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setImageSrc(reader.result);
+                setCropModalOpen(true);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    const onCropComplete = (_, croppedPixels) => {
+        setCroppedAreaPixels(croppedPixels);
+    };
+
+    const handleCropDone = async () => {
+        try {
+            const cropped = await getCroppedImg(imageSrc, croppedAreaPixels);
+            setLogoPreview(URL.createObjectURL(cropped));
+            setCroppedBlob(cropped);
+            setCropModalOpen(false);
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
   const toggleExperienceField = (spec) => {
     if (spec === 'custom') {
@@ -167,7 +211,8 @@ export default function CreateProfile() {
 
     // Prepare form data
     const formData = new FormData();
-    const photoFile = form['photo-upload'].files[0];
+      const photoFile = croppedBlob || form['photo-upload'].files[0];
+
 
     formData.append('firstname', form.firstname.value);
     formData.append('lastname', form.lastname.value);
@@ -452,11 +497,11 @@ export default function CreateProfile() {
                       value={skill}
                       onChange={(e) => {
                         const value = e.target.value;
-  const updatedInvalids = [...skillInvalidChars];
-  updatedInvalids[index] = /;/.test(value);
-  setSkillInvalidChars(updatedInvalids);
+                          const updatedInvalids = [...skillInvalidChars];
+                          updatedInvalids[index] = /;/.test(value);
+                          setSkillInvalidChars(updatedInvalids);
 
-  if (/;/.test(value)) return;
+                          if (/;/.test(value)) return;
                         const updated = [...skills];
                         updated[index] = e.target.value;
                         setSkills(updated);
@@ -492,7 +537,25 @@ export default function CreateProfile() {
   
             <button type="submit" id="formbtnS">Зберегти</button>
           </form>
+
+          <Modal isOpen={cropModalOpen} style={customStyles} ariaHideApp={false} onRequestClose={() => setCropModalOpen(false)} ariaHideApp={false}>
+          <div style={{ position: 'relative', width: '100%', height: 400 }}>
+            <Cropper
+              image={imageSrc}
+              crop={crop}
+              zoom={zoom}
+              aspect={1}
+              onCropChange={setCrop}
+              onZoomChange={setZoom}
+              onCropComplete={onCropComplete}
+            />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>
+            <button type="button" onClick={handleCropDone} className="crop-btn">Продовжити</button>
+          </div>
+        </Modal>
         </div>
+
       </section>
       <MyFooter />
     </>
