@@ -1,6 +1,5 @@
 #include "UserController.h"
 #include "../serializers/UserSerializer.h"
-#include "../utils/FormData.h"
 #include "../utils/Hash.h"
 #include "../auth/Token.h"
 #include "../middleware/AuthMiddleware.h"
@@ -13,8 +12,8 @@ using json = nlohmann::json;
 UserController::UserController(Database &db) : db(db) {
 }
 
-crow::response UserController::getAllUsers() const {
-    const auto users = db.getAllUsers();
+crow::response UserController::getAllUsers() {
+    const auto users = Database::getAllUsers();
     return crow::response{200, UserSerializer::serializeUsers(users).dump()};
 }
 
