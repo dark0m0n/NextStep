@@ -40,7 +40,8 @@ public:
 
             auto user = Database::getUserByUsername(ctx.auth.username);
             if (user->getId() == std::stoi(form["id"])) {
-                std::remove("../frontend/public" + user->getImagePath());
+                const std::string path = "../frontend/public" + user->getImagePath();
+                std::remove(path.c_str());
                 Database::deleteUser(std::stoi(form["id"]));
                 return crow::response{200, "User successfully deleted"};
             }
