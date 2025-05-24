@@ -342,7 +342,7 @@ button {
   ================================ */
   @media (max-width: 768px) {
     .hero {
-        margin-top: 7%;
+        margin-top: -16%;
     }
     .hero-content h1 {
       font-size: 42px;

@@ -326,7 +326,7 @@ export default function SearchPage() {
     return (
         <>
             <MyHeader />
-            <div className="maincont">
+            <div className="maincont1">
                 <div className="filter-wrapper">
                     <EmployeeFilters
                         fltrRef1={fltrRef1}
@@ -361,30 +361,29 @@ export default function SearchPage() {
                         <p>Знайди справжніх професіоналів, які вже готові приступити до роботи</p>
 
                     </div>
-                    <div className="options">
-                        <div className="start-fltr">
-                            <button className="fbtn" onClick={toggleFltr1}>Фільтр</button>
-                        </div>
-                        {searchWords.length > 0 && filteredEmployees.length !== 0 && (
-                            <div className="searchQueries">                   
-                                {searchWords.map((word, index) => (
-                                    <div className="searchQueries">
-                                        <span key={index} className="searchQuery">
-                                            <button className="removeQuery" onClick={() => handleRemoveWord(word)}>
+                    {searchWords.length > 0 && filteredEmployees.length !== 0 && (
+                        <div className="searchQueries">
+                            {searchWords.map((word, index) => (
+                                    <span key={index} className="searchQuery">
+                                        <button className="removeQuery" onClick={() => handleRemoveWord(word)}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 50 50">
                                                 <path d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z"></path>
                                             </svg>
                                         </button>
-                                            {word}
+                                        {word}
                                     </span>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
+                            ))}
+                        </div>
+                    )}
+                    <div className="options">
+                        <div className="start-fltr">
+                            <button className="fbtn" onClick={toggleFltr1}>Фільтр</button>
+                        </div>
                         <div className="start-fltr">
                             <EmployeeSort setSortOption1={setSortOption1} /> 
                         </div>   
                     </div>
+
                     <div className="blockss-searchemp">
                         <div className="blocks-searchemp">
                             {filteredEmployees.length === 0 && (

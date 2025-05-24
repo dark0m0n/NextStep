@@ -12,24 +12,35 @@
   /* ===============================
      Основна обгортка створення профілю
   ================================ */
-  .create-profile {
+.create-profile {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-  }
-  
-  /* ===============================
+    margin-top: 3%;
+}
+.crop-btn {
+    padding: 5px 15px;
+    font-size: 24px;
+}
+
+    .crop-btn:hover {
+        background-color: #173046;
+    }
+.cropContainer {
+    width: 300px;
+}
+/* ===============================
      Контейнер форми
   ================================ */
-  .container {
+.container {
     width: 100%;
     max-width: 800px;
     padding: 30px;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+}
   
   /* ===============================
      Заголовок форми
@@ -268,7 +279,7 @@
   ================================ */
   @media (max-width: 768px) {
     .create-profile {
-        margin-top: 50%;
+        margin-top: -10%;
     }
     .info h2 {
       font-size: 28px;
