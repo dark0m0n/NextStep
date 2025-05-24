@@ -19,6 +19,16 @@ public:
             return controller.getUserById(id);
         });
 
+        CROW_ROUTE(app, "/api/user").methods(crow::HTTPMethod::Delete)
+        ([&controller, &app](const crow::request &req) {
+            return controller.deleteUser(app, req);
+        });
+
+        CROW_ROUTE(app, "/api/user").methods(crow::HTTPMethod::Put)
+        ([&controller, &app](const crow::request &req) {
+            return controller.updateUser(app, req);
+        });
+
         CROW_ROUTE(app, "/api/user/<string>").methods(crow::HTTPMethod::Get)
         ([&controller](const std::string &username) {
             return controller.getUserByUsername(username);
