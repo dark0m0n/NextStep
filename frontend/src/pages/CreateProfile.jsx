@@ -175,7 +175,7 @@ export default function CreateProfile() {
     formData.append('phoneNumber', fullPhoneNumber);
     formData.append('country', form.country.value);
     formData.append('language', Array.from(document.querySelectorAll('input[name="lang[]"]:checked')).map(el => el.value).join(','));
-    formData.append('specialties', specialtiesWithExpArr.join('; '));
+    formData.append('specialties', specialtiesWithExpArr.join(', '));
     formData.append('skills', skillsString);
     formData.append('additionalInfo', form.description.value);
     formData.append('username', form.userName.value);
@@ -328,10 +328,10 @@ export default function CreateProfile() {
             <div className="language-options">
               <label className="label">Володіння мовами</label>
               {[
-                { id: "ua", label: "Українська" },
-                { id: "uk", label: "Англійська" },
-                { id: "ch", label: "Китайська" },
-                { id: "gr", label: "Німецька" }
+                { id: "Українська", label: "Українська" },
+                { id: "Англійська", label: "Англійська" },
+                { id: "Китайська", label: "Китайська" },
+                { id: "Німецька", label: "Німецька" }
               ].map(lang => (
                 <div key={lang.id}>
                   <input type="checkbox" id={lang.id} name="lang[]" value={lang.id} className="check-create" />
