@@ -29,6 +29,8 @@ public:
     [[nodiscard]] static std::vector<Startup> getAllStartups();
     [[nodiscard]] static std::optional<Startup> getStartupById(int id);
     static void insertStartup(const Startup &startup);
+    static void deleteStartup(int id);
+    static void updateStartup(const Startup &startup);
 
     [[nodiscard]] static std::vector<Review> getAllReviews(int startupID);
     [[nodiscard]] static std::optional<Review> getReviewById(int id);

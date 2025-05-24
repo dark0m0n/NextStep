@@ -307,6 +307,42 @@ void Database::insertStartup(const Startup &startup) {
     txn.commit();
 }
 
+void Database::deleteStartup(int id) {
+    pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
+    pqxx::work txn(conn);
+    txn.exec_params(
+        "DELETE FROM startups WHERE id = $1;",
+        id);
+    txn.commit();
+}
+
+void Database::updateStartup(const Startup &startup) {
+    pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
+    pqxx::work txn(conn);
+    txn.exec_params(
+        "UPDATE startups"
+        "SET title = $1, description = $2, experience = $3, category = $4, projectType = $5, investment = $6, "
+        "averageRating = $7, hiring = $8"
+        "WHERE id = $;",
+        startup.getTitle(),
+        startup.getDescription(),
+        startup.getExperience(),
+        startup.getCategory(),
+        startup.getProjectType(),
+        startup.getInvestment(),
+        startup.getAverageRating(),
+        startup.getHiring());
+    txn.commit();
+}
+
 std::vector<Review> Database::getAllReviews(const int startupID) {
     pqxx::connection conn(connInfo);
     if (!conn.is_open()) {
