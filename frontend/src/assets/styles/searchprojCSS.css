@@ -284,6 +284,9 @@ aside {
    Адаптація під мобільні пристрої
 ================================ */
 @media (max-width: 768px) {
+    .maincont {
+        margin-top: -50%;
+    }
 
     .filter-wrapper {
         position: absolute;

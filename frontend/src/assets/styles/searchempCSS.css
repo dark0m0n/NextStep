@@ -5,7 +5,7 @@
     }
 }
 
-.maincont {
+.maincont1 {
     display: flex;
     gap: 20px;
     position: relative;
@@ -290,7 +290,7 @@ input[type="number"]::-webkit-inner-spin-button {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    align-items: center;
+
 }
 
 .searchQuery {
@@ -303,6 +303,8 @@ input[type="number"]::-webkit-inner-spin-button {
     border: 1px solid black;
     border-radius: 10px;
     font-size: 12px;
+    align-items: center;
+    margin-left: 30%;
 }
 
 .searchQuery button {
@@ -355,7 +357,9 @@ input[type="number"]::-webkit-inner-spin-button {
    Адаптація під мобільні пристрої
 ================================ */
 @media (max-width: 768px) {
-
+    .maincont1 {
+        margin-top: -23%;
+    }
     .filter-wrapper {
         position: absolute;
         z-index: 1000;
