@@ -19,29 +19,30 @@ class Database {
 public:
     explicit Database(const std::string &connInfo);
 
-    [[nodiscard]] std::vector<User> getAllUsers() const;
-    [[nodiscard]] std::optional<User> getUserById(int id) const;
-    [[nodiscard]] std::optional<User> getUserByUsername(const std::string &username) const;
-
+    [[nodiscard]] static std::vector<User> getAllUsers();
+    [[nodiscard]] static std::optional<User> getUserById(int id);
+    [[nodiscard]] static std::optional<User> getUserByUsername(const std::string &username);
     static void insertUser(const User &user);
+    static void deleteUser(int id);
+    static void updateUser(const User &user);
 
-    [[nodiscard]] std::vector<Startup> getAllStartups() const;
-    [[nodiscard]] std::optional<Startup> getStartupById(int id) const;
-    void insertStartup(const Startup &startup) const;
+    [[nodiscard]] static std::vector<Startup> getAllStartups();
+    [[nodiscard]] static std::optional<Startup> getStartupById(int id);
+    static void insertStartup(const Startup &startup);
 
-    [[nodiscard]] std::vector<Review> getAllReviews(int startupID) const;
-    [[nodiscard]] std::optional<Review> getReviewById(int id) const;
-    void insertReview(const Review &review) const;
+    [[nodiscard]] static std::vector<Review> getAllReviews(int startupID);
+    [[nodiscard]] static std::optional<Review> getReviewById(int id);
+    static void insertReview(const Review &review);
 
-    [[nodiscard]] std::vector<Chat> getAllChats(int userID) const;
-    [[nodiscard]] std::optional<Chat> getChatById(int id) const;
-    void insertChat(const Chat &chat) const;
+    [[nodiscard]] static std::vector<Chat> getAllChats(int userID);
+    [[nodiscard]] static std::optional<Chat> getChatById(int id);
+    static void insertChat(const Chat &chat);
 
-    [[nodiscard]] std::vector<ChatMember> getAllChatMembers(int chatID) const;
-    [[nodiscard]] std::optional<ChatMember> getChatMemberById(int userID) const;
-    void insertChatMember(const ChatMember &chatMember) const;
+    [[nodiscard]] static std::vector<ChatMember> getAllChatMembers(int chatID);
+    [[nodiscard]] static std::optional<ChatMember> getChatMemberById(int userID);
+    static void insertChatMember(const ChatMember &chatMember);
 
-    [[nodiscard]] std::vector<Message> getAllMessages(int chatID) const;
-    [[nodiscard]] std::optional<Message> getMessageById(int id) const;
-    void insertMessage(const Message &message) const;
+    [[nodiscard]] static std::vector<Message> getAllMessages(int chatID);
+    [[nodiscard]] static std::optional<Message> getMessageById(int id);
+    static void insertMessage(const Message &message);
 };

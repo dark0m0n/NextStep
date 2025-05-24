@@ -1,5 +1,4 @@
 #include "Database.h"
-#include <cstdlib>
 
 Database::Database(const std::string &connInfo) {
     pqxx::connection conn(connInfo);
@@ -70,8 +69,12 @@ Database::Database(const std::string &connInfo) {
     txn.commit();
 }
 
-std::vector<User> Database::getAllUsers() const {
+std::vector<User> Database::getAllUsers() {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     pqxx::work txn(conn);
     std::vector<User> users;
 
@@ -95,8 +98,12 @@ std::vector<User> Database::getAllUsers() const {
     return users;
 }
 
-std::optional<User> Database::getUserById(const int id) const {
+std::optional<User> Database::getUserById(const int id) {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     pqxx::work txn(conn);
     const pqxx::result res = txn.exec_params(
         "SELECT * FROM users WHERE id = $1;",
@@ -123,11 +130,12 @@ std::optional<User> Database::getUserById(const int id) const {
     return user;
 }
 
-std::optional<User> Database::getUserByUsername(const std::string &username) const {
+std::optional<User> Database::getUserByUsername(const std::string &username) {
     pqxx::connection conn(connInfo);
     if (!conn.is_open()) {
         throw DbConnectionError("Failed to connect to the database.");
     }
+
     pqxx::work txn(conn);
     const pqxx::result res = txn.exec_params(
         "SELECT * FROM users WHERE username = $1;",
@@ -155,11 +163,11 @@ std::optional<User> Database::getUserByUsername(const std::string &username) con
 }
 
 void Database::insertUser(const User &user) {
-    const char *env = std::getenv("DB_CONN_STRING");
-    pqxx::connection conn(env);
+    pqxx::connection conn(connInfo);
     if (!conn.is_open()) {
         throw DbConnectionError("Failed to connect to the database.");
     }
+
     pqxx::work txn(conn);
     txn.exec_params(
         "INSERT INTO users (username, firstname, lastname, email, password, phoneNumber, imagePath, country,"
@@ -180,8 +188,50 @@ void Database::insertUser(const User &user) {
     txn.commit();
 }
 
-std::vector<Startup> Database::getAllStartups() const {
+void Database::deleteUser(int id) {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
+    pqxx::work txn(conn);
+    txn.exec_params(
+        "DELETE FROM users WHERE id = $1;",
+        id);
+    txn.commit();
+}
+
+void Database::updateUser(const User &user) {
+    pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database");
+    }
+
+    pqxx::work txn(conn);
+    txn.exec_params(
+        "UPDATE users"
+        "SET username = $1, firstname = $2, lastname = $3, email = $4, phoneNumber = $5, country = $6"
+        "languages = $7, specialties = $8, skills = $9, additionalInfo = $10"
+        "WHERE id = $11;",
+        user.getUsername(),
+        user.getFirstname(),
+        user.getLastname(),
+        user.getEmail(),
+        user.getPhoneNumber(),
+        user.getCountry(),
+        user.getLanguage(),
+        user.getSpecialties(),
+        user.getSkills(),
+        user.getAdditionalInfo(),
+        user.getId());
+}
+
+std::vector<Startup> Database::getAllStartups() {
+    pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     pqxx::work txn(conn);
     std::vector<Startup> startups;
 
@@ -203,8 +253,12 @@ std::vector<Startup> Database::getAllStartups() const {
     return startups;
 }
 
-std::optional<Startup> Database::getStartupById(const int id) const {
+std::optional<Startup> Database::getStartupById(const int id) {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     pqxx::work txn(conn);
     const pqxx::result res = txn.exec_params(
         "SELECT * FROM startups WHERE id = $1;",
@@ -229,11 +283,12 @@ std::optional<Startup> Database::getStartupById(const int id) const {
     return startup;
 }
 
-void Database::insertStartup(const Startup &startup) const {
+void Database::insertStartup(const Startup &startup) {
     pqxx::connection conn(connInfo);
     if (!conn.is_open()) {
         throw DbConnectionError("Failed to connect to the database.");
     }
+
     pqxx::work txn(conn);
     txn.exec_params(
         "INSERT INTO startups (userID, title, description, imagePath, experience, category, projectType, "
@@ -252,8 +307,12 @@ void Database::insertStartup(const Startup &startup) const {
     txn.commit();
 }
 
-std::vector<Review> Database::getAllReviews(const int startupID) const {
+std::vector<Review> Database::getAllReviews(const int startupID) {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     std::vector<Review> reviews;
     pqxx::work txn(conn);
 
@@ -270,8 +329,12 @@ std::vector<Review> Database::getAllReviews(const int startupID) const {
     return reviews;
 }
 
-std::optional<Review> Database::getReviewById(const int id) const {
+std::optional<Review> Database::getReviewById(const int id) {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     pqxx::work txn(conn);
     const pqxx::result res = txn.exec_params(
         "SELECT * FROM reviews WHERE id = $1;",
@@ -290,8 +353,12 @@ std::optional<Review> Database::getReviewById(const int id) const {
     return review;
 }
 
-void Database::insertReview(const Review &review) const {
+void Database::insertReview(const Review &review) {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     pqxx::work txn(conn);
     txn.exec_params(
         "INSERT INTO reviews (userID, startupID, text, rating)"
@@ -303,8 +370,12 @@ void Database::insertReview(const Review &review) const {
     txn.commit();
 }
 
-std::vector<Chat> Database::getAllChats(const int userID) const {
+std::vector<Chat> Database::getAllChats(const int userID) {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     pqxx::work txn(conn);
     std::vector<Chat> chats;
 
@@ -319,8 +390,12 @@ std::vector<Chat> Database::getAllChats(const int userID) const {
     return chats;
 }
 
-std::optional<Chat> Database::getChatById(const int id) const {
+std::optional<Chat> Database::getChatById(const int id) {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     pqxx::work txn(conn);
     const pqxx::result res = txn.exec_params(
         "SELECT * FROM chats WHERE id = $1",
@@ -337,8 +412,12 @@ std::optional<Chat> Database::getChatById(const int id) const {
     return chat;
 }
 
-void Database::insertChat(const Chat &chat) const {
+void Database::insertChat(const Chat &chat) {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     pqxx::work txn(conn);
     txn.exec_params(
         "INSERT INTO chats (isGroup, title)"
@@ -348,8 +427,12 @@ void Database::insertChat(const Chat &chat) const {
     txn.commit();
 }
 
-std::vector<ChatMember> Database::getAllChatMembers(const int chatID) const {
+std::vector<ChatMember> Database::getAllChatMembers(const int chatID) {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     pqxx::work txn(conn);
     std::vector<ChatMember> chatMembers;
 
@@ -364,8 +447,12 @@ std::vector<ChatMember> Database::getAllChatMembers(const int chatID) const {
     return chatMembers;
 }
 
-std::optional<ChatMember> Database::getChatMemberById(const int userID) const {
+std::optional<ChatMember> Database::getChatMemberById(const int userID) {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     pqxx::work txn(conn);
     const pqxx::result res = txn.exec_params(
         "SELECT * FROM chat_members WHERE userID = $1",
@@ -382,8 +469,12 @@ std::optional<ChatMember> Database::getChatMemberById(const int userID) const {
     return chatMember;
 }
 
-void Database::insertChatMember(const ChatMember &chatMember) const {
+void Database::insertChatMember(const ChatMember &chatMember) {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     pqxx::work txn(conn);
     txn.exec_params(
         "INSERT INTO chat_members (chatID, userID)"
@@ -393,8 +484,12 @@ void Database::insertChatMember(const ChatMember &chatMember) const {
     txn.commit();
 }
 
-std::vector<Message> Database::getAllMessages(int chatID) const {
+std::vector<Message> Database::getAllMessages(int chatID) {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     pqxx::work txn(conn);
     std::vector<Message> messages;
 
@@ -410,8 +505,12 @@ std::vector<Message> Database::getAllMessages(int chatID) const {
     return messages;
 }
 
-std::optional<Message> Database::getMessageById(int id) const {
+std::optional<Message> Database::getMessageById(int id) {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     pqxx::work txn(conn);
     const pqxx::result res = txn.exec_params(
         "SELECT * FROM messages WHERE id = $1;",
@@ -429,8 +528,12 @@ std::optional<Message> Database::getMessageById(int id) const {
     return message;
 }
 
-void Database::insertMessage(const Message &message) const {
+void Database::insertMessage(const Message &message) {
     pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
     pqxx::work txn(conn);
     txn.exec_params(
         "INSERT INTO messages (chatID, senderID, text)"
