@@ -538,7 +538,7 @@ export default function CreateProfile() {
             <button type="submit" id="formbtnS">Зберегти</button>
           </form>
 
-          <Modal isOpen={cropModalOpen} style={customStyles} ariaHideApp={false} onRequestClose={() => setCropModalOpen(false)} ariaHideApp={false}>
+          <Modal isOpen={cropModalOpen} style={customStyles} ariaHideApp={false} onRequestClose={() => setCropModalOpen(false)}>
           <div style={{ position: 'relative', width: '100%', height: 400 }}>
             <Cropper
               image={imageSrc}

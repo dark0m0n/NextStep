@@ -263,10 +263,6 @@ nav button:hover {
     justify-content: center;
 }
 
-#search-submit:hover {
-    
-}
-
 @keyframes spin {
     from {
         transform: rotate(0deg);
@@ -484,8 +480,6 @@ hr {
         flex: 0 0 auto;
         margin-left: auto;
         margin-right: -15px;
-    }
-    #togProp {  
     }
     #search-submit {
         margin-right: -10px;
