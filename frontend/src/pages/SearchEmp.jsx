@@ -364,7 +364,6 @@ export default function SearchPage() {
                     {searchWords.length > 0 && filteredEmployees.length !== 0 && (
                         <div className="searchQueries">
                             {searchWords.map((word, index) => (
-                                <div className="searchQueries">
                                     <span key={index} className="searchQuery">
                                         <button className="removeQuery" onClick={() => handleRemoveWord(word)}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 50 50">
@@ -373,7 +372,6 @@ export default function SearchPage() {
                                         </button>
                                         {word}
                                     </span>
-                                </div>
                             ))}
                         </div>
                     )}
