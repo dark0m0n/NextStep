@@ -103,6 +103,7 @@
     padding: 20px;
     border-radius: 0;
     box-shadow: none;
+    margin-top: -30%;
   }
 
   .auth-header h1 {

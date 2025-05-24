@@ -179,11 +179,35 @@ aside {
     .fbtn:hover {
         background-color: #173046;
     }
+.searchQueries {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px;
+}
+
+.searchQuery {
+    display: flex;
+    align-items: center;
+    color: black;
+    background-color: transparent;
+    padding: 0px 10px 3px;
+    border: 1px solid black;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+    .searchQuery button {
+        background-color: transparent;
+        padding: 2px;
+        margin-right: 5px;
+    }
+
 
 .options1 {
     padding: 10px;
-    margin: 2%;
-    margin-top: 40px;
+    margin: 0px 2% 0px 2%;
     margin-bottom: 20px;
     max-width: 96%;
     width: 100%;
@@ -213,7 +237,7 @@ aside {
    Інформація про проект
 ================================ */
 .info-searchproj {
-    margin: 30px;
+    margin: 2.5%;
 }
 .info-searchproj h2 {
     display: inline-block;
@@ -284,6 +308,9 @@ aside {
    Адаптація під мобільні пристрої
 ================================ */
 @media (max-width: 768px) {
+    .maincont {
+        margin-top: -50%;
+    }
 
     .filter-wrapper {
         position: absolute;

@@ -46,7 +46,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-
+    margin-top: 3%;
 }
   
   /* ===============================
@@ -201,7 +201,7 @@
   ================================ */
   @media (max-width: 768px) {
     .create-project {
-        margin-top: 50%;
+        margin-top: -10%;
     }
     .info h2 {
       font-size: 28px;

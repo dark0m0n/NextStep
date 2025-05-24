@@ -5,7 +5,7 @@
     }
 }
 
-.maincont {
+.maincont1 {
     display: flex;
     gap: 20px;
     position: relative;
@@ -163,8 +163,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .options {
     padding: 10px;
-    margin: 2%;
-    margin-top: 40px;
+    margin: 0px 2% 0px 2%;
     margin-bottom: 20px;
     max-width: 96%;
     width: 100%;
@@ -195,7 +194,7 @@ input[type="number"]::-webkit-inner-spin-button {
    Інформація про робітника
 ================================ */
 .info-searchemp {
-    margin: 30px;
+    margin: 2.5%;
 }
 
 .info-searchemp h2 {
@@ -290,13 +289,13 @@ input[type="number"]::-webkit-inner-spin-button {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    align-items: center;
+    justify-content: center;
+    padding: 10px;
 }
 
 .searchQuery {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
     color: black;
     background-color: transparent;
     padding: 0px 10px 3px;
@@ -305,11 +304,11 @@ input[type="number"]::-webkit-inner-spin-button {
     font-size: 12px;
 }
 
-.searchQuery button {
-    background-color: transparent;
-    padding: 2px 2px;
-    margin: 3px 10px 0px -7px;
-}
+    .searchQuery button {
+        background-color: transparent;
+        padding: 2px;
+        margin-right: 5px;
+    }
 
 .skill-tag {
     display: inline-block;
@@ -355,7 +354,9 @@ input[type="number"]::-webkit-inner-spin-button {
    Адаптація під мобільні пристрої
 ================================ */
 @media (max-width: 768px) {
-
+    .maincont1 {
+        margin-top: -23%;
+    }
     .filter-wrapper {
         position: absolute;
         z-index: 1000;
@@ -365,7 +366,6 @@ input[type="number"]::-webkit-inner-spin-button {
         max-width: 96%;
 
     }
-
     #sortSelect {
         width: 165px;
     }
