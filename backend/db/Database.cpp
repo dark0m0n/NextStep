@@ -224,6 +224,7 @@ void Database::updateUser(const User &user) {
         user.getSkills(),
         user.getAdditionalInfo(),
         user.getId());
+    txn.commit();
 }
 
 std::vector<Startup> Database::getAllStartups() {
@@ -331,7 +332,7 @@ void Database::updateStartup(const Startup &startup) {
         "UPDATE startups"
         "SET title = $1, description = $2, experience = $3, category = $4, projectType = $5, investment = $6, "
         "averageRating = $7, hiring = $8"
-        "WHERE id = $;",
+        "WHERE id = $9;",
         startup.getTitle(),
         startup.getDescription(),
         startup.getExperience(),
@@ -339,7 +340,8 @@ void Database::updateStartup(const Startup &startup) {
         startup.getProjectType(),
         startup.getInvestment(),
         startup.getAverageRating(),
-        startup.getHiring());
+        startup.getHiring(),
+        startup.getID());
     txn.commit();
 }
 
