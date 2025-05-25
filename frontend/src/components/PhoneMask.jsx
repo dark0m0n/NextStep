@@ -6,7 +6,7 @@ const PhoneInputForm = ({ onPhoneChange, initialPhone = '' }) => {
 
   useEffect(() => {
     if (initialPhone) {
-      const match = initialPhone.match(/^(\+d{1,3})(\d{6,})$/)
+      const match = initialPhone.match(/^(\+\d{1,2})(\d{6,})$/)
       if (match) {
         setCountryCode(match[1]);
         setPhone(match[2]);
@@ -28,8 +28,7 @@ const PhoneInputForm = ({ onPhoneChange, initialPhone = '' }) => {
       <label htmlFor="phone" className="label">Телефон</label>
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         <select
-          value={countryCode}
-          onChange={(e) => setCountryCode(e.target.value)}
+          defaultValue={countryCode}
           className="input-info-create"
           style={{ maxWidth: '100px' }}
         >
