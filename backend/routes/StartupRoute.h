@@ -6,21 +6,29 @@ template <typename App>
 class StartupRoute {
 public:
     static void registerRoutes(App &app, Database &db) {
-        StartupController controller(db);
-
         CROW_ROUTE(app, "/api/startups").methods(crow::HTTPMethod::Get)
-        ([&controller]() {
-            return controller.getAllStartups();
+        ([]() {
+            return StartupController::getAllStartups();
         });
 
         CROW_ROUTE(app, "/api/startup/<int>").methods(crow::HTTPMethod::Get)
-        ([&controller](const int id) {
-            return controller.getStartupById(id);
+        ([](const int id) {
+            return StartupController::getStartupById(id);
         });
 
         CROW_ROUTE(app, "/api/startup").methods(crow::HTTPMethod::Post)
-        ([&controller](const crow::request &req) {
-            return controller.createStartup(req);
+        ([](const crow::request &req) {
+            return StartupController::createStartup(req);
+        });
+
+        CROW_ROUTE(app, "/api/startup").methods(crow::HTTPMethod::Delete)
+        ([&app](const crow::request &req) {
+            return StartupController::deleteStartup(app, req);
+        });
+
+        CROW_ROUTE(app, "/api/startup").methods(crow::HTTPMethod::Put)
+        ([&app](const crow::request &req) {
+            return StartupController::updateStartup(app, req);
         });
     }
 };
