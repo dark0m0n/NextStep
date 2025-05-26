@@ -283,7 +283,7 @@ const CreateStartupPage = () => {
                   <p className="category-item">Для стартапу ще немає визначених категорій</p>
                 ) : (
                   <div className="category-item">
-                    {categories.map((category, index) => (
+                    {categories.map((category) => (
                       <span
                         key={category}
                         onClick={() => handleRemoveCategory(category)}

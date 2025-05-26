@@ -4,6 +4,7 @@ import MyFooter from "../components/Footer.jsx";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
+
 // Компонент зірочок рейтингу
 const RatingStars = ({ max = 10, onChange }) => {
     const [selected, setSelected] = useState(0);
@@ -194,7 +195,6 @@ export default function ProjectPage() {
     return (
         <>
             <MyHeader />
-
             <section className="project-section">
                 <div className="contacts-proj">
                     <h3>Мінімальна вартість для внеску</h3>
@@ -207,19 +207,21 @@ export default function ProjectPage() {
 
                 <div className="mainInformation-proj">
                     <div className="infoProj">
+                    <div className="imagesProj">
+                            <img src={startup.imagePath} alt="Зображення" />
+                        </div>
                         <div className="info-proj">
                             <h2>{startup.title}</h2>
                             {/* Показуємо середній рейтинг */}
                             <p className="mark">
                                 {startup.averageRating
-                                    ? `${startup.averageRating} ★`.repeat(Math.floor(startup.averageRating)) +
-                                      "☆".repeat(10 - Math.floor(startup.averageRating))
+                                    ? [...Array(10)].map((_, i) => (
+                                        <span key={i} style={{ fontSize: "24px", marginRight: "2px" }}>
+                                            {i < Math.floor(startup.averageRating) ? "★" : "☆"}
+                                        </span>
+                                    ))
                                     : "Оцінка відсутня"}
                             </p>
-                        </div>
-
-                        <div className="imagesProj">
-                            <img src={startup.imagePath} alt="Зображення" />
                         </div>
 
                         <div className="descrip">
@@ -227,24 +229,31 @@ export default function ProjectPage() {
                             <p>{startup.description}</p>
                         </div>
 
-                        <div className="expir">
+                        <div className="profile-exp">
                             <h3>Досвід роботи</h3>
-                            <div className="spc">
-                                {experienceList.map((item, index) => (
-                                    <div className="specs" key={index}>
-                                        <p className="strong">
-                                            <strong className="strong-profile">Спеціальність:</strong>
-                                        </p>
-                                        <p className="spec">{item}</p>
-                                    </div>
-                                ))}
+                            <div className="expir">
+                                {experienceList.map((spec, index) => {
+                                    const [name, experience] = spec.split(":").map((s) => s.trim());
+                                    return (
+                                        <div className="spc" key={index}>
+                                            <div className="specs">
+                                                <p className="strong">
+                                                    <strong className="strong-profile">Спеціальність:</strong>
+                                                    <p>{name}</p>
+                                                </p>
+                                                <p className="strong">
+                                                    <strong className="strong-profile">Досвід:</strong>
+                                                    <p> {experience || "-"}</p>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
                         <div className="hiring">
-                            {startup.hiring ? (
-                                <p className="hiring-text">Вакансії доступні</p>
-                            ) : (
-                                <p className="hiring-text">Вакансії недоступні</p>
+                            {!startup.hiring && (
+                                <p className="hiring-text">Набір персоналу вже завершений</p>
                             )}
                         </div>
                             {/* Кнопка відкриття форми */}
@@ -330,12 +339,17 @@ export default function ProjectPage() {
                                     return (
                                         <div className="fb" key={i}>
                                             <div className="peopInfo">
-                                                <img src={review.user.imagePath} alt="Аватар" />
-                                                <p className="name">{review.user.username}</p>
-                                                <p className="review-date">{localDate}</p>
-                                                <p className="review-date">{localTime}</p>
+                                                <div className="user-info">
+                                                    <img src={review.user.imagePath} alt="Аватар" />
+                                                    <p className="name">{review.user.username}</p>
+                                                </div>
+                                                <div className="date">
+                                                    <p className="review-date">{localDate}</p>
+                                                    <hr />
+                                                    <p className="review-date">{localTime}</p>
+                                                </div>
                                             </div>
-                                            <hr />
+                                            <hr/>
                                             <p className="mark">
                                                 {review.rating}{" "}
                                                 {"★".repeat(review.rating) + "☆".repeat(10 - review.rating)}
@@ -357,9 +371,10 @@ export default function ProjectPage() {
                                 ))}
                             </ul>
                         </section>
+                        <br />
+                        <button onClick={() =>navigate(`/editproject/${id}`)} className="fbsbtn">Редагувати</button>
+                        <button className="fbsbtn">Видалити</button>
                     </div>
-                    <button onClick={navigate(`/editproject/${id}`)}>Редагувати</button>
-                    <button>Видалити</button>
                 </div>
             </section>
 

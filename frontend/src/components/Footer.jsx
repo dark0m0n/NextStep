@@ -11,7 +11,7 @@ const MyFooter = () => {
           </div>
               <p><a href="mailto:support@next.step">support@next.step</a></p>
               <div className="logo">
-                  <a href="/"><img src="images/logo_13.png" alt="Logo" /></a>
+                  <a href="/"><img src="/images/logo_13.png" alt="Logo" /></a>
               </div>
               <p>м. Львів, вул. Степана Бандери 12, Україна</p>
               <div className="footer-links">
