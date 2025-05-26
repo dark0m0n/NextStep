@@ -160,7 +160,20 @@ input[type="number"]::-webkit-inner-spin-button {
 .fbtn:hover {
     background-color: #173046;
 }
-
+.clearfltr {
+    background-color: #8E0000;
+    font-size: 14px;
+    height: 30px;
+    padding: 20px 20px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+}
+    .clearfltr:hover {
+        background-color: #173046;
+    }
 .options {
     padding: 10px;
     margin: 0px 2% 0px 2%;
@@ -413,7 +426,6 @@ input[type="number"]::-webkit-inner-spin-button {
         height: 90%;
         padding: 10px;
     }
-
     .checkbox-label {
         display: flex;
         align-items: center;

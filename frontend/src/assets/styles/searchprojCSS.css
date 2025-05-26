@@ -179,6 +179,17 @@ aside {
     .fbtn:hover {
         background-color: #173046;
     }
+.clearfltr1 {
+    background-color: #8E0000;
+    font-size: 14px;
+    height: 30px;
+    padding: 20px 20px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+}
 .searchQueries {
     display: flex;
     flex-wrap: wrap;
