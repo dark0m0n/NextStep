@@ -2,10 +2,19 @@ import React, { useState, useRef, useEffect } from "react";
 import "../assets/styles/createProjCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const CreateStartupPage = () => {
-    const { id } = useParams();
+const specLabels = {
+  analize: "Аналіз даних",
+  marketing: "Маркетолог",
+  "web-prog": "Веб-розробник",
+  finance: "Фінансист",
+  designer: "Дизайнер",
+  developer: "Розробник ПЗ",
+};
+
+const EditStartupPage = () => {
+
   const [logoSrc, setLogoSrc] = useState("");
   const [visibleExperience, setVisibleExperience] = useState({});
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -18,21 +27,98 @@ const CreateStartupPage = () => {
   const [showCategoryTip, setShowCategoryTip] = useState(false);
   const [customProjectType, setCustomProjectType] = useState('');
   const [selectedProjectType, setSelectedProjectType] = useState('');
-    const [Data, setData] = useState({});
-    const [initialProjectData, setInitialProjectData] = useState({});
+  const [investment, setInvestment] = useState('');
+  const [startup, setStartup] = useState(null);
+  const [experienceValues, setExperienceValues] = useState({}); 
+  const [hiring, setHiring] = useState(true);
+
+
 
   const categoryRef = useRef(null);
   const projTypeRef = useRef(null);
   const specRef = useRef(null);
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const specLabels = {
-    analize: "Аналіз даних",
-    marketing: "Маркетолог",
-    "web-prog": "Веб-розробник",
-    finance: "Фінансист",
-    designer: "Дизайнер",
-    developer: "Розробник ПЗ",
-  };
+  useEffect(() => {
+    const fetchStartup = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/api/startup/${id}`);
+        if (!response.ok) {
+          throw new Error(`Помилка завантаження стартапу: ${response.status}`);
+        }
+        const startupD = await response.json();
+        console.log("Loaded startup:", startupD);
+  
+        setStartup(startupD);
+  
+        if (startupD?.imagePath) {
+          setLogoSrc(startupD.imagePath);
+        }
+  
+        if (startupD?.category) {
+          const initialCategories = startupD.category
+            .split(",")
+            .map((c) => c.trim())
+            .filter(Boolean);
+          setCategories(initialCategories);
+        }
+  
+        const predefinedTypes = ["Стартап", "Малий бізнес", "Пілотний проєкт", "MVP"];
+  
+        if (startupD?.projectType) {
+          if (predefinedTypes.includes(startupD.projectType)) {
+            setSelectedProjectType(startupD.projectType);
+          } else {
+            setSelectedProjectType("Інше");
+            setCustomProjectType(startupD.projectType);
+          }
+        }
+  
+        if (startupD?.investment) {
+          const formattedInvestment = startupD.investment
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+          setInvestment(formattedInvestment);
+        }
+  
+        if (startupD?.experience) {
+          const experienceItems = startupD.experience.split(",").map(item => item.trim());
+          const visibilityMap = {};
+          const expValues = {};
+  
+          experienceItems.forEach(entry => {
+            const [label, val] = entry.split(":").map(p => p.trim());
+            const key = Object.keys(specLabels).find(k => specLabels[k] === label);
+            if (key) {
+              visibilityMap[key] = true;
+              expValues[key] = val || "";
+            } else {
+              setCustomSpecVisible(true);
+              setCustomSpecName(label);
+              setCustomSpecExp(val || "");
+            }
+          });
+  
+          setVisibleExperience(visibilityMap);
+          setExperienceValues(expValues);
+        }
+  
+        if (typeof startupD.hiring === 'boolean') {
+          setHiring(startupD.hiring);
+        } else {
+          setHiring(true);
+        }
+  
+      } catch (err) {
+        console.error("Помилка при завантаженні userData:", err);
+      }
+    };
+  
+    fetchStartup();
+  }, [id]);
+  
+  if (!startup) return <div>Завантаження...</div>;
 
   const previewLogo = (event) => {
     const file = event.target.files[0];
@@ -41,6 +127,13 @@ const CreateStartupPage = () => {
     reader.readAsDataURL(file);
   };
 
+  const handleInvestmentChange = (e) => {
+    let rawValue = e.target.value.replace(/\s/g, '');
+    if (!/^\d*$/.test(rawValue)) return;
+    const formatted = rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    setInvestment(formatted);
+  };
+  
 
   const handleAddCategory = () => {
     const categoryToAdd = selectedCategory === "Інше" ? customCategory.trim() : selectedCategory;
@@ -59,8 +152,7 @@ const CreateStartupPage = () => {
 
   const handleRemoveCategory = (categoryToRemove) => {
     setCategories(categories.filter(cat => cat !== categoryToRemove));
-    setShowCategoryTip(false);
-  };
+    };
 
   const toggleExperienceField = (specialization) => {
     setSpecClicked(true); 
@@ -72,6 +164,13 @@ const CreateStartupPage = () => {
     if (errorEl) errorEl.style.display = 'none';
   };
 
+  const handleExperienceChange = (specId, value) => {
+    setExperienceValues(prev => ({
+      ...prev,
+      [specId]: value,
+    }));
+  };
+
   const clearSelection = () => {
     setVisibleExperience({});
     setCustomSpecVisible(false);
@@ -79,54 +178,6 @@ const CreateStartupPage = () => {
     setCustomSpecExp('');
     setSpecClicked(false);
   };
-
-  useEffect(() => {
-    fetch(`http://localhost:8000/api/user/me`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Profile load error");
-        return res.json();
-      })
-      .then((data) => {
-        setData(data);
-      })
-      .catch((error) => console.error("Помилка:", error));
-      fetch(`http://localhost:8000/api/startup/${id}`)
-      .then((res) => {
-          if (!res.ok) throw new Error("Project load error");
-          return res.json();
-      })
-      .then((data) => {
-          setInitialProjectData(data);
-          setLogoSrc(data.imagePath);
-          setSelectedProjectType(data.projectType);
-          setCustomProjectType(data.projectType === "Інше" ? data.customProjectType : '');
-          setCategories(data.category.split(", ").filter(cat => cat !== ""));
-          setCustomCategory(data.category.includes("Інше") ? data.category.split(", ").find(cat => cat !== "Інше") : '');
-          setVisibleExperience({
-              analize: data.experience.includes("Аналіз даних"),
-              marketing: data.experience.includes("Маркетолог"),
-              "web-prog": data.experience.includes("Веб-розробник"),
-              finance: data.experience.includes("Фінансист"),
-              designer: data.experience.includes("Дизайнер"),
-              developer: data.experience.includes("Розробник ПЗ"),
-          });
-          setCustomSpecVisible(data.experience.includes("Інше"));
-          if (data.experience.includes("Інше")) {
-              const customSpec = data.experience.split(", ").find(spec => !Object.values(specLabels).includes(spec));
-              if (customSpec) {
-                  const [name, exp] = customSpec.split(": ");
-                  setCustomSpecName(name.trim());
-                  setCustomSpecExp(exp ? exp.trim() : '');
-              }
-          }
-      })
-      .catch((error) => console.error("Помилка:", error));
-}, [id, specLabels]); 
-
-  if (!Data) {
-    return <div>Завантаження...</div>;
-    }
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -143,7 +194,9 @@ const CreateStartupPage = () => {
     if ((selectedProjectType === "Інше" && customProjectType.trim() === "") || selectedProjectType === "") {
       projTypeRef.current.style.borderColor = 'red';
       document.getElementById('wrongProjectType').style.display = 'block';
-      projTypeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => {
+        projTypeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
       return;
     } else {
       projTypeRef.current.style.borderColor = '#ccc';
@@ -191,10 +244,10 @@ const CreateStartupPage = () => {
     }
 
     formData.append("experience", experienceString);
-    formData.append("userID", Data.userID);
     formData.append("title", formData.get("startup-name"));
     formData.append("description", formData.get("description"));
     formData.append("projectType", selectedProjectType === "Інше" ? customProjectType.trim() : selectedProjectType);
+    formData.append("hiring", hiring);
 
     const categoriesString = categories.join(", ");
     formData.append("category", categoriesString);
@@ -205,7 +258,7 @@ const CreateStartupPage = () => {
 
     try {
       const response = await fetch("http://localhost:8000/api/startup", {
-        method: "POST",
+        method: "PUT",
         body: formData,
       });
 
@@ -242,6 +295,7 @@ const CreateStartupPage = () => {
                 required
                 className="input-info-create"
                 placeholder="Введіть назву стартапу"
+                defaultValue={startup.title}
               />
             </div>
 
@@ -285,6 +339,7 @@ const CreateStartupPage = () => {
                 required
                 className="input-info-create-proj text"
                 placeholder="Опишіть ваш стартап"
+                defaultValue={startup.description}
               />
             </div>
 
@@ -304,14 +359,13 @@ const CreateStartupPage = () => {
                   <p className="category-item">Для стартапу ще немає визначених категорій</p>
                 ) : (
                   <div className="category-item">
-                    {categories.map((category, index) => (
+                    {categories.map((category) => (
                       <span
                         key={category}
                         onClick={() => handleRemoveCategory(category)}
                         style={{ cursor: "pointer" }}
                       >
                         {category}
-                        {index < categories.length - 1 && <span>, </span>}
                       </span>
                     ))}
                   </div>
@@ -326,7 +380,7 @@ const CreateStartupPage = () => {
                   onChange={(e) => setSelectedCategory(e.target.value)}
                   ref={categoryRef}
                 >
-                  <option value="">- Вибрати -</option>
+                  <option value="">-Вибрати-</option>
                   <option value="IT">IT</option>
                   <option value="Виробництво">Виробництво</option>
                   <option value="Інновації">Інновації</option>
@@ -352,24 +406,32 @@ const CreateStartupPage = () => {
                         <div className="form-group-create-proj">
               <label htmlFor="projectType" className="label-create-proj">
                 Тип проєкту <span className="required-star">*</span>
-                </label>
+              </label>
+              <p id="wrongProjectType" style={{ color: "red", display: "none", fontStyle: "italic", marginLeft: "10px" }}>
+                Виберіть тип проєкту
+              </p>
               <div className="category-input">
                 <select
                   id="projectType"
                   name="projectType"
                   className="input-info-create-proj"
                   value={selectedProjectType}
-                  onChange={(e) => setSelectedProjectType(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setSelectedProjectType(value);
+                    if (value !== "Інше") {
+                      setCustomProjectType("");  // очищаємо поле при зміні
+                    }
+                  }}
                   ref={projTypeRef}
                 >
-                  <option value="">- Вибрати -</option>
                   <option value="Стартап">Стартап</option>
                   <option value="Малий бізнес">Малий бізнес</option>
                   <option value="Пілотний проєкт">Пілотний проєкт</option>
                   <option value="MVP">MVP</option>
                   <option value="Інше">Інше</option>
                 </select>
-                {selectedCategory === "Інше" && (
+                {selectedProjectType === "Інше" && (
                   <input
                     type="text"
                     placeholder="Введіть свою категорію"
@@ -383,15 +445,20 @@ const CreateStartupPage = () => {
 
             {/* Інвестиції */}
             <div className="form-group-create-proj">
-              <label htmlFor="investment" className="label-create-proj">Необхідні інвестиції</label>
-              <input
-                type="text"
-                id="investment"
-                name="investment"
-                className="input-info-create-proj"
-                placeholder="Наприклад 2 000 гривень"
-              />
-            </div>
+  <label htmlFor="investment" className="label-create-proj">Необхідні інвестиції</label>
+  <div className="investment-input-wrapper">
+    <input
+      type="text"
+      id="investment"
+      name="investment"
+      className="input-info-create-proj investment-input"
+      placeholder="Наприклад 2000"
+      value={investment}
+      onChange={handleInvestmentChange}
+    />
+    <div className="currency-label">грн</div>
+  </div>
+</div>
 
             {/* Спеціальності */}
             <div className="form-group-create-proj">
@@ -470,6 +537,8 @@ const CreateStartupPage = () => {
                       name={`experience-${spec.id}`}
                       className="input-info-create-proj"
                       placeholder="Введіть необхідний досвід роботи"
+                      value={experienceValues[spec.id] || ""}
+                      onChange={(e) => handleExperienceChange(spec.id, e.target.value)}
                     />
                   </div>
                 )
@@ -500,13 +569,21 @@ const CreateStartupPage = () => {
                 </div>
               </>
             )}
+            {/*Hiring*/}
+            <div className="form-group-create-proj check-hiring">
+              <input type="checkbox"
+                className="check-create"
+                checked={hiring}
+              onChange={(e) => setHiring(e.target.checked)}/>
+              <label className="label-create-proj check-hiring-label">Набір персоналу ще відкритий</label>
+            </div>
 
             {/* Кнопки */}
             <button type="button" id="formbtnCl" onClick={clearSelection}>
               Очистити вибір
             </button>
             <br />
-            <button type="submit" id="formbtnS">
+            <button type="submit" id="formbtnS" onClick={() => navigate(`/project/${startup.id}`)}>
               Зберегти
             </button>
           </form>
@@ -517,4 +594,4 @@ const CreateStartupPage = () => {
   );
 };
 
-export default CreateStartupPage;
+export default EditStartupPage;

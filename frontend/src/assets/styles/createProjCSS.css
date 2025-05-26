@@ -481,4 +481,8 @@
       padding: 8px 16px;
     }
   }
+
+  .check-hiring{
+    display: flex;
+  }
   

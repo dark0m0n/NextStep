@@ -202,7 +202,7 @@ export default function ProjectPage() {
                     <h3>Контакти</h3>
                     <p>{user.username}</p>
                     <p>{user.email}</p>
-                    <p>{user.phoneNumber}</p>
+                    {user.phoneNumber && <p>{user.phoneNumber}</p>}
                 </div>
 
                 <div className="mainInformation-proj">
