@@ -224,6 +224,7 @@ void Database::updateUser(const User &user) {
         user.getSkills(),
         user.getAdditionalInfo(),
         user.getId());
+    txn.commit();
 }
 
 std::vector<Startup> Database::getAllStartups() {
@@ -304,6 +305,43 @@ void Database::insertStartup(const Startup &startup) {
         startup.getInvestment(),
         startup.getAverageRating(),
         startup.getHiring());
+    txn.commit();
+}
+
+void Database::deleteStartup(int id) {
+    pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
+    pqxx::work txn(conn);
+    txn.exec_params(
+        "DELETE FROM startups WHERE id = $1;",
+        id);
+    txn.commit();
+}
+
+void Database::updateStartup(const Startup &startup) {
+    pqxx::connection conn(connInfo);
+    if (!conn.is_open()) {
+        throw DbConnectionError("Failed to connect to the database.");
+    }
+
+    pqxx::work txn(conn);
+    txn.exec_params(
+        "UPDATE startups"
+        "SET title = $1, description = $2, experience = $3, category = $4, projectType = $5, investment = $6, "
+        "averageRating = $7, hiring = $8"
+        "WHERE id = $9;",
+        startup.getTitle(),
+        startup.getDescription(),
+        startup.getExperience(),
+        startup.getCategory(),
+        startup.getProjectType(),
+        startup.getInvestment(),
+        startup.getAverageRating(),
+        startup.getHiring(),
+        startup.getID());
     txn.commit();
 }
 

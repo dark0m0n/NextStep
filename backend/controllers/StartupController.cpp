@@ -1,6 +1,5 @@
 #include "StartupController.h"
 #include "../serializers/StartupSerializer.h"
-#include "../utils/FormData.h"
 #include "nlohmann/json.hpp"
 
 using json = nlohmann::json;
@@ -8,20 +7,20 @@ using json = nlohmann::json;
 StartupController::StartupController(Database &db) : db(db) {
 }
 
-crow::response StartupController::getAllStartups() const {
-    const auto startups = db.getAllStartups();
+crow::response StartupController::getAllStartups() {
+    const auto startups = Database::getAllStartups();
     return crow::response{200, StartupSerializer::serializeStartups(startups).dump()};
 }
 
-crow::response StartupController::getStartupById(const int id) const {
-    const auto startup = db.getStartupById(id);
+crow::response StartupController::getStartupById(const int id) {
+    const auto startup = Database::getStartupById(id);
     if (!startup) {
         return crow::response{404, R"({"error": "User not found"})"};
     }
     return crow::response{200, StartupSerializer::serializeOptionalStartup(startup).dump()};
 }
 
-crow::response StartupController::createStartup(const crow::request &req) const {
+crow::response StartupController::createStartup(const crow::request &req) {
     std::string contentType = req.get_header_value("Content-Type");
 
     if (contentType.find("multipart/form-data") != std::string::npos) {
@@ -32,6 +31,12 @@ crow::response StartupController::createStartup(const crow::request &req) const 
         const std::string boundary = contentType.substr(boundaryPos + 9);
 
         auto form = FormData::parse(req.body, boundary);
+
+        std::string path = "/startups/" + form["id"] + ".jpg";
+        std::ofstream file("../frontend/public" + path, std::ios::binary);
+        file.write(form["photo"].c_str(), static_cast<std::streamsize>(form["photo"].size()));
+        file.close();
+        form["imagePath"] = path;
 
         const Startup startup{
             0,
@@ -44,10 +49,10 @@ crow::response StartupController::createStartup(const crow::request &req) const 
             form["projectType"],
             std::stoi(form["investment"]),
             std::stoi(form["date"]),
-            form["hiring"] == "true"
+            true
         };
 
-        db.insertStartup(startup);
+        Database::insertStartup(startup);
         return crow::response{201};
     }
 
