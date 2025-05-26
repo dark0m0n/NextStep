@@ -7,6 +7,7 @@ import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
 
 export default function SearchPage() {
+    const [maxInvestment, setMaxInvestment] = useState(0);
     const location = useLocation();
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
@@ -20,6 +21,11 @@ export default function SearchPage() {
         } else {
             queryParams.delete("query");
         }
+        navigate(`${location.pathname}?${queryParams.toString()}`);
+    };
+
+    const handleClearAllQueries = () => {
+        queryParams.delete("query");
         navigate(`${location.pathname}?${queryParams.toString()}`);
     };
 
@@ -74,6 +80,9 @@ export default function SearchPage() {
             price: Number(project.investment),
           }));
 
+            const maxPrice = Math.max(...processedData.map(p => p.price), 0);
+
+            setMaxInvestment(maxPrice);
                 setAllProjects(processedData);
             } catch (err) {
                 console.error(err);
@@ -98,7 +107,13 @@ export default function SearchPage() {
         const typeMatch = selectedTypes.length === 0 || selectedTypes.includes(project.projectType);
         const hiringMatch = !onlyHiring || project.hiring === true;
         const fullText = (
-            project.title
+            project.title +
+            " " +
+            project.projectType +
+            " " +
+            project.description.join(" ") +
+            " " +
+            project.tag
         ).toLowerCase();
 
         const queryMatch = searchWords.length === 0 || searchWords.some(word => fullText.includes(word));
@@ -153,7 +168,7 @@ export default function SearchPage() {
     
             if (val === "") {
                 setPriceMin("");
-            } else if (num < priceMax && num <= 100000) {
+            } else if (num < priceMax && num <= maxInvestment) {
                 setPriceMin(num);
             }
         }
@@ -166,7 +181,7 @@ export default function SearchPage() {
     
             if (val === "") {
                 setPriceMax("");
-            } else if (num > priceMin && num <= 100000) {
+            } else if (num > priceMin && num <= maxInvestment) {
                 setPriceMax(num);
             }
         }
@@ -187,12 +202,21 @@ export default function SearchPage() {
 
     useEffect(() => {
         if (minSliderRef.current) {
-            minSliderRef.current.style.background = getSliderBackground(priceMin, 0, 100000);
+            minSliderRef.current.style.background = getSliderBackground(priceMin, 0, maxInvestment);
         }
         if (maxSliderRef.current) {
-            maxSliderRef.current.style.background = getSliderBackground(priceMax, 0, 100000);
+            maxSliderRef.current.style.background = getSliderBackground(priceMax, 0, maxInvestment);
         }
     }, [priceMin, priceMax]);
+        const resetFilters1 = () => {
+        setSelectedTags([]);
+        setSelectedTypes([]);
+        setSelectedRatings([]);
+        setPriceMin("");
+        setPriceMax("");
+        setSortOption("");
+        setOnlyHiring(false);
+    }
     return (
         <>
             <MyHeader />
@@ -217,6 +241,8 @@ export default function SearchPage() {
                         handleMaxChange={handleMaxChange}
                         minSliderRef={minSliderRef}
                         maxSliderRef={maxSliderRef}
+                        maxInvestment={maxInvestment}
+                        resetFilters1={resetFilters1}
                     />
             </div>
             <section className="searchproj-section">
@@ -239,6 +265,9 @@ export default function SearchPage() {
                                         {word}
                                     </span>
                             ))}
+                            <button className="searchQuery" onClick={handleClearAllQueries}>
+                                Очистити
+                            </button>
                         </div>
                     )}
                     <div className="options1">

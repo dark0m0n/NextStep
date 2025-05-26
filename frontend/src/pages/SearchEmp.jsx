@@ -23,8 +23,11 @@ export default function SearchPage() {
         navigate(`${location.pathname}?${queryParams.toString()}`);
     };
 
-    const [salaryMin, setSalaryMin] = useState(1);
-    const [salaryMax, setSalaryMax] = useState(100000);
+        const handleClearAllQueries1 = () => {
+            queryParams.delete("query");
+            navigate(`${location.pathname}?${queryParams.toString()}`);
+        };
+
     const [sortOption1, setSortOption1] = useState("");
 
     //Увімк/вимк меню фільтрів
@@ -112,7 +115,7 @@ export default function SearchPage() {
             skills: ["React", "HTML", "CSS", "JavaScript"],
             category: "ІТ та Програмування",
             rating: 9.4,
-            salary: 500,
+            salary: 11111,
             country: "Україна",
             language: ["Українська"],
             description: "Lorem Ipsum - це текст-'риба', що використовується в друкарстві та дизайні. Lorem Ipsum є, фактично, стандартною 'рибою' аж з XVI сторіччя, коли невідомий друкар взяв шрифтову гранку та склав на ній підбірку зразків шрифтів. 'Риба' не тільки успішно пережила п'ять століть, але й прижилася в електронному верстуванні, залишаючись по суті незмінною. Вона популяризувалась в 60-их роках минулого сторіччя завдяки виданню зразків шрифтів Letraset, які містили уривки з Lorem Ipsum, і вдруге - нещодавно завдяки програмам комп'ютерного верстування на кшталт Aldus Pagemaker, які використовували різні версії Lorem Ipsum."
@@ -216,6 +219,15 @@ export default function SearchPage() {
     ];
 
     const [search, setSearch] = useState("");
+
+    const [salaryMin, setSalaryMin] = useState(1);
+    const maxSalaryInData = Math.max(...allEmployees.map(emp => emp.salary));
+    const [salaryMax, setSalaryMax] = useState(maxSalaryInData);
+
+    useEffect(() => {
+        const maxSalaryInData = Math.max(...allEmployees.map(emp => emp.salary));
+        setSalaryMax(maxSalaryInData);
+    }, []);
 
     const filteredSkills = skills.filter(skill =>
         skill.toLowerCase().includes(search.toLowerCase())
@@ -322,7 +334,16 @@ export default function SearchPage() {
             setSalaryMax(salaryMin + 1);
         }
     }, [salaryMin, salaryMax]);
-
+    const resetFilters = () => {
+        setSelectedSkills([]);
+        setSelectedCategory([]);
+        setSelectedRatings1([]);
+        setSelectedLanguage([]);
+        setSelectedCountry([]);
+        setSearch("");
+        setSalaryMin(1);
+        setSalaryMax(maxSalaryInData);
+    }
     return (
         <>
             <MyHeader />
@@ -352,6 +373,7 @@ export default function SearchPage() {
                         handleCountryChange={handleCountryChange}
                         handleMinChange1={handleMinChange1}
                         handleMaxChange1={handleMaxChange1}
+                        resetFilters={resetFilters}
                     />
 
                 </div>
@@ -373,6 +395,9 @@ export default function SearchPage() {
                                         {word}
                                     </span>
                             ))}
+                            <button className="searchQuery" onClick={handleClearAllQueries1}>
+                                Очистити
+                            </button>
                         </div>
                     )}
                     <div className="options">
