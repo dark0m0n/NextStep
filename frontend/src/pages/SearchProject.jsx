@@ -63,15 +63,16 @@ export default function SearchPage() {
                 const data = await res.json();
 
                 const processedData = data.map((project) => ({
-                    ...project,
-                    mark: Number(project.mark),
-                    tag: Array.isArray(project.tag)
-                        ? project.tag
-                        : typeof project.tag === "string"
-                            ? project.tag.split(",").map((tag) => tag.trim())
-                            : [],
-                    imagePath: project.imagePath || "images/ua.png",
-                }));
+            ...project,
+            mark: Number(project.averageRating),
+            tag: Array.isArray(project.category)
+              ? project.category
+              : typeof project.category === "string"
+              ? project.category.split(",").map((category) => category.trim())
+              : [],
+              imagePath: project.imagePath || "/images/ua.png",
+            price: Number(project.investment),
+          }));
 
                 setAllProjects(processedData);
             } catch (err) {
@@ -90,8 +91,11 @@ export default function SearchPage() {
     const filteredProjects = allProjects.filter((project) => {
         const tagMatch = selectedTags.length === 0 || project.tag.some(tag => selectedTags.includes(tag));
         const ratingMatch = selectedRatings.length === 0 || selectedRatings.some(r => project.mark >= r);
-        const priceMatch = project.price >= priceMin && project.price <= priceMax;
-        const typeMatch = selectedTypes.length === 0 || selectedTypes.includes(project.projType);
+        const priceMatch =
+  (priceMin === "" || project.price >= priceMin) &&
+  (priceMax === "" || project.price <= priceMax);
+
+        const typeMatch = selectedTypes.length === 0 || selectedTypes.includes(project.projectType);
         const hiringMatch = !onlyHiring || project.hiring === true;
         const fullText = (
             project.title
@@ -117,11 +121,11 @@ export default function SearchPage() {
         }
     });
     // Фільтр по типу
-    const handleTypeChange = (projType) => {
+    const handleTypeChange = (projectType) => {
         setSelectedTypes((prev) =>
-            prev.includes(projType)
-                ? prev.filter((t) => t !== projType)
-                : [...prev, projType]
+            prev.includes(projectType)
+                ? prev.filter((t) => t !== projectType)
+                : [...prev, projectType]
         );
     };
 
@@ -154,7 +158,6 @@ export default function SearchPage() {
             }
         }
     };
-    
     const handleMaxChange = (e) => {
         const val = e.target.value;
     
@@ -173,7 +176,6 @@ export default function SearchPage() {
             setPriceMax(priceMin);
         }
     }, [priceMin, priceMax]);
-
     // Слайдер цін (динам. зміна кольору)
     const minSliderRef = useRef(null);
     const maxSliderRef = useRef(null);
@@ -181,9 +183,7 @@ export default function SearchPage() {
         const percent = ((value - min) / (max - min)) * 100;
         return `linear-gradient(to right, #14B8A6 0%, #14B8A6 ${percent}%, #ddd ${percent}%, #ddd 100%)`;
     };
-
     const allTags = useMemo(() => [...new Set(allProjects.flatMap(project => project.tag))], [allProjects]);
-
 
     useEffect(() => {
         if (minSliderRef.current) {
@@ -218,7 +218,6 @@ export default function SearchPage() {
                         minSliderRef={minSliderRef}
                         maxSliderRef={maxSliderRef}
                     />
-                
             </div>
             <section className="searchproj-section">
                 <div className="info-searchproj">
@@ -227,7 +226,6 @@ export default function SearchPage() {
                         Знайди вже готовий і правильно організований проєкт, який чекає на
                         персонал
                     </p>
-
                 </div>
                     {searchWords.length > 0 && filteredProjects.length === 0 && (
                         <div className="searchQueries">
@@ -260,7 +258,7 @@ export default function SearchPage() {
                     ) : (
                     sortedProjects.map((project) => (
                         <div className="block-searchproj" data-tags={project.tag} key={project.id}>
-                            <a href={`project/${project.id}`} className="block-link">
+                            <a href={`/project/${project.id}`} className="block-link">
                                 <img src={project.imagePath}  alt={project.title} />
                                 <p className="title">{project.title}</p>
                                 <p className="mark">★ {project.mark}</p>
@@ -270,10 +268,7 @@ export default function SearchPage() {
     ))
 )}
                     </div>
-
-                    
                 </div>
-                
             </section>
             </div>
             <MyFooter />
