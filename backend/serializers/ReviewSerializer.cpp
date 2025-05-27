@@ -1,9 +1,11 @@
 #include "ReviewSerializer.h"
+#include "../db/Database.h"
+#include "UserSerializer.h"
 
 json ReviewSerializer::serializeReview(const Review &review) {
     return {
         {"id", review.getId()},
-        {"userID", review.getUserID()},
+        {"user", UserSerializer::serializeOptionalUser(Database::getUserById(review.getUserID()))},
         {"startupID", review.getStartupID()},
         {"text", review.getText()},
         {"rating", review.getRating()}
