@@ -7,12 +7,35 @@
 .fbsbtn:hover {
     background-color: #173046;
 }
+.delete {
+    background-color: #fff;
+    color: #8E0000;
+    border: 1px solid #8E0000;
+    padding: 5px 10px;
+    font-weight: 400;
+}
+
+    .delete:hover {
+        background-color: #8E0000;
+        color: #fff;
+        border: 1px solid #8E0000;
+    }
 a {
     color: black;
 }
     a:hover {
         color: black;
     }
+.profile-exp1 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-left: 2px solid rgba(10, 158, 162);
+    border-radius: 10px;
+    margin-bottom: 15px;
+    margin-top: 25px;
+    padding: 20px;
+}
 /* ===============================
    Заголовки та текст проекту
 ================================ */
@@ -63,19 +86,22 @@ a {
     width: 100%;
 }
 
-.mainInformation-proj .imagesProj{
-    display: flex;
-    justify-content: center;
+    .mainInformation-proj .imagesProj {
+        display: flex;
+        justify-content: center;
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        max-height: 500px;
+        overflow: hidden;
+        position: relative;
 }
 
+.mainInformation-proj .imagesProj img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-    .mainInformation-proj .imagesProj img {
-        width: 100%;
-        height: auto;
-        max-height: 500px;
-        border: 2px solid #14B8A6;
-        box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
-    }
 
     .mainInformation-proj .descrip {
         max-width: 838px;
@@ -111,9 +137,10 @@ a {
      Відгуки
   ================================ */
 .mark {
-    margin-bottom: 10px;
+    margin-bottom: 0px !important;
     color: #14B8A6;
     font-weight: 500;
+    
 }
 
 input[type=radio] {
@@ -148,7 +175,7 @@ input[type=radio] {
     width: 64px;
     height: 64px;
     margin-right: 10px;
-    border: 1px solid #14B8A6;
+/*    border: 1px solid #14B8A6;*/
     border-radius: 50%;    
 }
 .user-info {
@@ -162,16 +189,18 @@ input[type=radio] {
 }
 
 .date hr {
-    margin: 4px 0;
-    height: px;
+    margin: 1px 1px 1px 1px;
+    height: 1px;
+    width: 100%;
     border: none;
-    background-color: #818181;      
+    background-color: #14B8A6;
 }
 
         
 .review-date{
-    color: #ccc;
-    margin: 0;
+    color: #173046;
+    margin-bottom: 3px !important;
+    text-align: right;
 }
 
 /* ===============================
@@ -224,7 +253,7 @@ input[type=radio] {
         margin-right: 10px;
     }
 
-.close {
+.close1 {
     background-color: white;
     border-radius: 0;
     display: flex;
@@ -343,7 +372,7 @@ input[type=radio] {
   ================================ */
 @media (max-width: 768px) {
     #root {
-        margin-top: 33%;
+        margin-top: 14%;
     }
     body, html {
         overflow: scroll; /* або scroll */
@@ -358,6 +387,7 @@ input[type=radio] {
         flex-direction: column;
         align-items: center;
         margin-left: 0px;
+        width: 100%;
     }
 
         .mainInformation-proj .imagesProj img {
