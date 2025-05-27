@@ -57,7 +57,7 @@ html {
 header {
     background-color: rgba(10, 158, 162);
     color: white;
-    padding: 10px 40px;
+    padding: 0px 40px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 999;
     position: sticky;
@@ -176,12 +176,12 @@ nav button:hover {
     background-color: rgba(10, 158, 162, 0.9);
     padding: 10px;
     position: absolute;
-    top: 90px;
+    top: 100%;
     right: 0px;
     border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
     width: 200px;
-    height: 90vh;
+    height: 100vh;
 }
 
 /* ===============================
@@ -450,9 +450,10 @@ hr {
     }
 
     #nav {
-        margin-top: -1.5%;
+        padding: 10px;
+        position: absolute;
         width: 50%;
-        position: fixed;
+        height: 100vh;
     }
 
     .button {
