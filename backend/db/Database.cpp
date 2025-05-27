@@ -46,7 +46,8 @@ Database::Database(const std::string &connInfo) {
                 userID INTEGER REFERENCES users(id) ON DELETE CASCADE,
                 startupID INTEGER REFERENCES startups(id) ON DELETE CASCADE,
                 text TEXT NOT NULL,
-                rating INTEGER NOT NULL
+                rating INTEGER NOT NULL,
+                createdAt TIMESTAMP DEFAULT NOW()
             );
 
             CREATE TABLE IF NOT EXISTS chats (
@@ -379,7 +380,8 @@ std::vector<Review> Database::getAllReviews(const int startupID) {
             row["userID"].as<int>(),
             row["startupID"].as<int>(),
             row["text"].as<std::string>(),
-            row["rating"].as<int>());
+            row["rating"].as<int>(),
+            row["createdAt"].as<std::string>());
     }
 
     return reviews;
@@ -404,7 +406,8 @@ std::optional<Review> Database::getReviewById(const int id) {
         row["userID"].as<int>(),
         row["startupID"].as<int>(),
         row["text"].as<std::string>(),
-        row["rating"].as<int>());
+        row["rating"].as<int>(),
+        row["createdAt"].as<std::string>());
 
     return review;
 }
