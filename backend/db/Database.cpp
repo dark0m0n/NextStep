@@ -21,7 +21,10 @@ Database::Database(const std::string &connInfo) {
                 languages TEXT,
                 specialties TEXT,
                 skills TEXT,
-                additionalInfo TEXT
+                additionalInfo TEXT,
+                category Text,
+                rating INTEGER,
+                salary INTEGER
             );
 
             CREATE TABLE IF NOT EXISTS startups (
@@ -92,7 +95,10 @@ std::vector<User> Database::getAllUsers() {
             row["languages"].as<std::string>(),
             row["specialties"].as<std::string>(),
             row["skills"].as<std::string>(),
-            row["additionalInfo"].as<std::string>());
+            row["additionalInfo"].as<std::string>(),
+            row["category"].as<std::string>(),
+            row["rating"].as<int>(),
+            row["salary"].as<int>());
     }
 
     return users;
@@ -125,7 +131,10 @@ std::optional<User> Database::getUserById(const int id) {
         row["languages"].as<std::string>(),
         row["specialties"].as<std::string>(),
         row["skills"].as<std::string>(),
-        row["additionalInfo"].as<std::string>());
+        row["additionalInfo"].as<std::string>(),
+        row["category"].as<std::string>(),
+        row["rating"].as<int>(),
+        row["salary"].as<int>());
 
     return user;
 }
@@ -157,7 +166,10 @@ std::optional<User> Database::getUserByUsername(const std::string &username) {
         row["languages"].as<std::string>(),
         row["specialties"].as<std::string>(),
         row["skills"].as<std::string>(),
-        row["additionalInfo"].as<std::string>());
+        row["additionalInfo"].as<std::string>(),
+        row["category"].as<std::string>(),
+        row["rating"].as<int>(),
+        row["salary"].as<int>());
 
     return user;
 }
@@ -171,8 +183,8 @@ void Database::insertUser(const User &user) {
     pqxx::work txn(conn);
     txn.exec_params(
         "INSERT INTO users (username, firstname, lastname, email, password, phoneNumber, imagePath, country,"
-        "languages, specialties, skills, additionalInfo)"
-        "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);",
+        "languages, specialties, skills, additionalInfo, category, rating, salary)"
+        "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15);",
         user.getUsername(),
         user.getFirstname(),
         user.getLastname(),
@@ -184,7 +196,10 @@ void Database::insertUser(const User &user) {
         user.getLanguage(),
         user.getSpecialties(),
         user.getSkills(),
-        user.getAdditionalInfo());
+        user.getAdditionalInfo(),
+        user.getCategory(),
+        user.getRating(),
+        user.getSalary());
     txn.commit();
 }
 
@@ -210,8 +225,8 @@ void Database::updateUser(const User &user) {
     pqxx::work txn(conn);
     txn.exec_params(
         "UPDATE users"
-        "SET username = $1, firstname = $2, lastname = $3, email = $4, phoneNumber = $5, country = $6"
-        "languages = $7, specialties = $8, skills = $9, additionalInfo = $10"
+        "SET username = $1, firstname = $2, lastname = $3, email = $4, phoneNumber = $5, country = $6,"
+        "languages = $7, specialties = $8, skills = $9, additionalInfo = $10, category = $11, rating = $12, salary = $13"
         "WHERE id = $11;",
         user.getUsername(),
         user.getFirstname(),
@@ -223,7 +238,10 @@ void Database::updateUser(const User &user) {
         user.getSpecialties(),
         user.getSkills(),
         user.getAdditionalInfo(),
-        user.getId());
+        user.getId(),
+        user.getCategory(),
+        user.getRating(),
+        user.getSalary());
     txn.commit();
 }
 
