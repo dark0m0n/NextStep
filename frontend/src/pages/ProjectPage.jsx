@@ -74,6 +74,7 @@ export default function ProjectPage() {
             const response = await fetch(`http://localhost:8000/api/startup/${id}`, {
                 method: "PUT",
                 body: formData,
+                credentials: "include"
             });
 
             if (!response.ok) {
@@ -99,17 +100,17 @@ export default function ProjectPage() {
     useEffect(() => {
         const fetchStartup = async () => {
             try {
-                const res = await fetch(`http://localhost:8000/api/startup/${id}`);
+                const res = await fetch(`http://localhost:8000/api/startup/${id}`,{credentials:"include"});
                 if (!res.ok) throw new Error("Startup not found");
                 const data = await res.json();
                 setStartup(data);
 
-                const userRes = await fetch(`http://localhost:8000/api/user/${data.userID}`);
+                const userRes = await fetch(`http://localhost:8000/api/user/${data.userID}`,{credentials:"include"});
                 if (!userRes.ok) throw new Error("User not found");
                 const userData = await userRes.json();
                 setUser(userData);
 
-                const reviewRes = await fetch(`http://localhost:8000/api/reviews/${id}`);
+                const reviewRes = await fetch(`http://localhost:8000/api/reviews/${id}`,{credentials:"include"});
                 if (!reviewRes.ok) throw new Error("Reviews not found");
                 const reviewsData = await reviewRes.json();
                 setReviews(reviewsData);
@@ -153,7 +154,7 @@ export default function ProjectPage() {
         if (hasError) return;
 
         try {
-            const userInfo = await fetch(`http://localhost:8000/api/user/me`);
+            const userInfo = await fetch(`http://localhost:8000/api/user/me`,{credentials:"include"});
 
             if (!userInfo.ok) throw new Error("Користувача не знайдено або неавторизовано");
 
@@ -168,6 +169,7 @@ export default function ProjectPage() {
             const response = await fetch("http://localhost:8000/api/review", {
                 method: "POST",
                 body: formData,
+                credentials:"include"
             });
 
             if (response.ok) {
