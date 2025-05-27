@@ -66,10 +66,10 @@ aside {
     margin-bottom: 8px;
 }
 
-.checkbox-label input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-}
+    .checkbox-label input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+    }
 
 .fltrs {
     padding: 10px;
@@ -79,30 +79,30 @@ aside {
     /* Переносить скролбар вліво */
 }
 
-/* скролбар */
-.fltrs * {
-    direction: ltr;
-}
+    /* скролбар */
+    .fltrs * {
+        direction: ltr;
+    }
 
-.fltrs::-webkit-scrollbar {
-    width: 10px;
-    background-color: transparent;
-}
+    .fltrs::-webkit-scrollbar {
+        width: 10px;
+        background-color: transparent;
+    }
 
-.fltrs::-webkit-scrollbar-track {
-    background: #fff;
-    border-radius: 5px;
-}
+    .fltrs::-webkit-scrollbar-track {
+        background: #fff;
+        border-radius: 5px;
+    }
 
-.fltrs::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 5px;
-    border: 2px solid #f0f0f0;
-}
+    .fltrs::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 5px;
+        border: 2px solid #f0f0f0;
+    }
 
-.fltrs::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
-}
+        .fltrs::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
 
 .fltrInput {
     appearance: none;
@@ -116,9 +116,9 @@ aside {
     position: relative;
 }
 
-.fltrInput:checked {
-    background-color: #14B8A6;
-}
+    .fltrInput:checked {
+        background-color: #14B8A6;
+    }
 
 input[type="number"] {
     background-color: #fff;
@@ -129,11 +129,11 @@ input[type="number"] {
     padding: 5px;
 }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 
 .fltrpath input[type="text"] {
     background-color: #fff;
@@ -157,9 +157,10 @@ input[type="number"]::-webkit-inner-spin-button {
     top: 180px;
 }
 
-.fbtn:hover {
-    background-color: #173046;
-}
+    .fbtn:hover {
+        background-color: #173046;
+    }
+
 .clearfltr {
     background-color: #8E0000;
     font-size: 14px;
@@ -171,9 +172,11 @@ input[type="number"]::-webkit-inner-spin-button {
     align-items: center;
     border: none;
 }
+
     .clearfltr:hover {
         background-color: #173046;
     }
+
 .options {
     padding: 10px;
     margin: 0px 2% 0px 2%;
@@ -210,17 +213,17 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 2.5%;
 }
 
-.info-searchemp h2 {
-    display: inline-block;
-    font-size: 48px;
-    margin: 0;
-}
+    .info-searchemp h2 {
+        display: inline-block;
+        font-size: 48px;
+        margin: 0;
+    }
 
-.info-searchemp p {
-    font-size: 20px;
-    color: #14B8A6;
-    margin: 0 0 10px;
-}
+    .info-searchemp p {
+        font-size: 20px;
+        color: #14B8A6;
+        margin: 0 0 10px;
+    }
 
 
 /* ===============================
@@ -250,53 +253,59 @@ input[type="number"]::-webkit-inner-spin-button {
     padding: 10px;
     border: none;
     border-radius: 10px;
-    max-height: 300px;
+    max-height: 100%;
 }
 
-.block-searchemp:hover {
-    text-decoration: underline;
-}
+    .block-searchemp:hover {
+        text-decoration: underline;
+    }
 
-.block-searchemp .name {
-    font-size: 15px;
-    margin: 0 0 7px;
-    max-width: 300px;
-}
+    .block-searchemp .name {
+        font-size: 15px;
+        margin: 0 0 7px;
+        max-width: 300px;
+    }
 
-.block-searchemp .languages {
-    margin: 10px 0;
-    font-size: 12px;
+    .block-searchemp .languages {
+        margin: 10px 0;
+        font-size: 12px;
+    }
 
-}
+    .block-searchemp .language {
+        margin-right: 10px;
+        border: 1px solid #173046;
+        border-radius: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
 
-.block-searchemp .language {
-    margin-right: 10px;
-    border: 1px solid #173046;
-    border-radius: 10px;
-    padding-left: 5px;
-    padding-right: 5px;
+    .block-searchemp .specialization {
+        margin: 10px 0;
+        font-size: 16px;
+        font-size: 16px;
+        display: flex;
+        flex-direction: column;
+    }
+.ellipsis-inline {
+    margin-top: -0.5em; /* зсунь краще вручну */
 }
+.more {
+    margin-left: 4px;
+}
+    .block-searchemp .rating {
+        font-size: 15px;
+        font-weight: 500;
+        margin: 0 0 7px;
+        color: #14B8A6;
+    }
 
-.block-searchemp .specialization {
-    margin: 10px 0;
-    font-size: 16px;
-    font-size: 16px;
-}
-
-.block-searchemp .rating {
-    font-size: 15px;
-    font-weight: 500;
-    margin: 0 0 7px;
-    color: #14B8A6;
-}
-
-.block-searchemp .salary {
-    font-size: 15px;
-    font-weight: 500;
-    margin-top: 10px;
-    margin: 0;
-    color: #173046;
-}
+    .block-searchemp .salary {
+        font-size: 15px;
+        font-weight: 500;
+        margin-top: 10px;
+        margin: 0;
+        color: #173046;
+    }
 
 .searchQueries {
     display: flex;
@@ -353,7 +362,15 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .mainInfoEmp {
     display: flex;
+    height: 55%;
 }
+
+    .mainInfoEmp img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-right: 20px;
+    }
 
 .column {
     flex-direction: column;
@@ -369,7 +386,10 @@ input[type="number"]::-webkit-inner-spin-button {
 @media (max-width: 768px) {
     .maincont1 {
         margin-top: -23%;
+        overflow-y: scroll;
+        overflow-x: auto;
     }
+
     .filter-wrapper {
         position: absolute;
         z-index: 1000;
@@ -377,8 +397,8 @@ input[type="number"]::-webkit-inner-spin-button {
 
     .options {
         max-width: 96%;
-
     }
+
     #sortSelect {
         width: 165px;
     }
@@ -392,9 +412,9 @@ input[type="number"]::-webkit-inner-spin-button {
         display: none;
     }
 
-    aside .visible {
-        display: block;
-    }
+        aside .visible {
+            display: block;
+        }
 
     .fltrHead {
         display: flex;
@@ -426,6 +446,7 @@ input[type="number"]::-webkit-inner-spin-button {
         height: 90%;
         padding: 10px;
     }
+
     .checkbox-label {
         display: flex;
         align-items: center;
@@ -433,16 +454,17 @@ input[type="number"]::-webkit-inner-spin-button {
         margin-bottom: 8px;
     }
 
-    .checkbox-label input[type="checkbox"] {
-        width: 16px;
-        height: 16px;
-    }
+        .checkbox-label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
 
     .searchemp-section {
         margin: 14px 14px;
         /* Зменшення відступів для мобільних */
         margin-bottom: 100px;
         margin-top: 7%;
+        max-width: 93.5%;
     }
 
     .info-searchemp h2 {
@@ -461,29 +483,46 @@ input[type="number"]::-webkit-inner-spin-button {
         gap: 15px;
     }
 
-    .process-searchemp p {
-        margin: 10px 0;
-    }
+        .process-searchemp p {
+            margin: 10px 0;
+        }
 
+    .blockss-searchemp {
+
+    }
     .blocks-searchemp {
         flex-direction: column;
         gap: 15px;
     }
 
     .block-searchemp {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #fff;
         max-width: 100%;
-        flex: 1 1 100%;
-        /* Для мобільних блоки займають 100% */
+        max-height: 100%;
+    }
+    .skills,
+    .languages {
+        flex-wrap: wrap;
+        word-break: break-word;
+    }
+    .skill-tag, .language {
+        white-space: normal;
     }
 
-    .block-searchemp .name {
-        font-size: 14px;
-        /* Зменшення шрифта */
-    }
+        .block-searchemp .name {
+            font-size: 14px;
+            /* Зменшення шрифта */
+        }
 
-    .block-searchemp .rating,
-    .block-searchemp .salary {
-        font-size: 14px;
-        /* Зменшення шрифта */
-    }
+        .block-searchemp .rating,
+        .block-searchemp .salary {
+            font-size: 14px;
+            /* Зменшення шрифта */
+        }
 }

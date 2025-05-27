@@ -120,7 +120,7 @@ export default function ProjectPage() {
 
         fetchStartup();
     }, [id]);
-
+    
     if (!startup || !user) return <div>Завантаження...</div>;
 
     const experienceList = startup.experience
@@ -203,6 +203,8 @@ export default function ProjectPage() {
                     <p>{user.username}</p>
                     <p>{user.email}</p>
                     {user.phoneNumber && <p>{user.phoneNumber}</p>}
+                    <button onClick={() => navigate(`/editproject/${id}`)} className="fbsbtn delete">Редагувати</button>
+                    <button className="fbsbtn delete">Видалити</button>
                 </div>
 
                 <div className="mainInformation-proj">
@@ -229,7 +231,7 @@ export default function ProjectPage() {
                             <p>{startup.description}</p>
                         </div>
 
-                        <div className="profile-exp">
+                        <div className="profile-exp1">
                             <h3>Досвід роботи</h3>
                             <div className="expir">
                                 {experienceList.map((spec, index) => {
@@ -270,7 +272,7 @@ export default function ProjectPage() {
                                         <div className="headFBform">
                                             <h2>Написати відгук</h2>
                                             <button
-                                                className="close"
+                                                className="close1"
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     toggleFb();
@@ -349,9 +351,8 @@ export default function ProjectPage() {
                                                     <p className="review-date">{localTime}</p>
                                                 </div>
                                             </div>
-                                            <hr/>
                                             <p className="mark">
-                                                {review.rating}{" "}
+                                                {" "}
                                                 {"★".repeat(review.rating) + "☆".repeat(10 - review.rating)}
                                             </p>
                                             <p className="comm">{review.comment}</p>
@@ -372,8 +373,7 @@ export default function ProjectPage() {
                             </ul>
                         </section>
                         <br />
-                        <button onClick={() =>navigate(`/editproject/${id}`)} className="fbsbtn">Редагувати</button>
-                        <button className="fbsbtn">Видалити</button>
+
                     </div>
                 </div>
             </section>

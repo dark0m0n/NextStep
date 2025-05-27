@@ -21,30 +21,38 @@
     border-radius: 10px;
     box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
 }
-  
-  .profile-photo {
+
+.profile-photo {
     width: 200px;
     height: 200px;
-    border: 1px solid rgba(10, 158, 162);
+    border: 1px solid #173046;
     margin: 15px 30px 15px 15px;
     border-radius: 10%;
-  }
+}
 
   .profile-info{
     margin-top: 30px;
     text-align: left;
   }
-  
+    .profile-info p {
+        font-weight: 500;
+    }
   .profile-info h1 {
     font-size: 40px;
     margin: 0;
   }
-  
-  .profile-info h3 {
+    .profile-info .mainUserInfo {
+        margin-top: 20px;
+    }
+    .profile-name {
+        font-weight: 400;
+    }
+
+.profile-info h3 {
     font-size: 24px;
     color: #777;
     margin-top: 5px;
-  }
+}
   
   /* ===============================
      Основний контент
@@ -125,15 +133,15 @@
   /* ===============================
      Спеціальності
   ================================ */
-    .spc {
-      flex: 1 1 30%;
-      box-sizing: border-box;
-      padding: 10px;
-      border-radius: 10px;
-      box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1);
-      border-left: 2px solid rgba(10, 158, 162);
+.spc {
+    flex: 1 1 30%;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(10, 158, 162);
     height: 175px;
-    }
+}
       
 
 /*.specs {
@@ -155,8 +163,13 @@
      <Strong>
   ================================ */
 .strong-profile {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 20px;
+    margin-bottom: 10px;
+}
+.mainUserInfo .strong-profile {
+    font-weight: 400;
+    font-size: 14px;
     margin-bottom: 10px;
 }
   .strong-descr {
@@ -168,7 +181,7 @@
     margin-bottom: 20px;
   }
 
-  
+ 
   /* ===============================
      Додаткова інформація
   ================================ */
@@ -195,7 +208,7 @@
     .profile-container {
       max-width: 90%;
       padding: 15px;
-      margin-top: 35%;
+      margin-top: -7%;
     }
 
     .profile-header {
@@ -211,7 +224,9 @@
       margin-right: 0;
       margin-bottom: 10px;
     }
-  
+    .profile-info {
+
+    }
     .profile-info h1 {
       font-size: 26px;
     }
@@ -240,9 +255,6 @@
 
     .specs {
         width: 100%;
-        border-left: 2px solid rgba(10, 158, 162);
-        border-radius: 10px;
-        box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
     }
   
     .spc {

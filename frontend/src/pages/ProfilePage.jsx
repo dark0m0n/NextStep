@@ -42,10 +42,16 @@ export default function MyProfilePage() {
             className="profile-photo"
             id="profile-photo"
           />
-          <div className="profile-info">
-            <h1 className="profile-name">{userData.username}</h1>
-            <h2>{userData.firstname} {userData.lastname}</h2>
-          </div>
+            <div className="profile-info">
+              <h2 className="profile-name">{userData.username}</h2>
+              <h2>{userData.firstname} {userData.lastname}</h2>
+              <div className="mainUserInfo">
+              <p><strong className="strong-profile">Сфера:</strong> {userData.category}</p>
+              <p><strong className="strong-profile">Країна:</strong> {userData.country}</p>
+              <p><strong className="strong-profile">Рейтинг:</strong> {(userData.rating ?? "-") + "★"}</p>
+              </div>
+              
+            </div>
         </div>
   
         <div className="profile-exp">
