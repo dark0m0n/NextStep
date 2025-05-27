@@ -13,7 +13,10 @@ json UserSerializer::serializeUser(const User &user) {
         {"language", user.getLanguage()},
         {"specialties", user.getSpecialties()},
         {"skills", user.getSkills()},
-        {"additionalInfo", user.getAdditionalInfo()}
+        {"additionalInfo", user.getAdditionalInfo()},
+        {"category", user.getCategory()},
+        {"rating", user.getRating()},
+        {"salary", user.getSalary()}
     };
 }
 
@@ -46,6 +49,9 @@ User UserSerializer::deserializeUser(const json &j) {
         j.at("language").get<std::string>(),
         j.at("specialties").get<std::string>(),
         j.at("skills").get<std::string>(),
-        j.at("additionalInfo").get<std::string>()
+        j.at("additionalInfo").get<std::string>(),
+        j.at("category").get<std::string>(),
+        j.at("rating").get<int>(),
+        j.at("salary").get<int>()
     };
 }

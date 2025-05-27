@@ -76,11 +76,11 @@ class Chat {
 
   // Примірники користувачів
   const users = [
-    new User(1, "Ivanov", "Ivan", "ivan_dev", "1234567890", "ivan@example.com", "Ukraine", "Frontend", "React;JS", "en,uk", "/avatars/ivan.png", "", "React:3", 4.5, 1200),
-    new User(2, "Petrova", "Anna", "anya_front", "0987654321", "anya@example.com", "Ukraine", "Frontend", "HTML;CSS;JS", "uk,en", "/avatars/anya.png", "Loves C++", "CSS:2,HTML:3", 5.0, 1500),
-    new User(3, "Smith", "John", "john_backend", "1111111111", "john@example.com", "USA", "Backend", "Node.js;SQL", "en", "/avatars/john.png", "", "Node.js:4", 4.2, 1300),
-    new User(4, "Lee", "Sara", "sara_ui", "2222222222", "sara@example.com", "Korea", "Design", "Figma;UI", "en,ko", "/avatars/sara.png", "", "Figma:3", 4.8, 1400),
-    new User(5, "Koval", "Oleg", "oleg_pm", "3333333333", "oleg@example.com", "Ukraine", "Management", "Agile;Scrum", "uk", "/avatars/oleg.png", "", "Agile:5", 4.6, 1600),
+    new User(1, "Ivanov", "Ivan", "ivan_dev", "1234567890", "ivan@example.com", "Ukraine", "Frontend", "React;JS", "en,uk", "/images/ua.png", "", "React:3", 4.5, 1200),
+    new User(2, "Petrova", "Anna", "anya_front", "0987654321", "anya@example.com", "Ukraine", "Frontend", "HTML;CSS;JS", "uk,en", "/images/ua.png", "Loves C++", "CSS:2,HTML:3", 5.0, 1500),
+    new User(3, "Smith", "John", "john_backend", "1111111111", "john@example.com", "USA", "Backend", "Node.js;SQL", "en", "/images/ua.png", "", "Node.js:4", 4.2, 1300),
+    new User(4, "Lee", "Sara", "sara_ui", "2222222222", "sara@example.com", "Korea", "Design", "Figma;UI", "en,ko", "/images/ua.png", "", "Figma:3", 4.8, 1400),
+    new User(5, "Koval", "Oleg", "oleg_pm", "3333333333", "oleg@example.com", "Ukraine", "Management", "Agile;Scrum", "uk", "/images/ua.png", "", "Agile:5", 4.6, 1600),
     new User(6, "Nguyen", "Linh", "linh_dev", "4444444444", "linh@example.com", "Vietnam", "Frontend", "Vue;JS", "en,vi", "/avatars/linh.png", "", "Vue:2", 4.3, 1100),
     new User(7, "Garcia", "Luis", "luis_designer", "5555555555", "luis@example.com", "Spain", "Design", "Photoshop;Illustrator", "es,en", "/avatars/luis.png", "", "Illustrator:4", 4.7, 1350),
     new User(8, "Brown", "Emily", "emily_hr", "6666666666", "emily@example.com", "UK", "HR", "Recruitment", "en", "/avatars/emily.png", "", "Recruitment:3", 4.9, 1250),
@@ -283,24 +283,45 @@ class Chat {
   
   
 const chats = [
-  new Chat(1, "Frontend Team", "/images/frontend.png", true),
-  new Chat(2, "Backend Team", "/images/backend.png", true),
-  new Chat(3, "One-on-One: Anya & Max", "/images/anya_max.png", false),
-  new Chat(4, "Design Squad", "/images/design.png", true),
+  new Chat(1, "Frontend Team", "/images/ua.png", true),
+  new Chat(2, "Backend Team", "/images/ua.png", true),
+  new Chat(3, "One-on-One: Anya & Max", "/images/ua.png", false),
+  new Chat(4, "Design Squad", "/images/ua.png", true),
   new Chat(5, "HR Chat", "/images/hr.png", false),
 ];
 
 const chatMembers = [
+  // Чат 0: users[0], users[1]
   new ChatMember(1, chats[0].id, users[0]),
   new ChatMember(2, chats[0].id, users[1]),
+
+  // Чат 1: users[2], users[4]
   new ChatMember(3, chats[1].id, users[2]),
   new ChatMember(4, chats[1].id, users[4]),
+
+  // Чат 2: users[1], users[2] — users[1] вже другий чат
   new ChatMember(5, chats[2].id, users[1]),
   new ChatMember(6, chats[2].id, users[2]),
+
+  // Чат 3: users[3], users[6]
   new ChatMember(7, chats[3].id, users[3]),
   new ChatMember(8, chats[3].id, users[6]),
+
+  // Чат 4: users[7], users[9]
   new ChatMember(9, chats[4].id, users[7]),
   new ChatMember(10, chats[4].id, users[9]),
+
+  // Додатково: users[4] — вже другий чат (з чат[5])
+  new ChatMember(11, chats[0].id, users[4]),
+  new ChatMember(12, chats[0].id, users[5]),
+
+  // Додатково: users[1] — третій чат (з чат[6])
+  new ChatMember(13, chats[0].id, users[1]),
+  new ChatMember(14, chats[0].id, users[3]),
+
+  // Додатково: users[2] — третій чат (з чат[7])
+  new ChatMember(15, chats[0].id, users[2]),
+  new ChatMember(16, chats[0].id, users[8]),
 ];
 
 // Генератор випадкового часу з інтервалом у хвилину

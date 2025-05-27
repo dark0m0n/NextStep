@@ -20,7 +20,7 @@ crow::response UserController::getAllUsers() {
 crow::response UserController::getUserById(const int id) const {
     const auto user = db.getUserById(id);
     if (!user) {
-        return crow::response{404, R"({"error": "User not found"})"};
+        return crow::response{404, "User not found"};
     }
     return crow::response{200, UserSerializer::serializeOptionalUser(user).dump()};
 }
@@ -28,7 +28,7 @@ crow::response UserController::getUserById(const int id) const {
 crow::response UserController::getUserByUsername(const std::string &username) const {
     const auto user = db.getUserByUsername(username);
     if (!user) {
-        return crow::response{404, R"({"error": "User not found"})"};
+        return crow::response{404, "User not found"};
     }
     return crow::response{200, UserSerializer::serializeOptionalUser(user).dump()};
 }
@@ -73,7 +73,10 @@ crow::response UserController::createUser(const crow::request &req) const {
             form["language"],
             form["specialties"],
             form["skills"],
-            form["additionalInfo"]
+            form["additionalInfo"],
+            form["category"],
+            std::stoi(form["rating"]),
+            std::stoi(form["salary"])
         };
 
         db.insertUser(user);

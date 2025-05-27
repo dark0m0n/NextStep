@@ -3,11 +3,11 @@
 
 class Review {
     int id, userID, startupID;
-    std::string text;
+    std::string text, createdAt;
     int rating;
 
 public:
-    Review(int id, int userID, int startupID, std::string text, int rating);
+    Review(int id, int userID, int startupID, std::string text, int rating, std::string createdAt);
 
     ~Review() = default;
 
@@ -20,4 +20,6 @@ public:
     [[nodiscard]] std::string getText() const;
 
     [[nodiscard]] int getRating() const;
+
+    [[nodiscard]] std::string getCreatedAt() const;
 };

@@ -90,7 +90,10 @@ public:
                     form["language"],
                     form["specialties"],
                     form["skills"],
-                    form["additionalInfo"]
+                    form["additionalInfo"],
+                    form["category"],
+                    std::stoi(form["rating"]),
+                    std::stoi(form["salary"])
                 };
 
                 Database::updateUser(newUser);

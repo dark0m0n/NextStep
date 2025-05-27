@@ -3,7 +3,8 @@
 
 User::User(const int id, std::string username, std::string firstname, std::string lastname, std::string email,
            std::string password, std::string phoneNumber, std::string imagePath, std::string country,
-           std::string language, std::string specialties, std::string skills, std::string additionalInfo)
+           std::string language, std::string specialties, std::string skills, std::string additionalInfo,
+           std::string category, const int rating, const int salary)
     : id(id),
       username(std::move(username)),
       firstname(std::move(firstname)),
@@ -16,7 +17,10 @@ User::User(const int id, std::string username, std::string firstname, std::strin
       language(std::move(language)),
       specialties(std::move(specialties)),
       skills(std::move(skills)),
-      additionalInfo(std::move(additionalInfo)) {
+      additionalInfo(std::move(additionalInfo)),
+      category(std::move(category)),
+      rating(rating),
+      salary(salary) {
 }
 
 int User::getId() const { return id; }
@@ -44,3 +48,9 @@ std::string User::getSpecialties() const { return specialties; }
 std::string User::getSkills() const { return skills; }
 
 std::string User::getAdditionalInfo() const { return additionalInfo; }
+
+std::string User::getCategory() const { return category; }
+
+int User::getRating() const { return rating; }
+
+int User::getSalary() const { return salary; }

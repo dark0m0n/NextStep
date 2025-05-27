@@ -1,12 +1,15 @@
 #include "ReviewSerializer.h"
+#include "../db/Database.h"
+#include "UserSerializer.h"
 
 json ReviewSerializer::serializeReview(const Review &review) {
     return {
         {"id", review.getId()},
-        {"userID", review.getUserID()},
+        {"user", UserSerializer::serializeOptionalUser(Database::getUserById(review.getUserID()))},
         {"startupID", review.getStartupID()},
         {"text", review.getText()},
-        {"rating", review.getRating()}
+        {"rating", review.getRating()},
+        {"createdAt", review.getCreatedAt()}
     };
 }
 
@@ -31,6 +34,7 @@ Review ReviewSerializer::deserializeReview(const json &j) {
         j.at("userID").get<int>(),
         j.at("startupID").get<int>(),
         j.at("text").get<std::string>(),
-        j.at("rating").get<int>()
+        j.at("rating").get<int>(),
+        ""
     };
 }

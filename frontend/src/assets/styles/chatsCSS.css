@@ -123,6 +123,16 @@
 
 }
 
+.chat-window{
+    background-color: #ffffff;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow-y: auto;
+        height: 100%;
+        width: 65%;
+}
+
 .chat-page {
     display: flex;
     padding: 20px;
@@ -151,10 +161,19 @@
     align-items: center;
 }
 
+.message-list{
+    height: 80%;
+    overflow-y: auto;
+}
+.selected-chat{
+    background-color: #0a9ea2;
+    color: white;
+}
 .chat-item img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    margin-right: 10px;
 }
 
 .chat-item:hover {
@@ -186,55 +205,75 @@
     overflow-y: auto;
 }
 
-.messages {
-    margin-bottom: 20px;
+.message-wrapper {
     display: flex;
-    flex-direction: column;
+    align-items: flex-end;
+    margin: 5px 0;
+}
+
+.my-message-wrap{
+display: flex;
+flex-direction: row-reverse;
 }
 
 
+/* Основні стилі повідомлень */
 .message {
-    display: flex;
-    margin-bottom: 15px;
-    align-items: flex-start;
-}
-
-.message .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.message a {
-    text-decoration: none;
-    color: black;
-}
-
-.message-content {
-    max-width: 80%;
-}
-
-.message-content strong {
+    position: relative;
+    max-width: 60%;
+    padding: 10px 15px;
+    border-radius: 15px;
     font-size: 14px;
-    margin-bottom: 5px;
+    line-height: 1.4;
+    word-wrap: break-word;
 }
 
-.message-content p {
-    padding: 10px;
-    background-color: #e1f5fe;
-    border-radius: 5px;
-    margin: 0;
-}
-
+/* Повідомлення поточного користувача */
 .my-message {
-    justify-content: flex-end;
-    text-align: right;
+    background-color: #0a9ea2;
+    color: white;
+    border-bottom-right-radius: 3px;
+    margin: 5px;
 }
+
+/* Хвостик справа */
+.my-message::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    right: -3px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid #0a9ea2;
+    border-left: 10px solid transparent;
+    rotate: 45deg;
+}
+
+/* Повідомлення інших */
+.other-message {
+    background-color: #e5e5ea;
+    color: black;
+    margin-right: auto;
+    border-bottom-left-radius: 3px;
+}
+
+/* Хвостик зліва */
+.other-message::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: -3px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid #e5e5ea;
+    border-right: 10px solid transparent; 
+    rotate: 315deg;
+}
+    
 
 .send {
     position: sticky;
-    bottom: 0;
+    bottom: 100;
     background-color: #fff;
     padding: 10px;
     display: flex;
@@ -263,3 +302,10 @@
 .send button:hover {
     background-color: #173046;
 }
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px; }

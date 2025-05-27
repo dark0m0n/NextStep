@@ -38,7 +38,8 @@ crow::response ReviewController::createReview(const crow::request &req) const {
             std::stoi(form["userID"]),
             std::stoi(form["startupID"]),
             form["text"],
-            std::stoi(form["rating"])
+            std::stoi(form["rating"]),
+            ""
         };
 
         db.insertReview(review);
