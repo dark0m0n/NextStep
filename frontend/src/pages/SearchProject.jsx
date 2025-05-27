@@ -64,7 +64,7 @@ export default function SearchPage() {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const res = await fetch("http://localhost:8000/api/startups");
+                const res = await fetch("http://localhost:8000/api/startups", {credentials:"include"});
                 if (!res.ok) throw new Error("Помилка при завантаженні даних");
                 const data = await res.json();
 

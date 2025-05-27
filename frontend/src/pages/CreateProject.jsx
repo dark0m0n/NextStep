@@ -90,7 +90,9 @@ const CreateStartupPage = () => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/user/me`)
+    fetch(`http://localhost:8000/api/user/me`, {
+      credentials: 'include',
+    })
       .then((res) => {
         if (!res.ok) throw new Error("Profile load error");
         return res.json();
@@ -184,6 +186,7 @@ const CreateStartupPage = () => {
 
     try {
       const response = await fetch("http://localhost:8000/api/startup", {
+        credentials: "include",
         method: "POST",
         body: formData,
       });

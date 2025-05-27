@@ -43,7 +43,9 @@ const EditStartupPage = () => {
   useEffect(() => {
     const fetchStartup = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/startup/${id}`);
+        const response = await fetch(`http://localhost:8000/api/startup/${id}`, {
+          credentials: "include"
+        });
         if (!response.ok) {
           throw new Error(`Помилка завантаження стартапу: ${response.status}`);
         }
@@ -260,6 +262,7 @@ const EditStartupPage = () => {
       const response = await fetch("http://localhost:8000/api/startup", {
         method: "PUT",
         body: formData,
+        credentials: "include"
       });
 
       if (response.ok) {

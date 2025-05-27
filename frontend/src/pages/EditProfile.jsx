@@ -226,20 +226,6 @@ export default function CreateProfile() {
       formData.append('photo', logoFile);
     }
 
-    console.log('Form data:', {
-      firstname: form.firstname.value,
-      lastname: form.lastname.value,
-      email,
-      phoneNumber: fullPhoneNumber,
-      country: form.country.value,
-      language: Array.from(document.querySelectorAll('input[name="lang[]"]:checked')).map(el => el.value).join(','),
-      specialties: specialtiesWithExpArr.join(', '),
-      skills: skillsString,
-      additionalInfo: form.description.value,
-      username: form.userName.value,
-      photo: photoFile ? photoFile.name : null,
-    });
-
     // Submit data
     try {
       const response = await fetch('http://localhost:8000/api/user', {
