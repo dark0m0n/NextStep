@@ -172,7 +172,7 @@ const CreateStartupPage = () => {
     }
 
     formData.append("experience", experienceString);
-    formData.append("userID", Data.userID);
+    formData.append("userID", Data.id);
     formData.append("title", formData.get("startup-name"));
     formData.append("description", formData.get("description"));
     formData.append("projectType", selectedProjectType === "Інше" ? customProjectType.trim() : selectedProjectType);
