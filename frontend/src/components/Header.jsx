@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 
 const MyHeader = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -7,6 +8,8 @@ const MyHeader = () => {
     const [menuVisible, setMenuVisible] = useState(false);
     const [searchType, setSearchType] = useState("project"); // 'project' або 'employee'
     const [showSettings, setShowSettings] = useState(false);
+    const [userData, setUserData] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const toggleVisibility = () => setSmenuVisible(prev => !prev);
     const toggleMenu = () => {
@@ -14,6 +17,26 @@ const MyHeader = () => {
         setIsOpen(prev => !prev);
     }
     const toggleSettings = () => setShowSettings(prev => !prev);
+
+    useEffect(() => {
+        fetch("http://localhost:8000/api/me", {
+          credentials: "include",
+        })
+          .then((res) => {
+            if (res.status === 401) {
+              return null;
+            }
+            if (!res.ok) throw new Error("Не вдалося завантажити профіль");
+            return res.json();
+          })
+          .then((user) => {
+            if (!user) return;
+              setUserData(user);
+              setIsAuthenticated(true);
+          })
+          .catch((err) => console.error("Помилка завантаження:", err));
+    }, []);
+    
 
     const submitSearch = () => {
         const inputElement = document.getElementById("search-input");
@@ -74,7 +97,8 @@ const MyHeader = () => {
 
                 {menuVisible && (
                     <nav id="nav">
-                        <a href="/log"><button className="button menubtn">Профіль</button></a>
+                        <a href={isAuthenticated ? `/profile/${userData.username}` : "/log"}>
+                        <button className="button menubtn">Профіль</button></a>
                         <a href="/chat"><button className="button menubtn">Чати</button></a>
                         <button className="button menubtn" onClick={toggleVisibility}>Стартапи</button>
 
