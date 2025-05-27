@@ -75,8 +75,8 @@ crow::response UserController::createUser(const crow::request &req) const {
             form["skills"],
             form["additionalInfo"],
             form["category"],
-            std::stoi(form["rating"]),
-            std::stoi(form["salary"])
+            0,
+            0
         };
 
         db.insertUser(user);
