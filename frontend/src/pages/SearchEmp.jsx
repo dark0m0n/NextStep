@@ -5,7 +5,6 @@ import EmployeeSort from "../components/EmployeeSort.jsx";
 import "../assets/styles/searchempCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
-import { users } from "../mockDataBase.js";
 
 const getUnique = (arr) => Array.from(new Set(arr.filter(Boolean)));
 
@@ -49,7 +48,7 @@ export default function SearchPage() {
     console.log("langs", languages)
     console.log("coutries", countries);
     console.log("cats", categories);
-    
+
 
     const handleRemoveWord = (wordToRemove) => {
         const updatedWords = searchWords.filter(word => word !== wordToRemove);
@@ -61,10 +60,10 @@ export default function SearchPage() {
         navigate(`${location.pathname}?${queryParams.toString()}`);
     };
 
-        const handleClearAllQueries1 = () => {
-            queryParams.delete("query");
-            navigate(`${location.pathname}?${queryParams.toString()}`);
-        };
+    const handleClearAllQueries1 = () => {
+        queryParams.delete("query");
+        navigate(`${location.pathname}?${queryParams.toString()}`);
+    };
 
     const [sortOption1, setSortOption1] = useState("");
 
@@ -94,7 +93,7 @@ export default function SearchPage() {
     const [selectedLanguage, setSelectedLanguage] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState([]);
 
-   
+
 
     const [search, setSearch] = useState("");
 
@@ -110,7 +109,7 @@ export default function SearchPage() {
 
     const filteredSkills = skills.filter(skill =>
         skill.toLowerCase().includes(search.toLowerCase())
-      );
+    );
 
     // Відфільтровано
     const filteredEmployees = allEmployees.filter((employee) => {
@@ -118,7 +117,7 @@ export default function SearchPage() {
         const skillMatch = selectedSkills.length === 0 || selectedSkills.some(skill => employee.skills.includes(skill));
         const ratingMatch = selectedRatings1.length === 0 || selectedRatings1.some(r => employee.rating >= r);
         const salaryMatch =
-            (salaryMin ==="" || employee.salary >= salaryMin) && (salaryMax === "" || employee.salary <= salaryMax) ;
+            (salaryMin === "" || employee.salary >= salaryMin) && (salaryMax === "" || employee.salary <= salaryMax);
         const categoryMatch = selectedCategory.length === 0 || selectedCategory.includes(employee.category);
         const languageMatch = selectedLanguage.length === 0 || selectedLanguage.some(lang => employee.language.includes(lang));
         const countryMatch = selectedCountry.length === 0 || selectedCountry.includes(employee.country);
@@ -212,7 +211,7 @@ export default function SearchPage() {
             }
         }
     };
-    
+
     const handleMaxChange1 = (e) => {
         const val = e.target.value;
         if (/^\d*$/.test(val)) {
@@ -226,6 +225,7 @@ export default function SearchPage() {
             }
         }
     };
+
     useEffect(() => {
         if (salaryMin >= salaryMax) {
             setSalaryMax(salaryMin);
@@ -283,14 +283,14 @@ export default function SearchPage() {
                     {searchWords.length > 0 && filteredEmployees.length !== 0 && (
                         <div className="searchQueries">
                             {searchWords.map((word, index) => (
-                                    <span key={index} className="searchQuery">
-                                        <button className="removeQuery" onClick={() => handleRemoveWord(word)}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 50 50">
-                                                <path d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z"></path>
-                                            </svg>
-                                        </button>
-                                        {word}
-                                    </span>
+                                <span key={index} className="searchQuery">
+                                    <button className="removeQuery" onClick={() => handleRemoveWord(word)}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 50 50">
+                                            <path d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z"></path>
+                                        </svg>
+                                    </button>
+                                    {word}
+                                </span>
                             ))}
                             <button className="searchQuery" onClick={handleClearAllQueries1}>
                                 Очистити
@@ -302,8 +302,8 @@ export default function SearchPage() {
                             <button className="fbtn" onClick={toggleFltr1}>Фільтр</button>
                         </div>
                         <div className="start-fltr">
-                            <EmployeeSort setSortOption1={setSortOption1} /> 
-                        </div>   
+                            <EmployeeSort setSortOption1={setSortOption1} />
+                        </div>
                     </div>
 
                     <div className="blockss-searchemp">
@@ -314,37 +314,54 @@ export default function SearchPage() {
                                 </p>
                             )}
 
-                            {sortedEmployees.map((employee) => (
+                            {sortedEmployees.map((employee) => {
+                                const specializations = employee.specialization.split(",").map(s => s.trim());
+                                const displayedSpecs = specializations.slice(0, 2);
+                                const hasMore = specializations.length > 2;
+
+                                const displayedLangs = employee.language.slice(0, 4);
+                                const hasMoreLangs = employee.language.length > 4;
+
+                                return (
                                 <div className="block-searchemp" key={employee.id}>
                                     <a href="/employee">{/* /employee/${employee.id} */}
-                                    <div className="mainInfoEmp">
-                                    
-                                        <img src={employee.photo} alt={employee.name}/>
-                                    <div className="column margin20">
-                                        <p className="name">{employee.name}</p>
-                                        <p className="specialization">{employee.specialization}</p>
-                                        <div className="languages">
-                                            {employee.language.map((language, index) => (
+                                        <div className="mainInfoEmp">
+
+                                            <img src={employee.photo} alt={employee.name} />
+                                            <div className="column margin20">
+                                                <p className="name">{employee.name}</p>
+                                                <p className="specialization">
+                                                        {displayedSpecs.map((spec, index) => (
+                                                            <span key={index}>{spec}</span>  
+                                                        ))}
+                                                        {hasMore && <span className="ellipsis-inline">. . .</span>}
+                                                </p>
+                                                <div className="languages">
+                                             {displayedLangs.map((language, index) => (
                                                 <span className="language" key={index}>{language}</span>
                                             ))}
+                                            {hasMoreLangs && <span>. . .</span>}
+                                                </div>
+                                            </div>
+
                                         </div>
-                                    </div>
-                                    </div>
                                         <div className="skills">
-                                            {employee.skills.map((skill, index) => (
+                                            {employee.skills.slice(0, 7).map((skill, index) => (
                                                 <span className="skill-tag" key={index}>{skill}</span>
                                             ))}
+                                            {employee.skills.length > 8 && <span className="more">. . .</span>}
                                         </div>
                                         <p className="about">
                                             {employee.description && employee.description.length > 100
-                                                ? employee.description.slice(0, 200) + '...'
+                                                ? employee.description.slice(0, 200) + '. . .'
                                                 : employee.description}
                                         </p>
-                                    <p className="rating">★ {employee.rating}</p>
-                                    <p className="salary">від {employee.salary} грн/год</p>
+                                        <p className="rating">★ {employee.rating}</p>
+                                        <p className="salary">від {employee.salary} грн/год</p>
                                     </a>
                                 </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
 
