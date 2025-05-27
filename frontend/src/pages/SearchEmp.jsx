@@ -5,13 +5,51 @@ import EmployeeSort from "../components/EmployeeSort.jsx";
 import "../assets/styles/searchempCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
+import { users } from "../mockDataBase.js";
+
+const getUnique = (arr) => Array.from(new Set(arr.filter(Boolean)));
 
 export default function SearchPage() {
+    const [maxInvestment, setMaxInvestment] = useState(0);
     const location = useLocation();
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
     const searchQuery = queryParams.get("query")?.toLowerCase() || ""; // отримуємо параметр з URL
     const searchWords = Array.from(new Set(searchQuery.toLowerCase().split(" ").filter(Boolean)));
+
+    const allEmployees = users.map(user => ({
+        id: user.id,
+        name: user.firstname + " " + user.lastname,
+        photo: user.imagePath,
+        specialization: user.specialties || user.category,
+        skills: Array.isArray(user.skills)
+            ? user.skills
+            : typeof user.skills === "string"
+                ? user.skills.split(";").map(s => s.trim())
+                : [],
+        category: user.category,
+        rating: user.rating,
+        salary: user.salary,
+        country: user.country,
+        language: Array.isArray(user.language)
+            ? user.language
+            : typeof user.language === "string"
+                ? user.language.split(",").map(l => l.trim())
+                : [],
+        description: user.additionalInfo || "",
+    }));
+
+    const skills = getUnique(allEmployees.flatMap(emp => emp.skills));
+    const languages = getUnique(allEmployees.flatMap(emp => emp.language));
+    const countries = getUnique(allEmployees.map(emp => emp.country));
+    const categories = getUnique(allEmployees.map(emp => emp.category));
+
+    console.log("Emp", allEmployees);
+    console.log("skills", skills);
+    console.log("langs", languages)
+    console.log("coutries", countries);
+    console.log("cats", categories);
+    
 
     const handleRemoveWord = (wordToRemove) => {
         const updatedWords = searchWords.filter(word => word !== wordToRemove);
@@ -50,173 +88,13 @@ export default function SearchPage() {
         }
     }, []);
 
-    // Для бд
-    const skills = [
-        "React",
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "Photoshop",
-        "Illustrator",
-        "Figma",
-        "Flutter",
-        "Dart",
-        "SEO",
-        "SMM",
-        "Креативне письмо",
-        "Node.js",
-        "Express",
-        "MongoDB",
-        "Google Ads",
-        "Email-маркетинг",
-        "CRM",
-        "Vue.js",
-        "TypeScript",
-        "Tailwind"
-    ];
-    const languages = [
-        "Українська",
-        "Англійська",
-        "Китайська",
-        "Португальська",
-        "Корейська",
-        "Японська",
-        "Польська"
-    ];
-    const countries = [
-        "Україна",
-        "Британія",
-        "Франція",
-        "США",
-        "Корея",
-        "Японія",
-        "Польша"
-    ];
-    const categories = [
-        "ІТ та Програмування",
-        "Дизайн",
-        "Маркетинг",
-        "Копірайтинг та Контент",
-        "Менеджмент / CRM"
-    ];
     const [selectedSkills, setSelectedSkills] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState([]);
     const [selectedRatings1, setSelectedRatings1] = useState([]);
     const [selectedLanguage, setSelectedLanguage] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState([]);
 
-    // Просто бд людей
-    const allEmployees = [
-        {
-            id: 1,
-            name: "Олена Іваненко",
-            photo: "images/employee.png",
-            specialization: "Frontend Developer",
-            skills: ["React", "HTML", "CSS", "JavaScript"],
-            category: "ІТ та Програмування",
-            rating: 9.4,
-            salary: 11111,
-            country: "Україна",
-            language: ["Українська"],
-            description: "Lorem Ipsum - це текст-'риба', що використовується в друкарстві та дизайні. Lorem Ipsum є, фактично, стандартною 'рибою' аж з XVI сторіччя, коли невідомий друкар взяв шрифтову гранку та склав на ній підбірку зразків шрифтів. 'Риба' не тільки успішно пережила п'ять століть, але й прижилася в електронному верстуванні, залишаючись по суті незмінною. Вона популяризувалась в 60-их роках минулого сторіччя завдяки виданню зразків шрифтів Letraset, які містили уривки з Lorem Ipsum, і вдруге - нещодавно завдяки програмам комп'ютерного верстування на кшталт Aldus Pagemaker, які використовували різні версії Lorem Ipsum."
-        },
-        {
-            id: 2,
-            name: "Іван Петренко",
-            photo: "/images/employee.png",
-            specialization: "Веб-розробка",
-            skills: ["HTML", "CSS", "JavaScript", "React"],
-            category: "ІТ та Програмування",
-            rating: 4.8,
-            salary: 400,
-            country: "Британія",
-            language: ["Англійська", "Китайська"],
-            description: "Lorem Ipsum - це текст-'риба', що використовується в друкарстві та дизайні. Lorem Ipsum є, фактично, стандартною 'рибою' аж з XVI сторіччя, коли невідомий друкар взяв шрифтову гранку та склав на ній підбірку зразків шрифтів. 'Риба' не тільки успішно пережила п'ять століть, але й прижилася в електронному верстуванні, залишаючись по суті незмінною. Вона популяризувалась в 60-их роках минулого сторіччя завдяки виданню зразків шрифтів Letraset, які містили уривки з Lorem Ipsum, і вдруге - нещодавно завдяки програмам комп'ютерного верстування на кшталт Aldus Pagemaker, які використовували різні версії Lorem Ipsum."
-        },
-        {
-            id: 3,
-            name: "Олена Іванова",
-            photo: "/images/employee.png",
-            specialization: "Графічний дизайн",
-            skills: ["Photoshop", "Illustrator", "Figma"],
-            category: "Дизайн",
-            rating: 4.6,
-            salary: 350,
-            country: "Корея",
-            language: ["Корейська", "Українська"],
-            description: "Lorem Ipsum - це текст-'риба', що використовується в друкарстві та дизайні. Lorem Ipsum є, фактично, стандартною 'рибою' аж з XVI сторіччя, коли невідомий друкар взяв шрифтову гранку та склав на ній підбірку зразків шрифтів. 'Риба' не тільки успішно пережила п'ять століть, але й прижилася в електронному верстуванні, залишаючись по суті незмінною. Вона популяризувалась в 60-их роках минулого сторіччя завдяки виданню зразків шрифтів Letraset, які містили уривки з Lorem Ipsum, і вдруге - нещодавно завдяки програмам комп'ютерного верстування на кшталт Aldus Pagemaker, які використовували різні версії Lorem Ipsum."
-
-        },
-        {
-            id: 4,
-            name: "Максим Орлов",
-            photo: "/images/employee.png",
-            specialization: "Мобільна розробка",
-            skills: ["Flutter", "Dart"],
-            category: "ІТ та Програмування",
-            rating: 4.9,
-            salary: 500,
-            country: "США",
-            language: ["Англійська", "Португальська"],
-            description: "Lorem Ipsum - це текст-'риба', що використовується в друкарстві та дизайні. Lorem Ipsum є, фактично, стандартною 'рибою' аж з XVI сторіччя, коли невідомий друкар взяв шрифтову гранку та склав на ній підбірку зразків шрифтів. 'Риба' не тільки успішно пережила п'ять століть, але й прижилася в електронному верстуванні, залишаючись по суті незмінною. Вона популяризувалась в 60-их роках минулого сторіччя завдяки виданню зразків шрифтів Letraset, які містили уривки з Lorem Ipsum, і вдруге - нещодавно завдяки програмам комп'ютерного верстування на кшталт Aldus Pagemaker, які використовували різні версії Lorem Ipsum."
-        },
-        {
-            id: 5,
-            name: "Анна Коваль",
-            photo: "/images/employee.png",
-            specialization: "Копірайтинг",
-            skills: ["SEO", "SMM", "Креативне письмо"],
-            category: "Копірайтинг та Контент",
-            rating: 4.2,
-            salary: 300,
-            country: "Польша",
-            language: ["Польська"],
-            description: "Lorem Ipsum - це текст-'риба', що використовується в друкарстві та дизайні. Lorem Ipsum є, фактично, стандартною 'рибою' аж з XVI сторіччя, коли невідомий друкар взяв шрифтову гранку та склав на ній підбірку зразків шрифтів. 'Риба' не тільки успішно пережила п'ять століть, але й прижилася в електронному верстуванні, залишаючись по суті незмінною. Вона популяризувалась в 60-их роках минулого сторіччя завдяки виданню зразків шрифтів Letraset, які містили уривки з Lorem Ipsum, і вдруге - нещодавно завдяки програмам комп'ютерного верстування на кшталт Aldus Pagemaker, які використовували різні версії Lorem Ipsum."
-
-        },
-        {
-            id: 6,
-            name: "Юрій Степаненко",
-            photo: "/images/employee.png",
-            specialization: "Веб-розробка",
-            skills: ["Node.js", "Express", "MongoDB"],
-            category: "ІТ та Програмування",
-            rating: 4.7,
-            salary: 450,
-            country: "Японія",
-            language: ["Японська"],
-            description: "Lorem Ipsum - це текст-'риба', що використовується в друкарстві та дизайні. Lorem Ipsum є, фактично, стандартною 'рибою' аж з XVI сторіччя, коли невідомий друкар взяв шрифтову гранку та склав на ній підбірку зразків шрифтів. 'Риба' не тільки успішно пережила п'ять століть, але й прижилася в електронному верстуванні, залишаючись по суті незмінною. Вона популяризувалась в 60-их роках минулого сторіччя завдяки виданню зразків шрифтів Letraset, які містили уривки з Lorem Ipsum, і вдруге - нещодавно завдяки програмам комп'ютерного верстування на кшталт Aldus Pagemaker, які використовували різні версії Lorem Ipsum."
-
-        },
-        {
-            id: 7,
-            name: "Світлана Дяченко",
-            photo: "/images/employee.png",
-            specialization: "Маркетинг",
-            skills: ["Google Ads", "Email-маркетинг", "CRM"],
-            category: "Маркетинг",
-            rating: 4.4,
-            salary: 370,
-            country: "Україна",
-            language: ["Українська", "Англійська"],
-            description: "Lorem Ipsum - це текст-'риба', що використовується в друкарстві та дизайні. Lorem Ipsum є, фактично, стандартною 'рибою' аж з XVI сторіччя, коли невідомий друкар взяв шрифтову гранку та склав на ній підбірку зразків шрифтів. 'Риба' не тільки успішно пережила п'ять століть, але й прижилася в електронному верстуванні, залишаючись по суті незмінною. Вона популяризувалась в 60-их роках минулого сторіччя завдяки виданню зразків шрифтів Letraset, які містили уривки з Lorem Ipsum, і вдруге - нещодавно завдяки програмам комп'ютерного верстування на кшталт Aldus Pagemaker, які використовували різні версії Lorem Ipsum."
-
-        },
-        {
-            id: 8,
-            name: "Роман Бондар",
-            photo: "/images/employee.png",
-            specialization: "Веб-розробка",
-            skills: ["Vue.js", "TypeScript", "Tailwind"],
-            category: "ІТ та Програмування",
-            rating: 4.5,
-            salary: 420,
-            country: "Франція",
-            language: ["Португальська"],
-            description: "Lorem Ipsum - це текст-'риба', що використовується в друкарстві та дизайні. Lorem Ipsum є, фактично, стандартною 'рибою' аж з XVI сторіччя, коли невідомий друкар взяв шрифтову гранку та склав на ній підбірку зразків шрифтів. 'Риба' не тільки успішно пережила п'ять століть, але й прижилася в електронному верстуванні, залишаючись по суті незмінною. Вона популяризувалась в 60-их роках минулого сторіччя завдяки виданню зразків шрифтів Letraset, які містили уривки з Lorem Ipsum, і вдруге - нещодавно завдяки програмам комп'ютерного верстування на кшталт Aldus Pagemaker, які використовували різні версії Lorem Ipsum."
-
-        }
-    ];
+   
 
     const [search, setSearch] = useState("");
 
@@ -226,8 +104,9 @@ export default function SearchPage() {
 
     useEffect(() => {
         const maxSalaryInData = Math.max(...allEmployees.map(emp => emp.salary));
-        setSalaryMax(maxSalaryInData);
-    }, []);
+        setMaxInvestment(maxSalaryInData);
+        setSalaryMax(prev => (prev === "" || prev === 0 ? maxSalaryInData : prev));
+    }, [allEmployees]);
 
     const filteredSkills = skills.filter(skill =>
         skill.toLowerCase().includes(search.toLowerCase())
@@ -238,7 +117,8 @@ export default function SearchPage() {
         const searchWords = searchQuery.toLowerCase().split(" ").filter(Boolean);
         const skillMatch = selectedSkills.length === 0 || selectedSkills.some(skill => employee.skills.includes(skill));
         const ratingMatch = selectedRatings1.length === 0 || selectedRatings1.some(r => employee.rating >= r);
-        const salaryMatch = employee.salary >= salaryMin && employee.salary <= salaryMax;
+        const salaryMatch =
+            (salaryMin ==="" || employee.salary >= salaryMin) && (salaryMax === "" || employee.salary <= salaryMax) ;
         const categoryMatch = selectedCategory.length === 0 || selectedCategory.includes(employee.category);
         const languageMatch = selectedLanguage.length === 0 || selectedLanguage.some(lang => employee.language.includes(lang));
         const countryMatch = selectedCountry.length === 0 || selectedCountry.includes(employee.country);
@@ -319,19 +199,36 @@ export default function SearchPage() {
         );
     };
 
-    // Фільтри по зп
     const handleMinChange1 = (e) => {
-        const value = Math.min(Number(e.target.value), salaryMax - 1);
-        setSalaryMin(value);
+        const val = e.target.value;
+        if (/^\d*$/.test(val)) {
+            const num = Number(val);
+            if (val === "") {
+                setSalaryMin("");
+            } else if (num < salaryMax && num <= maxInvestment) {
+                setSalaryMin(num);
+            } else if (num > maxInvestment) {
+                setSalaryMin(maxInvestment);
+            }
+        }
     };
-
+    
     const handleMaxChange1 = (e) => {
-        const value = Math.max(Number(e.target.value), salaryMin + 1);
-        setSalaryMax(value);
+        const val = e.target.value;
+        if (/^\d*$/.test(val)) {
+            const num = Number(val);
+            if (val === "") {
+                setSalaryMax("");
+            } else if (num > salaryMin && num <= maxInvestment) {
+                setSalaryMax(num);
+            } else if (num > maxInvestment) {
+                setSalaryMax(maxInvestment);
+            }
+        }
     };
     useEffect(() => {
         if (salaryMin >= salaryMax) {
-            setSalaryMax(salaryMin + 1);
+            setSalaryMax(salaryMin);
         }
     }, [salaryMin, salaryMax]);
     const resetFilters = () => {

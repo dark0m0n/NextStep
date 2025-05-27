@@ -207,7 +207,7 @@ export default function SearchPage() {
         if (maxSliderRef.current) {
             maxSliderRef.current.style.background = getSliderBackground(priceMax, 0, maxInvestment);
         }
-    }, [priceMin, priceMax]);
+    }, [priceMin, priceMax, maxInvestment]);
         const resetFilters1 = () => {
         setSelectedTags([]);
         setSelectedTypes([]);

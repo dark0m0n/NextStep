@@ -13,7 +13,6 @@ export default function EmployeeFilters({
     selectedCountry,
     salaryMin,
     salaryMax,
-    skills,
     languages,
     countries,
     categories,
@@ -38,12 +37,25 @@ export default function EmployeeFilters({
             <div className="fltrs">
                 <div className="fltrpath">
                     <h5>Скіли</h5>
-                    <input
-                        type="text"
-                        placeholder="Пошук скілів..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
+                    <div className="search-skill-wrapper" style={{ display: "flex", alignItems: "center", marginBottom: "10px", border: "1px solid #14B8A6", borderRadius: "5px", padding: "5px", backgroundColor: "#fff" }}>
+                        <svg width="18" height="18" fill="#14B8A6" style={{marginRight: "8px"}} viewBox="0 0 24 24">
+            <path d="M21 20.3l-3.8-3.8c1.1-1.4 1.8-3.1 1.8-5C19 6.5 15.5 3 11.5 3S4 6.5 4 11.5 7.5 20 11.5 20c1.9 0 3.6-.7 5-1.8l3.8 3.8c.4.4 1 .4 1.4 0s.4-1 0-1.4zM6 11.5C6 8.5 8.5 6 11.5 6s5.5 2.5 5.5 5.5-2.5 5.5-5.5 5.5S6 14.5 6 11.5z"/>
+        </svg>        
+        <input
+            type="text"
+            placeholder="Пошук скілів..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{
+                border: "none",
+                outline: "none",
+                background: "transparent",
+                fontSize: "16px",
+                width: "100%",
+                margin: "0",
+            }}
+                        /> 
+                        </div>
                     {filteredSkills.length > 0 ? (
                         filteredSkills.map((skill) => (
                             <label key={skill} className="checkbox-label flex items-center gap-2">
@@ -125,18 +137,18 @@ export default function EmployeeFilters({
                     <h5>Заробітня плата (грн/год)</h5>
                     <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
                         <input
-                            type="number"
-                            min="0"
-                            value={salaryMin}
+                            type="text"
+                            placeholder="Від"
                             onChange={handleMinChange1}
-                            style={{ width: "100%" }}
+                            value={salaryMin}
+                            style={{ width: "100%", height: "30px", borderRadius: "5px", border: "1px solid #ccc" }}
                         />
                         <input
-                            type="number"
-                            min="0"
-                            value={salaryMax}
+                            type="text"
+                            placeholder="До"
                             onChange={handleMaxChange1}
-                            style={{ width: "100%" }}
+                            value={salaryMax}
+                            style={{ width: "100%", height: "30px", borderRadius: "5px", border: "1px solid #ccc" }}
                         />
                     </div>
                 </div>
