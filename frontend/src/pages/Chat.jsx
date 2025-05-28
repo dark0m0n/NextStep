@@ -42,6 +42,7 @@ export default function ChatPage() {
   const [messageInput, setMessageInput] = useState("");
   const messagesEndRef = useRef(null);
   const [chatMembers, setChatMembers] = useState([]);
+  const [allChatMembers, setAllChatMembers] = useState({});
   const { userId } = useParams();
   const navigate = useNavigate();
 
@@ -109,11 +110,30 @@ export default function ChatPage() {
         console.error("Помилка завантаження чатів:", err);
       });
   }, [curUser]);
-  
+
+
+  useEffect(() => {
+    if (!chatList.length) return;
+    const fetchMembers = async () => {
+      const membersObj = {};
+      for (const chat of chatList) {
+        const res = await fetch(`http://localhost:8000/api/members/${chat.id}`, {
+          credentials: "include",
+        });
+        if (res.ok) {
+          const data = await res.json();
+          membersObj[chat.id] = data;
+        } else {
+          membersObj[chat.id] = [];
+        }
+      }
+      setAllChatMembers(membersObj);
+    };
+    fetchMembers();
+  }, [chatList]);
 
   useEffect(() => {
     if (!selectedChatId) return;
-  
     fetch(`http://localhost:8000/api/members/${selectedChatId}`, {
       credentials: "include",
     })
@@ -207,25 +227,20 @@ export default function ChatPage() {
         ? `${senderName}: ${lastMsg.text}`
         : (isCurrentUser ? `Ви: ${lastMsg.text}` : lastMsg.text);
     };
-  const getChatDisplayInfo = (chat) => {
-    if (chat.isGroup) {
+    const getChatDisplayInfo = (chat) => {
+      if (chat.isGroup) {
+        return {
+          name: chat.name,
+          image: chat.imagePath,
+        };
+      }
+      const members = allChatMembers[chat.id] || [];
+      const otherUser = members.find((m) => m.user.id !== curUser.id)?.user;
       return {
-        name: chat.name,
-        image: chat.imagePath,
+        name: otherUser?.username ?? "Невідомий користувач",
+        image: otherUser?.imagePath ?? "default-avatar.png",
       };
-    }
-  
-    // Приватний чат: знаходимо іншого користувача
-    const members = chatMembers.filter((cm) => cm.chatId === chat.id);
-    const otherUser = members.find((m) => m.user.id !== curUser.id)?.user;
-  
-    return {
-      name: otherUser?.username ?? "Невідомий користувач",
-      image: otherUser?.imagePath ?? "default-avatar.png",
     };
-  };
-
-  
 
   return (
     <>
