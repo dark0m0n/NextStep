@@ -56,6 +56,7 @@ export default function ProjectPage() {
     const [comment, setComment] = useState("");
     const [validationErrors, setValidationErrors] = useState({ rating: false, comment: false });
     const navigate = useNavigate();
+    const [isOwner, setIsOwner] = useState(false);
 
     // Функція для обчислення середнього рейтингу
     const calculateAverageRating = (reviewsArray) => {
@@ -99,28 +100,36 @@ export default function ProjectPage() {
 
     useEffect(() => {
         const fetchStartup = async () => {
-            try {
-                const res = await fetch(`http://localhost:8000/api/startup/${id}`,{credentials:"include"});
-                if (!res.ok) throw new Error("Startup not found");
-                const data = await res.json();
-                setStartup(data);
-
-                const userRes = await fetch(`http://localhost:8000/api/user/${data.userID}`,{credentials:"include"});
-                if (!userRes.ok) throw new Error("User not found");
-                const userData = await userRes.json();
-                setUser(userData);
-
-                const reviewRes = await fetch(`http://localhost:8000/api/reviews/${id}`,{credentials:"include"});
-                if (!reviewRes.ok) throw new Error("Reviews not found");
-                const reviewsData = await reviewRes.json();
-                setReviews(reviewsData);
-            } catch (err) {
-                console.error("Error fetching data:", err);
+          try {
+            const meRes = await fetch("http://localhost:8000/api/me", { credentials: "include" });
+            if (!meRes.ok) throw new Error("Не вдалося отримати поточного користувача");
+            const me = await meRes.json();
+      
+            const res = await fetch(`http://localhost:8000/api/startup/${id}`, { credentials: "include" });
+            if (!res.ok) throw new Error("Startup not found");
+            const data = await res.json();
+            setStartup(data);
+      
+            const userRes = await fetch(`http://localhost:8000/api/user/${data.userID}`, { credentials: "include" });
+            if (!userRes.ok) throw new Error("User not found");
+            const userData = await userRes.json();
+            setUser(userData);
+      
+            if (me.id === userData.id) {
+              setIsOwner(true);
             }
+      
+            const reviewRes = await fetch(`http://localhost:8000/api/reviews/${id}`, { credentials: "include" });
+            if (!reviewRes.ok) throw new Error("Reviews not found");
+            const reviewsData = await reviewRes.json();
+            setReviews(reviewsData);
+          } catch (err) {
+            console.error("Error fetching data:", err);
+          }
         };
-
+      
         fetchStartup();
-    }, [id]);
+      }, [id]);
     
     if (!startup || !user) return <div>Завантаження...</div>;
 
@@ -202,11 +211,15 @@ export default function ProjectPage() {
                     <h3>Мінімальна вартість для внеску</h3>
                     <p>{startup.investment} грн</p>
                     <h3>Контакти</h3>
-                    <p>{user.username}</p>
+                    <a href={`/profile/${user.username}`} style={{textDecoration: "none", cursor: "pointer"}}><p>{user.username}</p></a>
                     <p>{user.email}</p>
                     {user.phoneNumber && <p>{user.phoneNumber}</p>}
-                    <button onClick={() => navigate(`/editproject/${id}`)} className="fbsbtn delete">Редагувати</button>
-                    <button className="fbsbtn delete">Видалити</button>
+                    {isOwner && (
+  <div>
+    <button onClick={() => navigate(`/editproject/${id}`)} className="fbsbtn delete">Редагувати</button>
+    <button className="fbsbtn delete">Видалити</button>
+  </div>
+)}
                 </div>
 
                 <div className="mainInformation-proj">
