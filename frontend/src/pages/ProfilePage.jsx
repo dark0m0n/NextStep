@@ -3,11 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../assets/styles/profilePageCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
+import { MessageCircle } from "lucide-react"; // або інша іконка
+
 
 export default function ProfilePage() {
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
   const { username } = useParams();
+  const [isOwner, setIsOwner] = useState(false);
   useEffect(() => {
     fetch(`http://localhost:8000/api/user/${username}`, {
       credentials: "include",
@@ -20,11 +23,26 @@ export default function ProfilePage() {
         if (!res.ok) throw new Error("Не вдалося завантажити профіль");
         return res.json();
       })
-      .then((data) => data && setUserData(data))
+      .then((data) => {
+        if (!data) return;
+        setUserData(data);
+        // Після отримання userData — запит на /api/me
+        fetch("http://localhost:8000/api/me", {
+          credentials: "include",
+        })
+          .then((res) => {
+            if (!res.ok) throw new Error("Не вдалося отримати поточного користувача");
+            return res.json();
+          })
+          .then((me) => {
+            if (me._id === data._id) {
+              setIsOwner(true);
+            }
+          })
+          .catch((err) => console.error("Помилка /me:", err));
+      })
       .catch((err) => console.error("Помилка завантаження:", err));
   }, [navigate, username]);
-
-
 
   if (!userData) {
     return <div>Завантаження...</div>;
@@ -44,7 +62,19 @@ export default function ProfilePage() {
             id="profile-photo"
           />
             <div className="profile-info">
-              <h2 className="profile-name">{userData.username}</h2>
+            <h2 className="profile-name">{userData.username}
+              {!isOwner && (
+                <div className="message-icon-wrap">
+      <MessageCircle
+        className="message-icon"
+        style={{ marginLeft: "10px", cursor: "pointer" }}
+        onClick={() => navigate(`/chat/${userData._id}`)}
+        title="Написати повідомлення"
+      />
+                  </div>
+    )}
+                  
+            </h2>
               <h2>{userData.firstname} {userData.lastname}</h2>
               <div className="mainUserInfo">
               <p><strong className="strong-profile">Сфера:</strong> {userData.category}</p>
@@ -114,7 +144,11 @@ export default function ProfilePage() {
           </div>
         </div>
   
-        <button onClick={() => navigate(`/editprofile`)} style={{ fontSize: "20px" }} >Редагувати профіль</button>
+        {isOwner && (
+  <button onClick={() => navigate(`/editprofile`)} style={{ fontSize: "20px" }}>
+    Редагувати профіль
+  </button>
+)}
       </div>
   
       <MyFooter />

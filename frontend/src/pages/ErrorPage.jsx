@@ -4,6 +4,7 @@ import fisherImage from "/images/fisher.png";
 import MyHeader from "../components/Header";    
 import MyFooter from "../components/Footer";
 
+
 export default function ErrorPage({ errorCode = 500, message = "Щось пішло не так..." }) {
     return (
         <div>

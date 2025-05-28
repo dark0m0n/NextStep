@@ -153,6 +153,21 @@
     box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
 }*/
 
+.message-icon-wrap{
+  background-color:rgba(10, 158, 162) ;
+  border-radius: 50%;
+}
+
+.message-icon {
+  color: #b7b7b7;
+  transition: transform 0.2s;
+}
+
+.message-icon:hover {
+  transform: scale(1.2);
+  color: #9a9a9a;
+}
+
 .spec, .exp {
     font-size: 16px;
     margin-left: 20px;
