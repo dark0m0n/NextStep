@@ -5,6 +5,7 @@ import EmployeeSort from "../components/EmployeeSort.jsx";
 import "../assets/styles/searchempCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
+import {users} from "../mockDataBase.js"
 
 const getUnique = (arr) => Array.from(new Set(arr.filter(Boolean)));
 
@@ -97,7 +98,7 @@ export default function SearchPage() {
 
     const [search, setSearch] = useState("");
 
-    const [salaryMin, setSalaryMin] = useState(1);
+    const [salaryMin, setSalaryMin] = useState(0);
     const maxSalaryInData = Math.max(...allEmployees.map(emp => emp.salary));
     const [salaryMax, setSalaryMax] = useState(maxSalaryInData);
 
@@ -203,7 +204,7 @@ export default function SearchPage() {
         if (/^\d*$/.test(val)) {
             const num = Number(val);
             if (val === "") {
-                setSalaryMin("");
+                setSalaryMin(0);
             } else if (num < salaryMax && num <= maxInvestment) {
                 setSalaryMin(num);
             } else if (num > maxInvestment) {
@@ -238,7 +239,7 @@ export default function SearchPage() {
         setSelectedLanguage([]);
         setSelectedCountry([]);
         setSearch("");
-        setSalaryMin(1);
+        setSalaryMin(0);
         setSalaryMax(maxSalaryInData);
     }
     return (
