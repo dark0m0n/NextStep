@@ -68,7 +68,7 @@ export default function ChatPage() {
     if (!curUser || !userId) return;
     if (Number(userId) === curUser.id) return;
     console.log(curUser.id)
-    fetch(`http://localhost:8000/api/chats/${curUser.id}`, { credentials: "include" })
+    fetch(`http://localhost:8000/api/chats/${Number(curUser.id)}`, { credentials: "include" })
       .then(res => res.json())
       .then(chats => {
         if (!Array.isArray(chats)) {
