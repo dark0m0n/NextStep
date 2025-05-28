@@ -66,9 +66,11 @@ export default function ProfilePage() {
               {!isOwner && (
                 <div className="message-icon-wrap">
       <MessageCircle
-        className="message-icon"
+                    className="message-icon"
+                    size={28}
+  strokeWidth={2.5} 
         style={{ marginLeft: "10px", cursor: "pointer" }}
-        onClick={() => navigate(`/chat/${userData._id}`)}
+        onClick={() => navigate(`/chat/${userData.id}`)}
         title="Написати повідомлення"
       />
                   </div>

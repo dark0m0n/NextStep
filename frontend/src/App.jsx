@@ -27,6 +27,7 @@ function App() {
         <Route path="/searchemp" element={<SearchEmp/>}/>
         <Route path="/searchproj" element={<SearchProject/>}/>
         <Route path="/chat" element={<ChatPage />} />
+        <Route path="/chat/:userId" element={<ChatPage />} /> 
         <Route path="/editprofile" element={<EditProfile />} />
         <Route path="/editproject/:id" element={<EditProject />} />
         <Route path="/search" element={<SearchRes />} />
