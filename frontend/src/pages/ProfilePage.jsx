@@ -35,7 +35,7 @@ export default function ProfilePage() {
             return res.json();
           })
           .then((me) => {
-            if (me._id === data._id) {
+            if (me.id === data.id) {
               setIsOwner(true);
             }
           })
