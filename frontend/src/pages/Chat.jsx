@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import "../assets/styles/chatsCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
@@ -9,6 +10,7 @@ import MyFooter from "../components/Footer.jsx";
 function formatDate(date) {
   const d = new Date(date);
   const today = new Date();
+
   if (
     d.getDate() === today.getDate() &&
     d.getMonth() === today.getMonth() &&
@@ -40,8 +42,8 @@ export default function ChatPage() {
   const [messageInput, setMessageInput] = useState("");
   const messagesEndRef = useRef(null);
   const [chatMembers, setChatMembers] = useState([]);
-
-
+  const { userId } = useParams();
+  const navigate = useNavigate();
 
    useEffect(() => {
     fetch("http://localhost:8000/api/me", {
@@ -62,20 +64,45 @@ export default function ChatPage() {
    }, []);
   
   
-  // Завантажуємо чати, в яких є користувач
   useEffect(() => {
-    if (!curUser) return;
-    
-    fetch(`http://localhost:8000/api/chats/${curUser.id}`, {
-      credentials: "include",
-    })
+    if (!curUser || !userId) return;
+    if (Number(userId) === curUser.id) return;
+
+    fetch(`http://localhost:8000/api/chats/${curUser.id}`, { credentials: "include" })
       .then(res => res.json())
-      .then(data => setChatList(data))
-      .catch(err => {
-        setChatList([]);
-        console.error("Не вдалося завантажити чати", err);
+      .then(chats => {
+        const privateChat = chats.find(chat =>
+          !chat.isGroup &&
+          chat.members.some(m => m.user.id === Number(userId))
+        );
+        if (privateChat) {
+          setSelectedChatId(privateChat.id);
+        } else {
+          const formData = new FormData();
+formData.append("isGroup", "false");
+formData.append("member1", curUser.id);
+formData.append("member2", Number(userId));
+
+fetch("http://localhost:8000/api/chat", {
+  method: "POST",
+  credentials: "include",
+  body: formData
+})
+  .then(res => {
+    if (!res.ok) throw new Error("Не вдалося створити чат");
+    return res.json();
+  })
+  .then(newChat => {
+    setChatList(prev => [...prev, newChat]);
+    setSelectedChatId(newChat.id);
+  })
+  .catch(err => {
+    console.error("Помилка створення чату", err);
+    navigate("/chat");
+  });
+        }
       });
-  }, [curUser]);
+  }, [curUser, userId, navigate]);
 
   // Завантажуємо повідомлення для вибраного чату
 
