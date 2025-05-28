@@ -92,8 +92,8 @@ public:
                     form["skills"],
                     form["additionalInfo"],
                     form["category"],
-                    std::stoi(form["rating"]),
-                    std::stoi(form["salary"])
+                    0,
+                    0
                 };
 
                 Database::updateUser(newUser);
