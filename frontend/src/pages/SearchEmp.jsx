@@ -16,6 +16,15 @@ export default function SearchPage() {
     const searchQuery = queryParams.get("query")?.toLowerCase() || ""; // отримуємо параметр з URL
     const searchWords = Array.from(new Set(searchQuery.toLowerCase().split(" ").filter(Boolean)));
 
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        fetch("http://localhost:8000/api/users", {credentials:"include"})
+            .then(res => res.json())
+            .then(data => setUsers(data))
+            .catch(err => console.error("Помилка завантаження користувачів:", err));
+    }, []);
+
     const allEmployees = users.map(user => ({
         id: user.id,
         name: user.firstname + " " + user.lastname,
