@@ -154,7 +154,7 @@ export default function ProjectPage() {
         if (hasError) return;
 
         try {
-            const userInfo = await fetch(`http://localhost:8000/api/user/me`,{credentials:"include"});
+            const userInfo = await fetch(`http://localhost:8000/api/me`,{credentials:"include"});
 
             if (!userInfo.ok) throw new Error("Користувача не знайдено або неавторизовано");
 
