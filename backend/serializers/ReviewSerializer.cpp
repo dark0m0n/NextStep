@@ -7,7 +7,7 @@ json ReviewSerializer::serializeReview(const Review &review) {
         {"id", review.getId()},
         {"user", UserSerializer::serializeOptionalUser(Database::getUserById(review.getUserID()))},
         {"startupID", review.getStartupID()},
-        {"text", review.getText()},
+        {"comment", review.getText()},
         {"rating", review.getRating()},
         {"createdAt", review.getCreatedAt()}
     };
@@ -33,7 +33,7 @@ Review ReviewSerializer::deserializeReview(const json &j) {
         j.at("id").get<int>(),
         j.at("userID").get<int>(),
         j.at("startupID").get<int>(),
-        j.at("text").get<std::string>(),
+        j.at("comment").get<std::string>(),
         j.at("rating").get<int>(),
         ""
     };
