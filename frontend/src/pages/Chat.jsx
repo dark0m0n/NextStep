@@ -71,10 +71,20 @@ export default function ChatPage() {
     fetch(`http://localhost:8000/api/chats/${curUser.id}`, { credentials: "include" })
       .then(res => res.json())
       .then(chats => {
+        if (!Array.isArray(chats)) {
+          console.error("chats is not array", chats);
+          return;
+        }
         const privateChat = chats.find(chat =>
           !chat.isGroup &&
           chat.members.some(m => m.user.id === Number(userId))
         );
+        if (privateChat) {
+          setSelectedChatId(privateChat.id);
+        } else {
+          // ...створення чату...
+        }
+      });
         if (privateChat) {
           setSelectedChatId(privateChat.id);
         } else {
