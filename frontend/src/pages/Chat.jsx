@@ -64,51 +64,31 @@ export default function ChatPage() {
    }, []);
   
   
-  useEffect(() => {
+   useEffect(() => {
     if (!curUser || !userId) return;
     if (Number(userId) === curUser.id) return;
-    console.log(curUser.id)
-    fetch(`http://localhost:8000/api/chats/${Number(curUser.id)}`, { credentials: "include" })
-      .then(res => res.json())
-      .then(chats => {
-        if (!Array.isArray(chats)) {
-          console.error("chats is not array", chats);
-          return;
-        }
-        const privateChat = chats.find(chat =>
-          !chat.isGroup &&
-          chat.members.some(m => m.user.id === Number(userId))
-        );
-        if (privateChat) {
-          setSelectedChatId(privateChat.id);
-        } else {
-          const formData = new FormData();
-          formData.append("isGroup", "false");
-          formData.append("member1", curUser.id);
-          formData.append("member2", Number(userId));
   
-          fetch("http://localhost:8000/api/chat", {
-            method: "POST",
-            credentials: "include",
-            body: formData
-          })
-            .then(res => {
-              if (!res.ok) throw new Error("Не вдалося створити чат");
-              return res.json();
-            })
-            .then(newChat => {
-              // Оновлюємо список чатів і одразу вибираємо новий чат
-              setChatList(prev => [...prev, newChat]);
-              setSelectedChatId(newChat.id);
-            })
-            .catch(err => {
-              console.error("Помилка створення чату", err);
-              navigate("/chat");
-            });
-        }
+    const formData = new FormData();
+    formData.append("isGroup", "false");
+    formData.append("member1", curUser.id);
+    formData.append("member2", Number(userId));
+  
+    fetch("http://localhost:8000/api/chat", {
+      method: "POST",
+      credentials: "include",
+      body: formData
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Не вдалося створити чат");
+        return res.json();
+      })
+      .then(newChat => {
+        setChatList(prev => [...prev, newChat]);
+        setSelectedChatId(newChat.id);
       })
       .catch(err => {
-        console.error("Помилка завантаження чатів:", err);
+        console.error("Помилка створення чату", err);
+        navigate("/chat");
       });
   }, [curUser, userId, navigate]);
 
