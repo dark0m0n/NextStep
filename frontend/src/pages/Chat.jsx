@@ -4,6 +4,34 @@ import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
 import {chats, chatMembers, messages } from "../mockDataBase";
 
+
+
+function formatDate(date) {
+  const d = new Date(date);
+  const today = new Date();
+  if (
+    d.getDate() === today.getDate() &&
+    d.getMonth() === today.getMonth() &&
+    d.getFullYear() === today.getFullYear()
+  ) {
+    return "сьогодні";
+  }
+  return d.toLocaleDateString("uk-UA", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
+function groupMessagesByDate(messages) {
+  return messages.reduce((acc, msg) => {
+    const dateKey = formatDate(msg.sentAt);
+    if (!acc[dateKey]) acc[dateKey] = [];
+    acc[dateKey].push(msg);
+    return acc;
+  }, {});
+}
+
 export default function ChatPage() {
   const [chatList, setChatList] = useState([]);
   const [selectedChatId, setSelectedChatId] = useState(null);
@@ -143,34 +171,57 @@ export default function ChatPage() {
           {selectedChatId ? (
             <>
               <h2>Повідомлення</h2>
-              <div className="message-list" >
-                {chatMessages.map((msg) => {
-    
-    const isMyMessage = msg.sender.user.id === 3; // поточний юзер id = 4
-    const time = msg.sentAt.toLocaleTimeString("uk-UA", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    return (
-      <div key={msg.id} className={`message-wrapper ${isMyMessage ? "my-message-wrap" : "other-message-wrap"}`}>
-        <img
-          src={msg.sender.user.imagePath}
-          alt={msg.senderName}
-          className="avatar"
-          
-        />
-        <div className={`message ${isMyMessage ? "my-message" : "other-message"}`}>
-          <div style={{ fontWeight: 600 }}>{msg.senderName}</div>
-          <div>{msg.text}</div>
-          <div style={{
-  fontSize: 12,
-  color: isMyMessage ? "#ddd" : "#777", // приклад: сірий або чорний
-  textAlign: isMyMessage ? "left" : "right"
-}} className="time-msg">{time}</div>
-        </div>
+              <div className="message-list">
+                {Object.entries(groupMessagesByDate(chatMessages))
+                  .sort(([dateA], [dateB]) => {
+                    // "сьогодні" завжди остання
+                    if (dateA === "сьогодні") return 1;
+                    if (dateB === "сьогодні") return -1;
+                    // Сортуємо дати як дати
+                    const [dayA, monthA, yearA] = dateA.split('.').map(Number);
+                    const [dayB, monthB, yearB] = dateB.split('.').map(Number);
+                    const dA = new Date(yearA, monthA - 1, dayA);
+                    const dB = new Date(yearB, monthB - 1, dayB);
+                    return dA - dB;
+                  })
+                  .map(([date, msgs]) => (
+    <React.Fragment key={date}>
+      <div style={{
+        textAlign: "center",
+        margin: "15px 0 5px 0",
+        color: "#888",
+        fontWeight: 600,
+        fontSize: 14
+      }}>
+        {date}
       </div>
-    );
-  })}
+      {msgs.map((msg) => {
+        const isMyMessage = msg.sender.user.id === 3;
+        const time = new Date(msg.sentAt).toLocaleTimeString("uk-UA", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        return (
+          <div key={msg.id} className={`message-wrapper ${isMyMessage ? "my-message-wrap" : "other-message-wrap"}`}>
+            <img
+              src={msg.sender.user.imagePath}
+              alt={msg.senderName}
+              className="avatar"
+            />
+            <div className={`message ${isMyMessage ? "my-message" : "other-message"}`}>
+              <div style={{ fontWeight: 600 }}>{msg.senderName}</div>
+              <div>{msg.text}</div>
+              <div style={{
+                fontSize: 12,
+                color: isMyMessage ? "#ddd" : "#777",
+                textAlign: isMyMessage ? "left" : "right"
+              }} className="time-msg">{time}</div>
+            </div>
+          </div>
+        );
+      })}
+    </React.Fragment>
+  ))}
   <div ref={messagesEndRef} />
 </div>
 

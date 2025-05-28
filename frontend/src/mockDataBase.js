@@ -81,24 +81,24 @@ class Chat {
     new User(3, "Smith", "John", "john_backend", "1111111111", "john@example.com", "USA", "Backend", "Node.js;SQL", "en", "/images/ua.png", "", "Node.js:4", 4.2, 1300),
     new User(4, "Lee", "Sara", "sara_ui", "2222222222", "sara@example.com", "Korea", "Design", "Figma;UI", "en,ko", "/images/ua.png", "", "Figma:3", 4.8, 1400),
     new User(5, "Koval", "Oleg", "oleg_pm", "3333333333", "oleg@example.com", "Ukraine", "Management", "Agile;Scrum", "uk", "/images/ua.png", "", "Agile:5", 4.6, 1600),
-    new User(6, "Nguyen", "Linh", "linh_dev", "4444444444", "linh@example.com", "Vietnam", "Frontend", "Vue;JS", "en,vi", "/avatars/linh.png", "", "Vue:2", 4.3, 1100),
-    new User(7, "Garcia", "Luis", "luis_designer", "5555555555", "luis@example.com", "Spain", "Design", "Photoshop;Illustrator", "es,en", "/avatars/luis.png", "", "Illustrator:4", 4.7, 1350),
-    new User(8, "Brown", "Emily", "emily_hr", "6666666666", "emily@example.com", "UK", "HR", "Recruitment", "en", "/avatars/emily.png", "", "Recruitment:3", 4.9, 1250),
-    new User(9, "Wang", "Ming", "ming_dev", "7777777777", "ming@example.com", "China", "Backend", "Python;Django", "zh,en", "/avatars/ming.png", "", "Python:5", 4.4, 1450),
-    new User(10, "Doe", "Jane", "jane_ops", "8888888888", "jane@example.com", "USA", "DevOps", "AWS;Docker", "en", "/avatars/jane.png", "", "Docker:3", 4.5, 1550),
+    new User(6, "Nguyen", "Linh", "linh_dev", "4444444444", "linh@example.com", "Vietnam", "Frontend", "Vue;JS", "en,vi", "/images/ua.png", "", "Vue:2", 4.3, 1100),
+    new User(7, "Garcia", "Luis", "luis_designer", "5555555555", "luis@example.com", "Spain", "Design", "Photoshop;Illustrator", "es,en", "/images/ua.png", "", "Illustrator:4", 4.7, 1350),
+    new User(8, "Brown", "Emily", "emily_hr", "6666666666", "emily@example.com", "UK", "HR", "Recruitment", "en", "/images/ua.png", "", "Recruitment:3", 4.9, 1250),
+    new User(9, "Wang", "Ming", "ming_dev", "7777777777", "ming@example.com", "China", "Backend", "Python;Django", "zh,en", "/images/ua.png", "", "Python:5", 4.4, 1450),
+    new User(10, "Doe", "Jane", "jane_ops", "8888888888", "jane@example.com", "USA", "DevOps", "AWS;Docker", "en", "/images/ua.png", "", "Docker:3", 4.5, 1550),
     
-    new User(11, "Kim", "Jin", "jin_ui", "9999999999", "jin@example.com", "Korea", "Design", "Sketch;UX", "ko,en", "/avatars/jin.png", "", "Sketch:3", 4.6, 1400),
-    new User(12, "Lopez", "Maria", "maria_marketing", "1010101010", "maria@example.com", "Mexico", "Marketing", "SEO;Content", "es,en", "/avatars/maria.png", "", "SEO:4", 4.3, 1250),
-    new User(13, "Dubois", "Claire", "claire_data", "1111222233", "claire@example.com", "France", "Data Science", "Python;Pandas", "fr,en", "/avatars/claire.png", "", "Pandas:3", 4.7, 1500),
-    new User(14, "Rossi", "Luca", "luca_ml", "2222333344", "luca@example.com", "Italy", "AI/ML", "TensorFlow;Python", "it,en", "/avatars/luca.png", "", "TensorFlow:4", 4.6, 1600),
-    new User(15, "Ali", "Zara", "zara_qa", "3333444455", "zara@example.com", "Pakistan", "QA", "TestRail;Postman", "en,ur", "/avatars/zara.png", "", "Postman:3", 4.4, 1200),
-    new User(16, "Nakamura", "Yuki", "yuki_dev", "4444555566", "yuki@example.com", "Japan", "Frontend", "Svelte;JS", "ja,en", "/avatars/yuki.png", "", "Svelte:2", 4.5, 1100),
+    new User(11, "Kim", "Jin", "jin_ui", "9999999999", "jin@example.com", "Korea", "Design", "Sketch;UX", "ko,en", "/images/ua.png", "", "Sketch:3", 4.6, 1400),
+    new User(12, "Lopez", "Maria", "maria_marketing", "1010101010", "maria@example.com", "Mexico", "Marketing", "SEO;Content", "es,en", "/images/ua.png", "", "SEO:4", 4.3, 1250),
+    new User(13, "Dubois", "Claire", "claire_data", "1111222233", "claire@example.com", "France", "Data Science", "Python;Pandas", "fr,en", "/images/ua.png", "", "Pandas:3", 4.7, 1500),
+    new User(14, "Rossi", "Luca", "luca_ml", "2222333344", "luca@example.com", "Italy", "AI/ML", "TensorFlow;Python", "it,en", "/images/ua.png", "", "TensorFlow:4", 4.6, 1600),
+    new User(15, "Ali", "Zara", "zara_qa", "3333444455", "zara@example.com", "Pakistan", "QA", "TestRail;Postman", "en,ur", "/images/ua.png", "", "Postman:3", 4.4, 1200),
+    new User(16, "Nakamura", "Yuki", "yuki_dev", "4444555566", "yuki@example.com", "Japan", "Frontend", "Svelte;JS", "ja,en", "/images/ua.png", "", "Svelte:2", 4.5, 1100),
     new User(17, "Andersson", "Erik", "erik_architect", "5555666677", "erik@example.com", "Sweden", "Architecture", "Microservices;Cloud", "sv,en", "/avatars/erik.png", "", "Cloud:5", 4.8, 1650),
-    new User(18, "Novak", "Mira", "mira_pm", "6666777788", "mira@example.com", "Croatia", "Management", "Kanban;Planning", "hr,en", "/avatars/mira.png", "", "Kanban:4", 4.6, 1500),
-    new User(19, "Singh", "Raj", "raj_sec", "7777888899", "raj@example.com", "India", "Security", "PenTesting;Firewalls", "en,hi", "/avatars/raj.png", "", "PenTesting:3", 4.5, 1450),
-    new User(20, "Johnson", "Kate", "kate_support", "8888999900", "kate@example.com", "Canada", "Support", "Zendesk;Docs", "en,fr", "/avatars/kate.png", "", "Zendesk:4", 4.7, 1300),
+    new User(18, "Novak", "Mira", "mira_pm", "6666777788", "mira@example.com", "Croatia", "Management", "Kanban;Planning", "hr,en", "/images/ua.png", "", "Kanban:4", 4.6, 1500),
+    new User(19, "Singh", "Raj", "raj_sec", "7777888899", "raj@example.com", "India", "Security", "PenTesting;Firewalls", "en,hi", "/images/ua.png", "", "PenTesting:3", 4.5, 1450),
+    new User(20, "Johnson", "Kate", "kate_support", "8888999900", "kate@example.com", "Canada", "Support", "Zendesk;Docs", "en,fr", "/images/ua.png", "", "Zendesk:4", 4.7, 1300),
     
-    new User(21, "Berg", "Nina", "nina_bi", "9999000011", "nina@example.com", "Norway", "Analytics", "PowerBI;Excel", "no,en", "/avatars/nina.png", "", "PowerBI:3", 4.4, 1250),
+    new User(21, "Berg", "Nina", "nina_bi", "9999000011", "nina@example.com", "Norway", "Analytics", "PowerBI;Excel", "no,en", "/images/ua.png", "", "PowerBI:3", 4.4, 1250),
     new User(22, "Tan", "Wei", "wei_research", "0000111122", "wei@example.com", "Singapore", "Research", "Statistics;R", "en,zh", "/avatars/wei.png", "", "R:4", 4.8, 1400),
     new User(23, "Fischer", "Max", "max_iot", "1212121212", "max@example.com", "Germany", "IoT", "C++;Arduino", "de,en", "/avatars/max.png", "", "C++:5", 4.6, 1350),
     new User(24, "Khan", "Aisha", "aisha_uiux", "2323232323", "aisha@example.com", "UAE", "Design", "UI;UX;Figma", "en,ar", "/avatars/aisha.png", "", "UX:3", 4.5, 1300),
@@ -325,30 +325,35 @@ const chatMembers = [
 ];
 
 // Генератор випадкового часу з інтервалом у хвилину
-function minutesFromNow(minutesAgo) {
-  const date = new Date();
-  date.setMinutes(date.getMinutes() - minutesAgo);
-  return date;
+function minutesFromNowRandom(daysBack = 30) {
+  const now = new Date();
+  const randomDays = Math.floor(Math.random() * daysBack); // 0 - daysBack
+  const randomMinutes = Math.floor(Math.random() * 1440);  // 0 - 1439 хвилин у добі
+  now.setDate(now.getDate() - randomDays);
+  now.setMinutes(now.getMinutes() - randomMinutes);
+  return now;
 }
 
-// Прості фрази для прикладу
+// Повідомлення
 const sampleTexts = [
   "Привіт!", "Як справи?", "Глянь, будь ласка, таску", "Апрувни PR 🙏", "На мітингу будемо всі?",
   "Можна трохи згодом", "Готово 🚀", "Перевір код", "Це ж фронтенд?", "Я з мобільного",
   "Чат живий?", "Фігма оновлена", "Це важливо", "Буде демо?", "Не забудьте стендап",
   "Я взяв задачу", "Хто QA?", "Це баг чи фіча?", "Рестартніть сервер", "Обід хто де?",
-  "Звіт згенерував", "Створив білд", "Оновив доку", "Пушнув в `main`", "Готово до релізу","Якого хера блять ргр з ООП не готова ще"
+  "Звіт згенерував", "Створив білд", "Оновив доку", "Пушнув в `main`", "Готово до релізу",
+  "Якого хера блять ргр з ООП не готова ще", "Пітчинг через 15 хв", "Ретро перенесли", "Я пішов за кавою"
 ];
 
-// Створюємо 25 повідомлень
+// Генерація
 const messages = [];
+const TOTAL_MESSAGES = 100; // змінюй кількість тут
 
-for (let i = 0; i < 26; i++) {
+for (let i = 0; i < TOTAL_MESSAGES; i++) {
   const id = i + 1;
-  const chatMember = chatMembers[i % chatMembers.length]; // обираємо одного з 10
+  const chatMember = chatMembers[i % chatMembers.length]; // циклічно
   const chatId = chatMember.chatId;
-  const sentAt = minutesFromNow(26 - i); // кожне повідомлення на хвилину новіше
-  const text = sampleTexts[i % sampleTexts.length];
+  const sentAt = minutesFromNowRandom(30); // до 30 днів назад
+  const text = sampleTexts[Math.floor(Math.random() * sampleTexts.length)];
 
   messages.push(new Message(id, chatMember, chatId, sentAt, text));
 }
