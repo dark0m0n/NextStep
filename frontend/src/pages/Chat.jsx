@@ -64,10 +64,10 @@ export default function ChatPage() {
    }, []);
   
   
-  useEffect(() => {
+   useEffect(() => {
     if (!curUser || !userId) return;
     if (Number(userId) === curUser.id) return;
-
+  
     fetch(`http://localhost:8000/api/chats/${curUser.id}`, { credentials: "include" })
       .then(res => res.json())
       .then(chats => {
@@ -82,34 +82,28 @@ export default function ChatPage() {
         if (privateChat) {
           setSelectedChatId(privateChat.id);
         } else {
-          // ...створення чату...
-        }
-      });
-        if (privateChat) {
-          setSelectedChatId(privateChat.id);
-        } else {
           const formData = new FormData();
-formData.append("isGroup", "false");
-formData.append("member1", curUser.id);
-formData.append("member2", Number(userId));
-
-fetch("http://localhost:8000/api/chat", {
-  method: "POST",
-  credentials: "include",
-  body: formData
-})
-  .then(res => {
-    if (!res.ok) throw new Error("Не вдалося створити чат");
-    return res.json();
-  })
-  .then(newChat => {
-    setChatList(prev => [...prev, newChat]);
-    setSelectedChatId(newChat.id);
-  })
-  .catch(err => {
-    console.error("Помилка створення чату", err);
-    navigate("/chat");
-  });
+          formData.append("isGroup", "false");
+          formData.append("member1", curUser.id);
+          formData.append("member2", Number(userId));
+  
+          fetch("http://localhost:8000/api/chat", {
+            method: "POST",
+            credentials: "include",
+            body: formData
+          })
+            .then(res => {
+              if (!res.ok) throw new Error("Не вдалося створити чат");
+              return res.json();
+            })
+            .then(newChat => {
+              setChatList(prev => [...prev, newChat]);
+              setSelectedChatId(newChat.id);
+            })
+            .catch(err => {
+              console.error("Помилка створення чату", err);
+              navigate("/chat");
+            });
         }
       });
   }, [curUser, userId, navigate]);
