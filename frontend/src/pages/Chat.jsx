@@ -64,10 +64,10 @@ export default function ChatPage() {
    }, []);
   
   
-   useEffect(() => {
+  useEffect(() => {
     if (!curUser || !userId) return;
     if (Number(userId) === curUser.id) return;
-  
+    console.log(curUser.id)
     fetch(`http://localhost:8000/api/chats/${curUser.id}`, { credentials: "include" })
       .then(res => res.json())
       .then(chats => {
@@ -97,6 +97,7 @@ export default function ChatPage() {
               return res.json();
             })
             .then(newChat => {
+              // Оновлюємо список чатів і одразу вибираємо новий чат
               setChatList(prev => [...prev, newChat]);
               setSelectedChatId(newChat.id);
             })
@@ -105,6 +106,9 @@ export default function ChatPage() {
               navigate("/chat");
             });
         }
+      })
+      .catch(err => {
+        console.error("Помилка завантаження чатів:", err);
       });
   }, [curUser, userId, navigate]);
 
