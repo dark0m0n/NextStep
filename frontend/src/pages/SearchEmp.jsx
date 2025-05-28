@@ -5,7 +5,6 @@ import EmployeeSort from "../components/EmployeeSort.jsx";
 import "../assets/styles/searchempCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
-import {users} from "../mockDataBase.js"
 
 const getUnique = (arr) => Array.from(new Set(arr.filter(Boolean)));
 
