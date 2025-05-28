@@ -106,7 +106,7 @@ export default function SearchPage() {
 
     const [search, setSearch] = useState("");
 
-    const [salaryMin, setSalaryMin] = useState(1);
+    const [salaryMin, setSalaryMin] = useState(0);
     const maxSalaryInData = Math.max(...allEmployees.map(emp => emp.salary));
     const [salaryMax, setSalaryMax] = useState(maxSalaryInData);
 
