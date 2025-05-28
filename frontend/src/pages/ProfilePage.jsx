@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState, } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "../assets/styles/profilePageCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
 
-export default function MyProfilePage() {
+export default function ProfilePage() {
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
+  const { username } = useParams();
   useEffect(() => {
-    fetch("http://localhost:8000/api/me", {
+    fetch(`http://localhost:8000/api/user/${username}`, {
       credentials: "include",
     })
       .then((res) => {
@@ -21,7 +22,7 @@ export default function MyProfilePage() {
       })
       .then((data) => data && setUserData(data))
       .catch((err) => console.error("Помилка завантаження:", err));
-  }, [navigate]);
+  }, [navigate, username]);
 
 
 
