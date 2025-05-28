@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "../assets/styles/createProjCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
+import { useNavigate } from 'react-router-dom';
 
 const CreateStartupPage = () => {
 
@@ -19,6 +20,7 @@ const CreateStartupPage = () => {
   const [selectedProjectType, setSelectedProjectType] = useState('');
   const [Data, setData] = useState({});
   const [investment, setInvestment] = useState('');
+  const navigate = useNavigate();
 
   const categoryRef = useRef(null);
   const projTypeRef = useRef(null);
@@ -90,7 +92,7 @@ const CreateStartupPage = () => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/user/me`, {
+    fetch(`http://localhost:8000/api/me`, {
       credentials: 'include',
     })
       .then((res) => {
@@ -495,7 +497,7 @@ const CreateStartupPage = () => {
               Очистити вибір
             </button>
             <br />
-            <button type="submit" id="formbtnS">
+            <button type="submit" id="formbtnS" onClick={() => navigate("/searchproj")}>
               Зберегти
             </button>
           </form>

@@ -111,7 +111,7 @@ export default function SearchPage() {
             " " +
             project.projectType +
             " " +
-            project.description.join(" ") +
+            project.description +
             " " +
             project.tag
         ).toLowerCase();
