@@ -1,6 +1,7 @@
 #include "StartupController.h"
 #include "../serializers/StartupSerializer.h"
 #include "nlohmann/json.hpp"
+#include <ctime>
 
 using json = nlohmann::json;
 
@@ -32,7 +33,12 @@ crow::response StartupController::createStartup(const crow::request &req) {
 
         auto form = FormData::parse(req.body, boundary);
 
-        std::string path = "/startups/" + form["id"] + ".jpg";
+        char buffer[80];
+        std::time_t now = std::time(nullptr);
+        std::strftime(buffer, 80, "%Y-%m-%d-%H:%M:%S", localtime(&now));
+        std::string result(buffer);
+
+        std::string path = "/startups/" + result + form["title"] + ".jpg";
         std::ofstream file("../frontend/public" + path, std::ios::binary);
         file.write(form["photo"].c_str(), static_cast<std::streamsize>(form["photo"].size()));
         file.close();
@@ -48,7 +54,7 @@ crow::response StartupController::createStartup(const crow::request &req) {
             form["category"],
             form["projectType"],
             std::stoi(form["investment"]),
-            std::stoi(form["date"]),
+            0,
             true
         };
 
