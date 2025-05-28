@@ -561,7 +561,7 @@ const filteredSkills = skills.filter(skill =>
 
                                     {sortedEmployees.map((employee) => (
                                         <div className="block-searchemp" key={employee.id}>
-                                            <a href="/employee">{/* /employee/${employee.id} */}
+                                            <a href={`/profile/${employee.username}`}>{/* /employee/${employee.id} */}
                                                 <div className="mainInfoEmp">
                                                     <img src={employee.photo} alt={employee.name} />
                                                     <div className="column margin20">

@@ -333,7 +333,7 @@ export default function SearchPage() {
 
                                 return (
                                 <div className="block-searchemp" key={employee.id}>
-                                    <a href="/employee">{/* /employee/${employee.id} */}
+                                    <a href={`/profile/${employee.username}`}>{/* /employee/${employee.id} */}
                                         <div className="mainInfoEmp">
 
                                             <img src={employee.photo} alt={employee.name} />
