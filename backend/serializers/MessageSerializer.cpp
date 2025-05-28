@@ -1,10 +1,12 @@
 #include "MessageSerializer.h"
+#include <Database.h>
+#include "UserSerializer.h"
 
 json MessageSerializer::serializeMessage(const Message &message) {
     return {
         {"id", message.getID()},
         {"chatID", message.getChatID()},
-        {"senderID", message.getSenderID()},
+        {"sender", UserSerializer::serializeOptionalUser(Database::getUserById(message.getSenderID())).dump()},
         {"text", message.getText()}
     };
 }
