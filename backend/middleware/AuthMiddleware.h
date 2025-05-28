@@ -19,6 +19,7 @@ public:
         if (req.method == "OPTIONS"_method) return;
         if (req.url == "/api/user" && req.method == "POST"_method) return;
         if (req.url == "/api/login") return;
+        if (req.url == "/api/startups") return;
 
         if (std::string cookieHeader = req.get_header_value("Cookie"); !cookieHeader.empty()) {
             cookieHeader = " " + cookieHeader;
