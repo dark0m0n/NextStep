@@ -95,6 +95,23 @@ export default function ChatPage() {
   // Завантажуємо повідомлення для вибраного чату
 
   useEffect(() => {
+    if (!curUser?.id) return;
+    fetch(`http://localhost:8000/api/chats/${curUser.id}`, {
+      credentials: "include",
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Не вдалося завантажити чати");
+        return res.json();
+      })
+      .then(data => setChatList(data))
+      .catch(err => {
+        setChatList([]);
+        console.error("Помилка завантаження чатів:", err);
+      });
+  }, [curUser]);
+  
+
+  useEffect(() => {
     if (!selectedChatId) return;
   
     fetch(`http://localhost:8000/api/members/${selectedChatId}`, {
