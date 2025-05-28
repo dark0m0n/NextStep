@@ -212,7 +212,7 @@ export default function SearchPage() {
         if (/^\d*$/.test(val)) {
             const num = Number(val);
             if (val === "") {
-                setSalaryMin("");
+                setSalaryMin(0);
             } else if (num < salaryMax && num <= maxInvestment) {
                 setSalaryMin(num);
             } else if (num > maxInvestment) {
@@ -247,7 +247,7 @@ export default function SearchPage() {
         setSelectedLanguage([]);
         setSelectedCountry([]);
         setSearch("");
-        setSalaryMin(1);
+        setSalaryMin(0);
         setSalaryMax(maxSalaryInData);
     }
     return (
