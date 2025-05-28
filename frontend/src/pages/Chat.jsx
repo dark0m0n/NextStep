@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "../assets/styles/chatsCSS.css";
 import MyHeader from "../components/Header.jsx";
 import MyFooter from "../components/Footer.jsx";
-import {chats, chatMembers, messages } from "../mockDataBase";
+//import {chats, chatMembers, messages } from "../mockDataBase";
 
 
 
@@ -34,34 +34,83 @@ function groupMessagesByDate(messages) {
 
 export default function ChatPage() {
   const [chatList, setChatList] = useState([]);
+  const [curUser, setCurUser] = useState(null);
   const [selectedChatId, setSelectedChatId] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
   const messagesEndRef = useRef(null);
+  const [chatMembers, setChatMembers] = useState([]);
 
+
+
+   useEffect(() => {
+    fetch("http://localhost:8000/api/me", {
+      credentials: "include",
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          return null;
+        }
+        if (!res.ok) throw new Error("Не вдалося завантажити профіль");
+        return res.json();
+      })
+      .then((user) => {
+        if (!user) return;
+        setCurUser(user);
+      })
+      .catch((err) => console.error("Помилка завантаження:", err));
+   }, []);
+  
+  
   // Завантажуємо чати, в яких є користувач
   useEffect(() => {
-    // Знаходимо chatId, де є поточний користувач
-    const myChatIds = chatMembers
-      .filter((cm) => cm.user.id === 3)
-      .map((cm) => cm.chatId);
-    // Вибираємо чати
-    const myChats = chats.filter((c) => myChatIds.includes(c.id));
-    setChatList(myChats);
-  }, []);
+    if (!curUser) return;
+    
+    fetch(`http://localhost:8000/api/chats/${curUser.id}`, {
+      credentials: "include",
+    })
+      .then(res => res.json())
+      .then(data => setChatList(data))
+      .catch(err => {
+        setChatList([]);
+        console.error("Не вдалося завантажити чати", err);
+      });
+  }, [curUser]);
 
   // Завантажуємо повідомлення для вибраного чату
+
   useEffect(() => {
-    if (selectedChatId !== null) {
-      // Всі повідомлення цього чату
-      const msgs = messages
-        .filter((msg) => msg.chatId === selectedChatId)
-        .map((msg) => ({
+    if (!selectedChatId) return;
+  
+    fetch(`http://localhost:8000/api/members/${selectedChatId}`, {
+      credentials: "include",
+    })
+      .then(res => res.json())
+      .then(data => setChatMembers(data))
+      .catch(err => {
+        setChatMembers([]);
+        console.error("Не вдалося завантажити учасників чату:", err);
+      });
+  }, [selectedChatId]);
+
+  useEffect(() => {
+    if (!selectedChatId) return;
+  
+    fetch(`http://localhost:8000/api/messages/${selectedChatId}`, {
+      credentials: "include",
+    })
+      .then(res => res.json())
+      .then(data => {
+        const formatted = data.map(msg => ({
           ...msg,
           senderName: msg.sender.user.username,
         }));
-      setChatMessages(msgs);
-    }
+        setChatMessages(formatted);
+      })
+      .catch(err => {
+        setChatMessages([]);
+        console.error("Не вдалося завантажити повідомлення:", err);
+      });
   }, [selectedChatId]);
 
   // Прокрутка до останнього повідомлення
@@ -71,52 +120,61 @@ export default function ChatPage() {
     }
   }, [chatMessages]);
 
-  // Надсилання повідомлення (оновлює тільки локально)
-  const sendMessage = () => {
-    if (messageInput.trim() === "" || selectedChatId === null) return;
-
-    // Знаходимо ChatMember для поточного користувача в цьому чаті
-    const sender = chatMembers.find(
-      (cm) => cm.user.id === 3 && cm.chatId === selectedChatId
-    );
-    if (!sender) {
-      alert("Ви не є учасником цього чату");
-      return;
-    }
-
     // Створюємо нове повідомлення
-    const newMsg = {
-      id: messages.length + 1,
-      sender: sender,
-      chatId: selectedChatId,
-      sentAt: new Date(),
-      text: messageInput,
-      senderName: sender.user.username,
+    const sendMessage = () => {
+      if (messageInput.trim() === "" || selectedChatId === null || !curUser) return;
+    
+      const sender = chatMembers.find(
+        (cm) => cm.user.id === curUser.id && cm.chatId === selectedChatId
+      );
+    
+      if (!sender) {
+        alert("Ви не є учасником цього чату");
+        return;
+      }
+    
+      const formData = new FormData();
+      formData.append("chatId", selectedChatId);
+      formData.append("senderId", sender.id);
+      formData.append("text", messageInput);
+    
+      fetch("http://localhost:8000/api/messages", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Помилка надсилання повідомлення");
+          return res.json();
+        })
+        .then((newMsg) => {
+          setChatMessages((prev) => [...prev, {
+            ...newMsg,
+            senderName: sender.user.username,
+          }]);
+          setMessageInput("");
+        })
+        .catch((err) => {
+          console.error("Помилка надсилання повідомлення:", err);
+        });
     };
-    messages.push(newMsg); // Додаємо в mockDataBase (тільки для сесії)
 
-    setMessageInput("");
-    // Оновлюємо список повідомлень
-    setChatMessages((prev) => [...prev, newMsg]);
-  };
 
-  const getLastMessagePreview = (chatId) => {
-    const chatMsgs = messages
-      .filter((msg) => msg.chatId === chatId)
-      .sort((a, b) => new Date(b.sentAt) - new Date(a.sentAt));
-  
-    if (chatMsgs.length === 0) return "Немає повідомлень";
-  
-    const lastMsg = chatMsgs[0];
-    const isCurrentUser = lastMsg.sender.user.id === 3;
-    const senderName = isCurrentUser ? "Ви" : lastMsg.sender.user.username;
-  
-    if (chatList.find((chat) => chat.id === chatId)?.isGroup) {
-      return `${senderName}: ${lastMsg.text}`;
-    } else {
-      return isCurrentUser ? `Ви: ${lastMsg.text}` : lastMsg.text;
-    }
-  };
+    const getLastMessagePreview = (chatId) => {
+      const chatMsgs = chatMessages
+        .filter((msg) => msg.chatId === chatId)
+        .sort((a, b) => new Date(b.sentAt) - new Date(a.sentAt));
+    
+      if (chatMsgs.length === 0) return "Немає повідомлень";
+    
+      const lastMsg = chatMsgs[0];
+      const isCurrentUser = lastMsg.sender.user.id === curUser?.id;
+      const senderName = isCurrentUser ? "Ви" : lastMsg.senderName;
+    
+      return chatList.find((chat) => chat.id === chatId)?.isGroup
+        ? `${senderName}: ${lastMsg.text}`
+        : (isCurrentUser ? `Ви: ${lastMsg.text}` : lastMsg.text);
+    };
   const getChatDisplayInfo = (chat) => {
     if (chat.isGroup) {
       return {
@@ -127,7 +185,7 @@ export default function ChatPage() {
   
     // Приватний чат: знаходимо іншого користувача
     const members = chatMembers.filter((cm) => cm.chatId === chat.id);
-    const otherUser = members.find((m) => m.user.id !== 3)?.user;
+    const otherUser = members.find((m) => m.user.id !== curUser.id)?.user;
   
     return {
       name: otherUser?.username ?? "Невідомий користувач",
@@ -145,7 +203,7 @@ export default function ChatPage() {
           <h2>Чати</h2>
           <ul>
           {chatList.length === 0 ? (
-  <li className="chat-item">У вас немає чатів</li>
+  <li className="chat-item no-hover">У вас немає чатів</li>
 ) : (
   chatList.map((chat) => {
     const { name, image } = getChatDisplayInfo(chat);
@@ -196,7 +254,7 @@ export default function ChatPage() {
         {date}
       </div>
       {msgs.map((msg) => {
-        const isMyMessage = msg.sender.user.id === 3;
+        const isMyMessage = msg.sender.user.id === curUser?.id;
         const time = new Date(msg.sentAt).toLocaleTimeString("uk-UA", {
           hour: "2-digit",
           minute: "2-digit",

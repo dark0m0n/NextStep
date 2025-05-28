@@ -309,3 +309,12 @@ flex-direction: row-reverse;
     border-radius: 50%;
     object-fit: cover;
     margin-right: 10px; }
+
+        .chat-item.no-hover:hover {
+            background-color: #f5f7fa;
+            color: black;
+            /* або background: none; або будь-що нейтральне */
+            cursor: default;     }
+
+
+                        
