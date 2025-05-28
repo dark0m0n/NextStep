@@ -28,6 +28,7 @@ export default function SearchPage() {
     const allEmployees = users.map(user => ({
         id: user.id,
         name: user.firstname + " " + user.lastname,
+        username: user.username,
         photo: user.imagePath,
         specialization: user.specialties || user.category,
         skills: Array.isArray(user.skills)
@@ -338,7 +339,7 @@ export default function SearchPage() {
 
                                             <img src={employee.photo} alt={employee.name} />
                                             <div className="column margin20">
-                                                <p className="name">{employee.name}</p>
+                                             <p className="name">{employee.name || employee.username}</p>
                                                 <p className="specialization">
                                                         {displayedSpecs.map((spec, index) => (
                                                             <span key={index}>{spec}</span>  
