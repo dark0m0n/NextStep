@@ -10,7 +10,7 @@ ReviewController::ReviewController(Database &db) : db(db) {
 
 crow::response ReviewController::getAllReviews(const int startupID) const {
     const auto reviews = db.getAllReviews(startupID);
-    return crow::response{200, ReviewSerializer::serializeReviews(reviews)};
+    return crow::response{200, ReviewSerializer::serializeReviews(reviews).dump()};
 }
 
 crow::response ReviewController::getReviewById(const int id) const {
@@ -37,7 +37,7 @@ crow::response ReviewController::createReview(const crow::request &req) const {
             0,
             std::stoi(form["userID"]),
             std::stoi(form["startupID"]),
-            form["text"],
+            form["comment"],
             std::stoi(form["rating"]),
             ""
         };
