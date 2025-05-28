@@ -12,6 +12,7 @@ import ChatPage from './pages/Chat';
 import EditProfile from './pages/EditProfile';
 import EditProject from './pages/EditProject';
 import SearchRes from './pages/SearchRes';
+import ErrorPage from './pages/ErrorPage';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/editprofile" element={<EditProfile />} />
         <Route path="/editproject/:id" element={<EditProject />} />
         <Route path="/search" element={<SearchRes />} />
+        <Route path='/*' element={<ErrorPage/>} />
       </Routes>
     </Router>
   );
