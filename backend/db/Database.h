@@ -38,7 +38,7 @@ public:
 
     [[nodiscard]] static std::vector<Chat> getAllChats(int userID);
     [[nodiscard]] static std::optional<Chat> getChatById(int id);
-    static void insertChat(const Chat &chat);
+    static int insertChat(const Chat &chat);
 
     [[nodiscard]] static std::vector<ChatMember> getAllChatMembers(int chatID);
     [[nodiscard]] static std::optional<ChatMember> getChatMemberById(int userID);

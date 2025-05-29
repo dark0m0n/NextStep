@@ -438,12 +438,13 @@ std::vector<Chat> Database::getAllChats(const int userID) {
     pqxx::work txn(conn);
     std::vector<Chat> chats;
 
-    for (const pqxx::result res = txn.exec_params("SELECT * FROM chats WHERE userID = $1", userID);
+    for (const pqxx::result res = txn.exec_params("SELECT * FROM chat_members WHERE userID = $1", userID);
          const auto &row: res) {
+        pqxx::result r = txn.exec_params("SELECT * FROM chats WHERE id = $1", row["chatID"].as<int>());
         chats.emplace_back(
-            row["id"].as<int>(),
-            row["isGroup"].as<bool>(),
-            row["title"].as<std::string>());
+            r[0]["id"].as<int>(),
+            r[0]["isGroup"].as<bool>(),
+            r[0]["title"].as<std::string>());
     }
 
     return chats;
@@ -471,19 +472,21 @@ std::optional<Chat> Database::getChatById(const int id) {
     return chat;
 }
 
-void Database::insertChat(const Chat &chat) {
+int Database::insertChat(const Chat &chat) {
     pqxx::connection conn(connInfo);
     if (!conn.is_open()) {
         throw DbConnectionError("Failed to connect to the database.");
     }
 
     pqxx::work txn(conn);
-    txn.exec_params(
+    pqxx::result res = txn.exec_params(
         "INSERT INTO chats (isGroup, title)"
-        "VALUES ($1, $2);",
+        "VALUES ($1, $2) RETURNING id;",
         chat.getIsGroup(),
         chat.getTitle());
+    int id = res[0][0].as<int>();
     txn.commit();
+    return id;
 }
 
 std::vector<ChatMember> Database::getAllChatMembers(const int chatID) {
