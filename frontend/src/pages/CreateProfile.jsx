@@ -241,7 +241,7 @@ export default function CreateProfile() {
       if (response.ok) {
         console.log('Профіль створено успішно.');
         const data = await response.json();
-        navigate(`/profile/${data.username}`);
+        navigate(`/`);
       } else {
         console.log('Помилка при створенні профілю.');
       }

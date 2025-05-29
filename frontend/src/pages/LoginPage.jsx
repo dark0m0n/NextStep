@@ -42,7 +42,7 @@ export default function LoginPage() {
 
       if (response.ok) {
         const data = await response.json();
-          navigate(`/profile/${data.username}`);
+          navigate(`/`);
       } else {
         setError("Неправильний логін або пароль");
       }
