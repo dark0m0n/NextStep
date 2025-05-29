@@ -10,7 +10,7 @@ ChatMemberController::ChatMemberController(Database &db) : db(db) {
 
 crow::response ChatMemberController::getAllMembers(const int chatID) const {
     const auto members = db.getAllChatMembers(chatID);
-    return crow::response{200, ChatMemberSerializer::serializeChatMembers(members)};
+    return crow::response{200, ChatMemberSerializer::serializeChatMembers(members).dump()};
 }
 
 crow::response ChatMemberController::getChatMember(const int id) const {
