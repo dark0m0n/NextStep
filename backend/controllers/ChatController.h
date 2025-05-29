@@ -12,5 +12,5 @@ public:
 
     [[nodiscard]] crow::response getChatById(int id) const;
 
-    [[nodiscard]] crow::response createChat(const crow::request &req) const;
+    [[nodiscard]] static crow::response createChat(const crow::request &req);
 };
