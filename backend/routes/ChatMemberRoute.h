@@ -8,9 +8,9 @@ public:
     static void registerRoutes(App &app, Database &db) {
         ChatMemberController controller(db);
 
-        CROW_ROUTE(app, "/api/chat/members/<int>").methods(crow::HTTPMethod::Get)
+        CROW_ROUTE(app, "/api/members/<int>").methods(crow::HTTPMethod::Get)
         ([&controller](const int chatID) {
-            return controller.getChatMember(chatID);
+            return controller.getAllMembers(chatID);
         });
 
         CROW_ROUTE(app, "/api/chat/member/<int>").methods(crow::HTTPMethod::Get)
