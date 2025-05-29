@@ -10,7 +10,7 @@ ChatController::ChatController(Database &db) : db(db) {
 
 crow::response ChatController::getAllChats(const int userID) const {
     const auto chats = db.getAllChats(userID);
-    return crow::response{200, ChatSerializer::serializeChats(chats)};
+    return crow::response{200, ChatSerializer::serializeChats(chats).dump()};
 }
 
 crow::response ChatController::getChatById(const int id) const {
@@ -21,7 +21,7 @@ crow::response ChatController::getChatById(const int id) const {
     return crow::response{200, ChatSerializer::serializeOptionalChat(chat).dump()};
 }
 
-crow::response ChatController::createChat(const crow::request &req) const {
+crow::response ChatController::createChat(const crow::request &req) {
     std::string contentType = req.get_header_value("Content-Type");
 
     if (contentType.find("multipart/form-data") != std::string::npos) {
@@ -40,7 +40,23 @@ crow::response ChatController::createChat(const crow::request &req) const {
             form["title"],
         };
 
-        db.insertChat(chat);
+        const int id = Database::insertChat(chat);
+
+        const ChatMember member1 {
+            0,
+            id,
+            std::stoi(form["member1"])
+        };
+
+        const ChatMember member2 {
+            0,
+            id,
+            std::stoi(form["member2"])
+        };
+
+        Database::insertChatMember(member1);
+        Database::insertChatMember(member2);
+
         return crow::response{201};
     }
 
