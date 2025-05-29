@@ -10,7 +10,7 @@ MessageController::MessageController(Database &db) : db(db) {
 
 crow::response MessageController::getAllMessages(const int chatID) const {
     const auto messages = db.getAllMessages(chatID);
-    return crow::response{200, MessageSerializer::serializeMessages(messages)};
+    return crow::response{200, MessageSerializer::serializeMessages(messages).dump()};
 }
 
 crow::response MessageController::getMessageById(const int id) const {
